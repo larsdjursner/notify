@@ -1,4 +1,3 @@
-import { EditorState } from "@codemirror/state"
 import { useCallback, useEffect } from "react"
 import useCodeMirror from "../hooks/useCodeMirror"
 

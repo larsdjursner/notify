@@ -1,16 +1,41 @@
 // use-code-mirror.ts
 import { useEffect, useRef, useState } from "react"
-import { EditorView, basicSetup } from "codemirror"
-import { javascript } from "@codemirror/lang-javascript"
+import { EditorView } from "codemirror"
 import { markdown, markdownLanguage } from "@codemirror/lang-markdown"
 import { EditorState } from "@codemirror/state"
 import { languages } from "@codemirror/language-data"
 import { highlightActiveLine } from "@codemirror/view"
+import { HighlightStyle, syntaxHighlighting } from "@codemirror/language"
+import { tags } from "@lezer/highlight"
 
 interface Props {
     initialDoc: string
     onChange?: (state: EditorState) => void
 }
+
+const theme = EditorView.theme({
+    "&:focus": {
+        outline: "none",
+    },
+})
+
+const mdHighlighting = HighlightStyle.define([
+    {
+        tag: tags.heading1,
+        fontSize: "1.6em",
+        fontWeight: "bold",
+    },
+    {
+        tag: tags.heading2,
+        fontSize: "1.4em",
+        fontWeight: "bold",
+    },
+    {
+        tag: tags.heading3,
+        fontSize: "1.2em",
+        fontWeight: "bold",
+    },
+])
 
 export default function useCodeMirror<T extends Element>({
     initialDoc,
@@ -25,6 +50,8 @@ export default function useCodeMirror<T extends Element>({
         const initialState = EditorState.create({
             doc: initialDoc,
             extensions: [
+                theme,
+                syntaxHighlighting(mdHighlighting),
                 markdown({
                     base: markdownLanguage,
                     codeLanguages: languages,
