@@ -1,29 +1,32 @@
 import { useCallback, useEffect } from "react"
 import useCodeMirror from "../hooks/useCodeMirror"
 
-interface Props {}
-
 interface Props {
-    initialDoc: string
-    onChange: (doc: string) => void
+    doc: Doc
+    onChange: (id: string, doc: string) => void
 }
 
-const Editor = ({ initialDoc, onChange }: Props) => {
+export interface Doc {
+    id: string
+    value: string
+}
+
+const Editor = ({ doc, onChange }: Props) => {
     const handleChange = useCallback(
-        (state: any) => onChange(state.doc.toString()),
+        (state: any) => onChange(doc.id, state.doc.toString()),
         [onChange]
     )
     const { ref, view } = useCodeMirror<HTMLDivElement>({
-        initialDoc: initialDoc,
+        initialDoc: doc.value,
         onChange: handleChange,
     })
 
-    useEffect(() => {
-        if (view) {
-            // Do nothing for now
-            console.log(initialDoc)
-        }
-    }, [view])
+    // useEffect(() => {
+    //     if (view) {
+    //         // Do nothing for now
+    //         console.log(initialDoc)
+    //     }
+    // }, [view])
 
     return (
         <div
