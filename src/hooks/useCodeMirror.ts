@@ -57,7 +57,8 @@ export default function useCodeMirror<T extends Element>({
                     codeLanguages: languages,
                     addKeymap: true,
                 }),
-                highlightActiveLine(),
+                // highlightActiveLine(),
+                EditorView.lineWrapping,
                 EditorView.updateListener.of((update) => {
                     if (update.changes) {
                         onChange && onChange(update.state)
