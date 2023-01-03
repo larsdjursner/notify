@@ -3,6 +3,7 @@ import { Doc } from "../components/Editor"
 
 import create from "zustand"
 import { EditorList } from "../components/EditorList"
+import { getInitialDoc, getMocks } from "../utils/page"
 
 interface PageState {
     title: string
@@ -14,42 +15,7 @@ interface PageState {
     reset: () => void
     reArrangeDocs: (docs: Doc[]) => void
     setPage: (docs: Doc[]) => void
-}
-
-const getInitialDoc = () => {
-    const id = Math.random().toString()
-    return {
-        id: id,
-        value: "",
-    } as Doc
-}
-
-const getMocks = async (): Promise<Doc[]> => {
-    const mocks = [
-        {
-            id: "0",
-            value: "# Lorem Ipsum \n ## Dolorean Dynamite \n ### Hey everybody \n \n  yoyooyooosdof \n ## Lorem \n *Iuspomsodmsodms* asd asdasldhkasldhasdlasdh asdasdlkhasldashldahsdlashdaskjdgaskdh asdhjkajksd ",
-        } as Doc,
-        {
-            id: "1",
-            value: "",
-        } as Doc,
-        {
-            id: "2",
-            value: "### Hey ",
-        } as Doc,
-        {
-            id: "3",
-            value: "",
-        } as Doc,
-    ]
-
-    await timeout(1000)
-    return mocks
-}
-
-const timeout = async (ms: number) => {
-    return new Promise((resolve) => setTimeout(resolve, ms))
+    getDocById: (id: string) => Doc | undefined
 }
 
 export const usePageStore = create<PageState>()((set, get) => ({
@@ -60,6 +26,7 @@ export const usePageStore = create<PageState>()((set, get) => ({
     setPage: (docs) => set({ docs: docs }),
     reset: () => set({ docs: [] }),
     getDocs: () => get().docs,
+    getDocById: (id) => get().docs.find((d) => d.id == id),
     addDoc: () => {
         set((state) => {
             const generatedDoc = getInitialDoc()
@@ -95,16 +62,16 @@ export const Page = () => {
     }, [])
 
     return (
-        <div className="h-full w-full flex flex-col">
+        <div className="min-h-full w-full flex flex-col shadow-sm">
             <input
                 placeholder="Untitled"
-                className="h-20 w-full text-4xl focus:outline-none"
+                className="h-20 m-2 w-full text-4xl focus:outline-none"
                 maxLength={32}
                 value={pageStore.title}
                 onChange={(e) => pageStore.setTitle(e.target.value)}
             />
 
-            <span className="h-1 w-full bg-slate-50" />
+            <span className="h-1 w-full m-2 bg-slate-50" />
             {loading ? <p>....loading</p> : <EditorList />}
         </div>
     )
