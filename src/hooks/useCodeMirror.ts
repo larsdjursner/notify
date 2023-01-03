@@ -1,12 +1,17 @@
 // use-code-mirror.ts
 import { useEffect, useRef, useState } from "react"
 import { EditorView } from "codemirror"
-import { markdown, markdownLanguage } from "@codemirror/lang-markdown"
+import {
+    insertNewlineContinueMarkup,
+    markdown,
+    markdownLanguage,
+} from "@codemirror/lang-markdown"
 import { EditorState } from "@codemirror/state"
 import { languages } from "@codemirror/language-data"
-import { highlightActiveLine } from "@codemirror/view"
+import { highlightActiveLine, keymap, placeholder } from "@codemirror/view"
 import { HighlightStyle, syntaxHighlighting } from "@codemirror/language"
 import { tags } from "@lezer/highlight"
+import { insertNewline, standardKeymap } from "@codemirror/commands"
 
 interface Props {
     initialDoc: string
@@ -57,6 +62,28 @@ export default function useCodeMirror<T extends Element>({
                     codeLanguages: languages,
                     addKeymap: true,
                 }),
+                keymap.of([
+                    {
+                        key: "Escape",
+                        run: (v: EditorView): boolean => {
+                            v.contentDOM.blur()
+                            return false
+                        },
+                    },
+                    {
+                        key: "Enter",
+                        run: (v: EditorView): boolean => {
+                            // console.log(v.)
+                            return false
+                        },
+                    },
+                    {
+                        key: "Shift-Enter",
+                        run: insertNewline,
+                    },
+                    ...standardKeymap,
+                ]),
+                placeholder("Type here!"),
                 // highlightActiveLine(),
                 EditorView.lineWrapping,
                 EditorView.updateListener.of((update) => {

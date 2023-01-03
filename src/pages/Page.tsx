@@ -4,15 +4,23 @@ import { PlusIcon, ChevronUpDownIcon } from "@heroicons/react/24/outline"
 
 import create from "zustand"
 import { Button } from "../components/Button"
+import { dragging, EditorList } from "../components/EditorList"
 
 interface PageState {
+    loading: boolean
     title: string
-    docs: Map<string, Doc>
+    docs: Doc[]
+    // docs: Map<string, Doc>
+    // docKeys: string[]
+    getDocs: () => Doc[]
     setTitle: (title: string) => void
     addDoc: () => void
     setDoc: (id: string, newDoc: string) => void
     fetchPage: () => void
-    getDocKeys: () => Array<string>
+    reset: () => void
+    // getDocKeys: () => Array<string>
+    reArrangeDocs: (docs: Doc[]) => void
+    // getNextDoc: (id: string) => string | null
 }
 
 const getInitialDoc = () => {
@@ -39,37 +47,60 @@ const timeout = async (ms: number) => {
 }
 
 export const usePageStore = create<PageState>()((set, get) => ({
+    loading: true,
     title: "",
-    docs: new Map<string, Doc>(),
-    setTitle: (title) => {
-        set(() => {
-            return { title: title }
-        })
-    },
+    docs: [],
+    // docs: new Map<string, Doc>(),
+    // docKeys: [],
+    setTitle: (title) => set({ title: title }),
+    reArrangeDocs: (docs) => set({ docs: docs }),
+    getDocs: () => get().docs,
+    // fetchPage: async () => {
+    //     // for now its mocked
+    //     await timeout(1000).then(() => {
+    //         // getMocks().map((mock) => get().setDoc(mock.id, mock.value))
+    //         // get().addDoc()
+    //     }).then(() => )
+    // },
     fetchPage: async () => {
-        // for now its mocked
-        await timeout(1000).then(() => {
-            getMocks().map((mock) => get().setDoc(mock.id, mock.value))
-            get().addDoc()
+        // await timeout(1000).then(() => {
+        //     console.log("called")
+        set((state) => {
+            const initialDoc = getMocks()
+            return { docs: [...state.docs, ...initialDoc, getInitialDoc()] }
         })
-    },
-    getDocKeys() {
-        return Array.from(this.docs.keys())
+        // })
     },
     addDoc: () => {
         set((state) => {
             const generatedDoc = getInitialDoc()
-            const updatedDocs = new Map(state.docs)
-            updatedDocs.set(generatedDoc.id, generatedDoc)
-            return { docs: updatedDocs }
+            // needs to take an index into account
+            return { docs: [...state.docs, generatedDoc] }
+            // const updatedDocs = new Map(state.docs)
+            // updatedDocs.set(generatedDoc.id, generatedDoc)
+            // update keys
+            // const updatedKeys = Array.from(updatedDocs.keys())
+            // return { docs: updatedDocs, docKeys: updatedKeys }
         })
     },
-    setDoc(id, newDoc) {
+    setDoc(id, newValue) {
         set((state) => {
-            const updatedDoc: Doc = { id: id, value: newDoc }
-            const updatedDocs = new Map(state.docs)
-            updatedDocs.set(updatedDoc.id, updatedDoc)
-            return { docs: updatedDocs }
+            const updatedDocs = state.docs.map((doc) =>
+                doc.id === id ? { ...doc, value: newValue } : doc
+            )
+            return {
+                docs: updatedDocs,
+            }
+            // const updatedDoc: Doc = { id: id, value: newDoc }
+            // const updatedDocs = new Map(state.docs)
+            // updatedDocs.set(updatedDoc.id, updatedDoc)
+            // return { docs: updatedDocs }
+        })
+    },
+    reset: () => {
+        console.log("called reset")
+        set(() => {
+            return { docs: [] }
         })
     },
 }))
@@ -87,32 +118,15 @@ export const Page = () => {
             await pageStore.fetchPage()
         })().then(() => setLoading(false))
 
+        // pageStore.fetchPage()
+        // setLoading(false)
+
         return () => {
-            pageStore.docs = new Map<string, Doc>()
+            pageStore.reset()
+            // pageStore.docs = new Map<string, Doc>()
+            // pageStore.docKeys = []
         }
     }, [])
-
-    const lines = () => {
-        return pageStore.getDocKeys().map((key) => (
-            <div className="relative p-2 group flex" key={key}>
-                <div className="absolute -left-20 flex items-center">
-                    <Button className="invisible group-hover:visible">
-                        <ChevronUpDownIcon className="h-4 w-4" />
-                    </Button>
-                    <Button className="invisible group-hover:visible">
-                        <PlusIcon
-                            onClick={pageStore.addDoc}
-                            className="h-4 w-4"
-                        />
-                    </Button>
-                </div>
-                <Editor
-                    doc={pageStore.docs.get(key)!}
-                    onChange={handleDocChange}
-                />
-            </div>
-        ))
-    }
 
     return (
         <div className="h-full w-full flex flex-col">
@@ -125,7 +139,11 @@ export const Page = () => {
             />
 
             <span className="h-1 w-full bg-slate-50" />
-            {loading ? <p>....loading</p> : lines()}
+            {/* {loading ? <p>....loading</p> : lines()} */}
+
+            {/* {dragging()} */}
+            {EditorList()}
+            {/* {loading ? <p>....loading</p> : EditorList()} */}
         </div>
     )
 }
