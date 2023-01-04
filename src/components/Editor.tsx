@@ -28,12 +28,7 @@ const Editor = ({ doc, onChange }: Props) => {
     //     }
     // }, [view])
 
-    return (
-        <div
-            className="flex-1 rounded-lg bg-white shadow-inner"
-            ref={ref}
-        ></div>
-    )
+    return <div className="flex-1 rounded-lg bg-white " ref={ref}></div>
 }
 
 export default Editor

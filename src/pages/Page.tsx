@@ -62,16 +62,16 @@ export const Page = () => {
     }, [])
 
     return (
-        <div className="min-h-full w-full flex flex-col shadow-sm">
+        <div className="min-h-full w-full flex flex-col shadow-sm p-2">
             <input
                 placeholder="Untitled"
-                className="h-20 m-2 w-full text-4xl focus:outline-none"
+                className="h-20 w-full text-4xl focus:outline-none"
                 maxLength={32}
                 value={pageStore.title}
                 onChange={(e) => pageStore.setTitle(e.target.value)}
             />
 
-            <span className="h-1 w-full m-2 bg-slate-50" />
+            <span className="h-1 w-full bg-slate-50" />
             {loading ? <p>....loading</p> : <EditorList />}
         </div>
     )

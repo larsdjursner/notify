@@ -18,10 +18,9 @@ import { SortableEditor } from "./SortableEditor"
 export const EditorList = () => {
     const { docs, getDocs, reArrangeDocs, getDocById } = usePageStore()
     const [activeId, setActiveId] = useState<null | string | number>(null)
-    // const [items, setItems] = useState([])
 
     function handleDragOver(event: DragEndEvent) {
-        console.log("handle drag end")
+        // console.log("handle drag end")
         const { active, over } = event
         if (over && active.id !== over.id) {
             const from = docs.findIndex((doc) => doc.id == active.id)
@@ -32,7 +31,9 @@ export const EditorList = () => {
         }
     }
 
-    useEffect
+    useEffect(() => {
+        console.log("docs rearranged")
+    }, [docs])
 
     return (
         <DndContext
@@ -46,13 +47,19 @@ export const EditorList = () => {
                     <SortableEditor key={doc.id} id={doc.id} doc={doc} />
                 ))}
             </SortableContext>
-            <DragOverlay>
-                {activeId && (
-                    <div className="w-full bg-slate-100 opacity-50  rounded-lg">
-                        {/* {getDocById(activeId.toString())?.value} */}
-                    </div>
-                )}
-            </DragOverlay>
+            {/* <DragOverlay></DragOverlay> */}
         </DndContext>
     )
+}
+
+{
+    /* {activeId && */
+}
+// <div className="w-full  bg-slate-100 opacity-50  rounded-lg">
+{
+    /* {getDocById(activeId.toString())?.value} */
+}
+// </div>
+{
+    /* } */
 }

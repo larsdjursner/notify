@@ -13,22 +13,11 @@ type Props = {
 }
 
 export function SortableEditor(props: Props) {
-    const {
-        attributes,
-        listeners,
-        setNodeRef,
-        transform,
-        transition,
-        isDragging,
-    } = useSortable({ id: props.id })
+    const { attributes, listeners, setNodeRef, isDragging } = useSortable({
+        id: props.id,
+    })
 
     const { setDoc, addDoc } = usePageStore()
-
-    const style = {
-        transform: CSS.Translate.toString(transform),
-        transition,
-        opacity: isDragging ? 0.5 : 1,
-    }
 
     const handleDocChange = useCallback((id: string, newDoc: string) => {
         setDoc(id, newDoc)
@@ -39,26 +28,29 @@ export function SortableEditor(props: Props) {
     }
 
     return (
-        <div ref={setNodeRef} style={style}>
-            <div className="relative p-2 group flex ">
-                <div className="absolute -left-10 flex items-center">
-                    <Button
-                        className="invisible group-hover:visible"
-                        onClick={handleNewdoc}
-                    >
-                        <PlusIcon className="h-4 w-4" />
+        <div
+            ref={setNodeRef}
+            className={`relative group flex m-2  ${
+                isDragging ? "opacity-50 shadow-lg" : "opacity-100 shadow-none"
+            }`}
+        >
+            <div className="absolute -left-10 flex items-center">
+                <Button
+                    className="invisible group-hover:visible"
+                    onClick={handleNewdoc}
+                >
+                    <PlusIcon className="h-4 w-4" />
+                </Button>
+            </div>
+            <div className="absolute right-4 z-20">
+                <div {...attributes} {...listeners}>
+                    {/* draghandle */}
+                    <Button>
+                        <ChevronUpDownIcon className="h-4 w-4" />
                     </Button>
                 </div>
-                <div className="absolute right-4 z-10">
-                    <div {...attributes} {...listeners}>
-                        {/* draghandle */}
-                        <Button>
-                            <ChevronUpDownIcon className="h-4 w-4" />
-                        </Button>
-                    </div>
-                </div>
-                <Editor doc={props.doc} onChange={handleDocChange} />
             </div>
+            <Editor doc={props.doc} onChange={handleDocChange} />
         </div>
     )
 }
