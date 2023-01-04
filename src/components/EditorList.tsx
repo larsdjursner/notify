@@ -16,7 +16,7 @@ import Editor, { Doc } from "./Editor"
 import { SortableEditor } from "./SortableEditor"
 
 export const EditorList = () => {
-    const { docs, getDocs, reArrangeDocs, getDocById } = usePageStore()
+    const { docs, getDocs, reArrangeDocs, getDocById, addDoc } = usePageStore()
     const [activeId, setActiveId] = useState<null | string | number>(null)
 
     function handleDragOver(event: DragEndEvent) {

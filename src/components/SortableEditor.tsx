@@ -24,7 +24,8 @@ export function SortableEditor(props: Props) {
     }, [])
 
     const handleNewdoc = () => {
-        addDoc()
+        console.log(props.doc.id)
+        addDoc(props.doc.id)
     }
 
     return (

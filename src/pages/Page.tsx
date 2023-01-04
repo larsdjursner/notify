@@ -10,7 +10,7 @@ interface PageState {
     docs: Doc[]
     getDocs: () => Doc[]
     setTitle: (title: string) => void
-    addDoc: () => void
+    addDoc: (id: string) => void
     setDoc: (id: string, newDoc: string) => void
     reset: () => void
     reArrangeDocs: (docs: Doc[]) => void
@@ -27,11 +27,17 @@ export const usePageStore = create<PageState>()((set, get) => ({
     reset: () => set({ docs: [] }),
     getDocs: () => get().docs,
     getDocById: (id) => get().docs.find((d) => d.id == id),
-    addDoc: () => {
+    addDoc: (id) => {
         set((state) => {
             const generatedDoc = getInitialDoc()
-            // needs to take an index into account
-            return { docs: [...state.docs, generatedDoc] }
+            const index = state.docs.findIndex((doc) => doc.id === id)
+
+            if (state.docs.length <= index + 1)
+                return { docs: [...state.docs, generatedDoc] }
+
+            const head = state.docs.slice(0, index + 1)
+            const tail = state.docs.slice(index + 1, state.docs.length)
+            return { docs: [...head, generatedDoc, ...tail] }
         })
     },
     setDoc(id, newValue) {
