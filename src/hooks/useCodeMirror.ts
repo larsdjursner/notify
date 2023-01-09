@@ -19,7 +19,7 @@ interface Props {
 }
 
 const theme = EditorView.theme({
-    "&:focus": {
+    "&.cm-editor.cm-focused": {
         outline: "none",
     },
 })
@@ -84,7 +84,6 @@ export default function useCodeMirror<T extends Element>({
                     ...standardKeymap,
                 ]),
                 placeholder("Type here!"),
-                // highlightActiveLine(),
                 EditorView.lineWrapping,
                 EditorView.updateListener.of((update) => {
                     if (update.changes) {

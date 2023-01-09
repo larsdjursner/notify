@@ -24,11 +24,11 @@ const Editor = ({ doc, onChange }: Props) => {
     // useEffect(() => {
     //     if (view) {
     //         // Do nothing for now
-    //         console.log(initialDoc)
+    //         // console.log(initialDoc)
     //     }
     // }, [view])
 
-    return <div className="flex-1 rounded-lg bg-white " ref={ref}></div>
+    return <div className="flex-1 rounded-lg py-2 focus:none" ref={ref}></div>
 }
 
 export default Editor

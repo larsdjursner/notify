@@ -13,44 +13,55 @@ type Props = {
 }
 
 export function SortableEditor(props: Props) {
-    const { attributes, listeners, setNodeRef, isDragging } = useSortable({
-        id: props.id,
-    })
+    const { attributes, listeners, setNodeRef, isDragging, isOver } =
+        useSortable({
+            id: props.id,
+        })
 
     const { setDoc, addDoc } = usePageStore()
-
+    const [over, setOver] = useState(false)
     const handleDocChange = useCallback((id: string, newDoc: string) => {
         setDoc(id, newDoc)
     }, [])
 
     const handleNewdoc = () => {
-        console.log(props.doc.id)
         addDoc(props.doc.id)
     }
 
+    useEffect(() => {
+        setOver(isOver && !isDragging)
+    }, [isOver])
+
     return (
         <div
-            ref={setNodeRef}
-            className={`relative group flex m-2  ${
-                isDragging ? "opacity-50 shadow-lg" : "opacity-100 shadow-none"
+            className={`relative group flex flex-col m-2 rounded-lg  ${
+                isDragging
+                    ? "opacity-50 shadow-xl bg-blue-200"
+                    : "opacity-100 shadow-sm"
             }`}
         >
-            <div className="absolute -left-10 flex items-center">
+            <div className="absolute -left-20 flex items-center">
                 <Button
                     className="invisible group-hover:visible"
                     onClick={handleNewdoc}
                 >
                     <PlusIcon className="h-4 w-4" />
                 </Button>
-            </div>
-            <div className="absolute right-4 z-20">
+
                 <div {...attributes} {...listeners}>
                     {/* draghandle */}
-                    <Button>
+                    <Button className="invisible group-hover:visible">
                         <ChevronUpDownIcon className="h-4 w-4" />
                     </Button>
                 </div>
             </div>
+            {/* <div className="absolute right-4 z-20"></div> */}
+            <div
+                ref={setNodeRef}
+                className={`w-full h-2 bg-slate-200 ${
+                    over ? "bg-red-400" : "bg-slate-200"
+                }`}
+            ></div>
             <Editor doc={props.doc} onChange={handleDocChange} />
         </div>
     )

@@ -1,45 +1,30 @@
-import {
-    closestCorners,
-    DndContext,
-    DragEndEvent,
-    DragOverEvent,
-    DragOverlay,
-} from "@dnd-kit/core"
-import {
-    arrayMove,
-    SortableContext,
-    verticalListSortingStrategy,
-} from "@dnd-kit/sortable"
-import { useEffect, useState } from "react"
+import { closestCorners, DndContext, DragEndEvent } from "@dnd-kit/core"
+import { arrayMove, SortableContext } from "@dnd-kit/sortable"
+import { useState } from "react"
 import { usePageStore } from "../pages/Page"
-import Editor, { Doc } from "./Editor"
+import { Doc } from "./Editor"
 import { SortableEditor } from "./SortableEditor"
 
 export const EditorList = () => {
-    const { docs, getDocs, reArrangeDocs, getDocById, addDoc } = usePageStore()
+    const { docs, reArrangeDocs } = usePageStore()
     const [activeId, setActiveId] = useState<null | string | number>(null)
 
-    function handleDragOver(event: DragEndEvent) {
-        // console.log("handle drag end")
+    function handleDragEnd(event: DragEndEvent) {
         const { active, over } = event
         if (over && active.id !== over.id) {
             const from = docs.findIndex((doc) => doc.id == active.id)
             const to = docs.findIndex((doc) => doc.id == over.id)
 
             const keys = arrayMove(docs, from, to)
+            setActiveId(null)
             return reArrangeDocs(keys)
         }
     }
 
-    useEffect(() => {
-        console.log("docs rearranged")
-    }, [docs])
-
     return (
         <DndContext
             onDragStart={(e) => setActiveId(e.active.id)}
-            onDragOver={handleDragOver}
-            onDragEnd={() => setActiveId(null)}
+            onDragEnd={handleDragEnd}
             collisionDetection={closestCorners}
         >
             <SortableContext items={docs}>
@@ -47,19 +32,9 @@ export const EditorList = () => {
                     <SortableEditor key={doc.id} id={doc.id} doc={doc} />
                 ))}
             </SortableContext>
-            {/* <DragOverlay></DragOverlay> */}
+            {/* <DragOverlay>
+                {activeId && <div className="w-full h-2 bg-teal-300"> hey</div>}
+            </DragOverlay> */}
         </DndContext>
     )
-}
-
-{
-    /* {activeId && */
-}
-// <div className="w-full  bg-slate-100 opacity-50  rounded-lg">
-{
-    /* {getDocById(activeId.toString())?.value} */
-}
-// </div>
-{
-    /* } */
 }
