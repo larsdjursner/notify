@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react"
-import { Doc } from "../components/Editor"
+import Editor from "../components/Editor"
 
 import create from "zustand"
-import { EditorList } from "../components/EditorList"
 import { getInitialDoc, getMocks } from "../utils/page"
 
+export interface Doc {
+    id: string
+    value: string
+}
 interface PageState {
     title: string
     docs: Doc[]
@@ -78,7 +81,9 @@ export const Page = () => {
             />
 
             <span className="h-1 w-full bg-slate-50" />
-            {loading ? <p>....loading</p> : <EditorList />}
+            {/* {loading ? <p>....loading</p> : <EditorList />}
+             */}
+            <Editor />
         </div>
     )
 }
