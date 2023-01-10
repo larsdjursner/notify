@@ -3,7 +3,9 @@ import { Component } from "./Component"
 
 export default Node.create({
     name: "draggableParagraph",
+    priority: 1000,
     group: "block",
+    topNode: true,
     content: "block+",
     draggable: true,
 

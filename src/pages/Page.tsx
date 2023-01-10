@@ -85,8 +85,8 @@ export const Page = () => {
         ;(async () => {
             pageStore.updateTitle("My favourite document")
             pageStore.updateContent(
-                `<p>This is a boring paragraph.</p><div data-type="draggable-paragraph"><p>Followed by a fancy draggable item.</p></div><div data-type="draggable-paragraph"><p>Followed by a fancy draggable item.</p></div>`
-                // `<p>Hello World!</p><img src="https://source.unsplash.com/8xznAGy4HcY/800x400" /> <p> hey </p>`
+                // `<p>This is a boring paragraph.</p><div data-type="draggable-paragraph"><p>Followed by a fancy draggable item.</p></div><div data-type="draggable-paragraph"><p>Followed by a fancy draggable item.</p></div>`
+                ``
             )
         })().then(() => setLoading(false))
 

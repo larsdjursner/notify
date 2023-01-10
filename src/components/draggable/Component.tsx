@@ -12,10 +12,16 @@ export const Component = (props: any) => {
     return (
         <NodeViewWrapper className="draggable-paragraph relative group">
             <div className="absolute -left-20 group-hover:visible flex gap-4">
-                <div className="h-4 w-4" draggable="true" data-drag-handle>
+                <div
+                    className="h-4 w-4 cursor-pointer"
+                    draggable="true"
+                    data-drag-handle
+                    contentEditable={false}
+                    suppressContentEditableWarning={true}
+                >
                     <Bars4Icon className="h-4 w-4" />
                 </div>
-                <div className="h-4 w-4">
+                <div className="h-4 w-4 cursor-pointer">
                     <PlusIcon className="h-4 w-4" />
                 </div>
             </div>

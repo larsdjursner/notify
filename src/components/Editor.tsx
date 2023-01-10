@@ -5,7 +5,7 @@ import { useEditor, EditorContent, Node } from "@tiptap/react"
 import StarterKit from "@tiptap/starter-kit"
 import { useRef, useState } from "react"
 import { usePageStore } from "../pages/Page"
-import DraggableParagraph from "./DraggableParagraph"
+import DraggableParagraph from "./draggable/DraggableParagraph"
 
 interface Props {
     content: string
@@ -19,8 +19,9 @@ const Editor = (props: Props) => {
     const editor = useEditor({
         extensions: [
             StarterKit,
-            DraggableParagraph,
+            // DraggableParagraph,
             Image,
+
             Placeholder.configure({
                 placeholder: ({ node }) => {
                     if (node.type.name === "heading") {
