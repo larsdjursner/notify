@@ -1,54 +1,30 @@
-import Image from "@tiptap/extension-image"
 import Placeholder from "@tiptap/extension-placeholder"
-import {
-    useEditor,
-    EditorContent,
-    ReactNodeViewRenderer,
-    mergeAttributes,
-} from "@tiptap/react"
+import { useEditor, EditorContent } from "@tiptap/react"
 import StarterKit from "@tiptap/starter-kit"
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { usePageStore } from "../pages/Page"
-import Commands from "./Commands"
+import DraggableItem from "./draggable/DraggableItem"
+import { Overlay } from "./tiptap/Overlay"
+import { Overlays } from "./tiptap/Overlays"
+import { useOverlayStore } from "./tiptap/OverlayStore"
+import suggestion from "./tiptap/suggestion"
 
 interface Props {
     content: string
 }
 
-import Paragraph from "@tiptap/extension-paragraph"
-import { Component } from "./draggable/Component"
-import DraggableItem from "./draggable/DraggableItem"
-
-// const CustomParagraph = Paragraph.extend({
-//     draggable: true,
-//     name: "draggable-paragraph",
-
-//     parseHTML() {
-//         return [{ tag: "p[data-type='draggable-paragraph']" }]
-//     },
-
-//     renderHTML({ HTMLAttributes }) {
-//         return [
-//             "p",
-//             mergeAttributes(HTMLAttributes, {
-//                 "data-type": "draggable-paragraph",
-//             }),
-//             0,
-//         ]
-//     },
-//     addNodeView() {
-//         return ReactNodeViewRenderer(Component)
-//     },
-// })
-
 const Editor = (props: Props) => {
     const { updateContent } = usePageStore()
+    const { coords, elements, overlayActive } = useOverlayStore()
 
     const editor = useEditor({
         extensions: [
             // CustomParagraph,
             StarterKit,
             DraggableItem,
+            Overlay.configure({
+                suggestion,
+            }),
             // Image,
             Placeholder.configure({
                 placeholder: ({ node }) => {
@@ -78,11 +54,21 @@ const Editor = (props: Props) => {
         onUpdate: ({ editor }) => {
             updateContent(editor.getHTML())
         },
+        onDestroy: () => {
+            editor?.destroy()
+        },
     })
+
+    useEffect(() => {
+        console.log("coords", coords)
+        console.log("elements", elements)
+        console.log("active", overlayActive)
+    }, [coords, elements, overlayActive])
 
     return (
         <div className="w-full p-2">
-            <EditorContent editor={editor} />
+            <Overlays />
+            <EditorContent className="my-4" editor={editor} />
         </div>
     )
 }
