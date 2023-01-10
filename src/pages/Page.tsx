@@ -85,8 +85,8 @@ export const Page = () => {
         ;(async () => {
             pageStore.updateTitle("My favourite document")
             pageStore.updateContent(
-                // `<p>This is a boring paragraph.</p><div data-type="draggable-paragraph"><p>Followed by a fancy draggable item.</p></div><div data-type="draggable-paragraph"><p>Followed by a fancy draggable item.</p></div>`
-                ``
+                `<div data-type="draggable-item"><p>This is rather confusing \n \n hey hey.</p></div><p>This is a boring item.</p><div data-type="draggable-item"><p>Followed by a fancy draggable item.</p></div><div data-type="draggable-item"><p>Followed by a fancy draggable item.</p></div>`
+                // ``
             )
         })().then(() => setLoading(false))
 
@@ -94,7 +94,7 @@ export const Page = () => {
     }, [])
 
     useEffect(() => {
-        console.log(pageStore.page)
+        console.log(pageStore.page.content)
     }, [pageStore.page])
 
     return (

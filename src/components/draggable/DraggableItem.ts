@@ -2,22 +2,21 @@ import { ReactNodeViewRenderer, mergeAttributes, Node } from "@tiptap/react"
 import { Component } from "./Component"
 
 export default Node.create({
-    name: "draggableParagraph",
+    name: "draggableItem",
     priority: 1000,
     group: "block",
-    topNode: true,
     content: "block+",
     draggable: true,
 
     parseHTML() {
-        return [{ tag: "div[data-type='draggable-paragraph']" }]
+        return [{ tag: "div[data-type='draggable-item']" }]
     },
 
     renderHTML({ HTMLAttributes }) {
         return [
             "div",
             mergeAttributes(HTMLAttributes, {
-                "data-type": "draggable-paragraph",
+                "data-type": "draggable-item",
             }),
             0,
         ]

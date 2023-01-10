@@ -1,19 +1,12 @@
 import { Bars4Icon, PlusIcon } from "@heroicons/react/24/outline"
 import { NodeViewContent, NodeViewWrapper } from "@tiptap/react"
-import { useEffect } from "react"
 
-export const Component = (props: any) => {
-    useEffect(() => {
-        // console.log(props)
-
-        return () => {}
-    }, [])
-
+export const Component = () => {
     return (
-        <NodeViewWrapper className="draggable-paragraph relative group">
-            <div className="absolute -left-20 group-hover:visible flex gap-4">
+        <NodeViewWrapper className="draggable-item relative group flex bg-slate-200  rounded-lg">
+            <div className="absolute -left-20 top-0 bottom-0 group-hover:visible flex gap-4">
                 <div
-                    className="h-4 w-4 cursor-pointer"
+                    className="h-4 w-4 cursor-pointer self-center"
                     draggable="true"
                     data-drag-handle
                     contentEditable={false}
@@ -21,7 +14,7 @@ export const Component = (props: any) => {
                 >
                     <Bars4Icon className="h-4 w-4" />
                 </div>
-                <div className="h-4 w-4 cursor-pointer">
+                <div className="h-4 w-4 cursor-pointer self-center">
                     <PlusIcon className="h-4 w-4" />
                 </div>
             </div>

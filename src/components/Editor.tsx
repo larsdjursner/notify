@@ -1,27 +1,55 @@
 import Image from "@tiptap/extension-image"
-import Paragraph from "@tiptap/extension-paragraph"
 import Placeholder from "@tiptap/extension-placeholder"
-import { useEditor, EditorContent, Node } from "@tiptap/react"
+import {
+    useEditor,
+    EditorContent,
+    ReactNodeViewRenderer,
+    mergeAttributes,
+} from "@tiptap/react"
 import StarterKit from "@tiptap/starter-kit"
 import { useRef, useState } from "react"
 import { usePageStore } from "../pages/Page"
-import DraggableParagraph from "./draggable/DraggableParagraph"
+import Commands from "./Commands"
 
 interface Props {
     content: string
 }
 
+import Paragraph from "@tiptap/extension-paragraph"
+import { Component } from "./draggable/Component"
+import DraggableItem from "./draggable/DraggableItem"
+
+// const CustomParagraph = Paragraph.extend({
+//     draggable: true,
+//     name: "draggable-paragraph",
+
+//     parseHTML() {
+//         return [{ tag: "p[data-type='draggable-paragraph']" }]
+//     },
+
+//     renderHTML({ HTMLAttributes }) {
+//         return [
+//             "p",
+//             mergeAttributes(HTMLAttributes, {
+//                 "data-type": "draggable-paragraph",
+//             }),
+//             0,
+//         ]
+//     },
+//     addNodeView() {
+//         return ReactNodeViewRenderer(Component)
+//     },
+// })
+
 const Editor = (props: Props) => {
     const { updateContent } = usePageStore()
-    const [showOverlay, setShowOverlay] = useState(false)
-    const anchorNode = useRef<Element | null>(null)
 
     const editor = useEditor({
         extensions: [
+            // CustomParagraph,
             StarterKit,
-            // DraggableParagraph,
-            Image,
-
+            DraggableItem,
+            // Image,
             Placeholder.configure({
                 placeholder: ({ node }) => {
                     if (node.type.name === "heading") {
@@ -46,49 +74,11 @@ const Editor = (props: Props) => {
             attributes: {
                 class: "prose focus:outline-none min-w-full",
             },
-            handleKeyDown: (view, event) => {
-                if (
-                    event.key === "/" &&
-                    event.currentTarget instanceof Element
-                ) {
-                    // console.log("///")
-                    setShowOverlay(true)
-                    // console.log(view.props)
-                    anchorNode.current = event.currentTarget
-                    console.log("it works", anchorNode.current)
-                }
-            },
         },
         onUpdate: ({ editor }) => {
             updateContent(editor.getHTML())
         },
     })
-
-    const Overlay = ({
-        show,
-        anchornode,
-    }: {
-        show: boolean
-        anchornode: Element | null
-    }) => {
-        return (
-            <div className="relative">
-                {/* <button onClick={() => setIsOverlay(!isOverlay)}>
-                    show menu
-                </button> */}
-                {show && (
-                    <div className="absolute bg-white z-20 border border-rounded">
-                        <ol>
-                            <li>hey</li>
-                            <li>hey</li>
-                            <li>hey</li>
-                            <li>hey</li>
-                        </ol>
-                    </div>
-                )}
-            </div>
-        )
-    }
 
     return (
         <div className="w-full p-2">
