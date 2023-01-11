@@ -1,21 +1,12 @@
-import { useEffect, useRef } from "react"
+import React, { useEffect, useRef } from "react"
 import { MenuItem } from "./MenuItem"
 import { useOverlayStore } from "./OverlayStore"
 export const Overlays = () => {
-    const {
-        elements,
-        overlayActive,
-        position,
-        setOverlayActive,
-        selected,
-        setSelected,
-        executeCommandByIndex,
-    } = useOverlayStore()
+    const { elements, overlayActive, position, setOverlayActive, selected } =
+        useOverlayStore()
 
-    const current = useRef<HTMLDivElement>(null)
-
-    useEffect(() => {}, [selected])
     // TODO handle when cursor is in lower half of page
+    // todo handle scroll into view with keyboard
     return overlayActive ? (
         <>
             <div
@@ -31,22 +22,7 @@ export const Overlays = () => {
                 }}
             >
                 {elements.map((item, i) => {
-                    return (
-                        <MenuItem key={i} item={item} index={i} />
-                        // <button
-                        //     key={e.title}
-                        //     className={`w-full h-full flex flex-col  ${
-                        //         i === selected ? "bg-slate-200" : "bg-white"
-                        //     }`}
-                        //     onClick={() => executeCommandByIndex(i)}
-                        //     onMouseOver={() => setSelected(i)}
-                        // >
-                        //     <p>{e.title}</p>
-                        //     <p className="text-sm text-slate-600">
-                        //         {e.subtitle}
-                        //     </p>
-                        // </button>
-                    )
+                    return <MenuItem key={i} item={item} index={i} />
                 })}
             </div>
         </>

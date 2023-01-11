@@ -17,12 +17,12 @@ const Editor = (props: Props) => {
     const editor = useEditor({
         extensions: [
             // CustomParagraph,
+            // DraggableItem,
+            // Image,
             StarterKit,
-            DraggableItem,
             Overlay.configure({
                 suggestion,
             }),
-            // Image,
             Placeholder.configure({
                 placeholder: ({ node }) => {
                     if (node.type.name === "heading") {
@@ -47,6 +47,9 @@ const Editor = (props: Props) => {
             attributes: {
                 class: "prose focus:outline-none min-w-full",
             },
+        },
+        onCreate: ({ editor }) => {
+            editor.commands.focus("start")
         },
         onUpdate: ({ editor }) => {
             updateContent(editor.getHTML())

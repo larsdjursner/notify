@@ -95,6 +95,7 @@ export default {
                 items,
             }: SuggestionProps) => {
                 if (!clientRect || clientRect === undefined) return
+
                 const rect = clientRect()
 
                 if (!rect) return
@@ -110,7 +111,7 @@ export default {
                 setOverlayActive(false)
                 setSelected(0)
             },
-            onKeyDown: ({ event }: SuggestionKeyDownProps) => {
+            onKeyDown: ({ event, range, view }: SuggestionKeyDownProps) => {
                 // Needs to stop the querying
                 if (event.key === "Escape") {
                     event.preventDefault()
@@ -119,13 +120,13 @@ export default {
                 }
 
                 if (event.key === "ArrowDown") {
-                    event.preventDefault()
+                    // event.preventDefault()
                     down()
                     return true
                 }
 
                 if (event.key === "ArrowUp") {
-                    event.preventDefault()
+                    // event.preventDefault()
                     up()
                     return true
                 }
