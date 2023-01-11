@@ -1,15 +1,49 @@
+import { SuggestionKeyDownProps, SuggestionProps } from "@tiptap/suggestion"
 import { useOverlayStore } from "./OverlayStore"
-const { setOverlayActive, setCoords, setElements } = useOverlayStore.getState()
+const { setOverlayActive, setPosition, setElements, setProps } =
+    useOverlayStore.getState()
 
 export default {
-    items: ({ query }: { query: string }) => {
+    items: ({ query }: SuggestionProps) => {
         return [
-            { title: "heading", subtitle: "farts", command: () => {} },
-            { title: "bulletlist", subtitle: "farts", command: () => {} },
-            { title: "enumeratedlist", subtitle: "farts", command: () => {} },
-            { title: "link", subtitle: "farts", command: () => {} },
+            {
+                title: "heading 1",
+                subtitle: "h1",
+                command: ({ editor, range }: SuggestionProps) => {
+                    editor
+                        .chain()
+                        .focus()
+                        .deleteRange(range)
+                        .setNode("heading", { level: 1 })
+                        .run()
+                },
+            },
+            {
+                title: "heading 2",
+                subtitle: "h2",
+                command: ({ editor, range }: SuggestionProps) => {
+                    editor
+                        .chain()
+                        .focus()
+                        .deleteRange(range)
+                        .setNode("heading", { level: 2 })
+                        .run()
+                },
+            },
+            {
+                title: "heading 3",
+                subtitle: "h3",
+                command: ({ editor, range }: SuggestionProps) => {
+                    editor
+                        .chain()
+                        .focus()
+                        .deleteRange(range)
+                        .setNode("heading", { level: 3 })
+                        .run()
+                },
+            },
         ]
-            .filter((item: any) =>
+            .filter((item) =>
                 item.title.toLowerCase().startsWith(query.toLowerCase())
             )
             .slice(0, 10)
@@ -17,26 +51,34 @@ export default {
 
     render: () => {
         return {
-            onStart: (props: any) => {
-                let editor = props.editor
-                let range = props.editor
-                let location = props.clientRect()
+            onStart: ({
+                editor,
+                range,
+                clientRect,
+                items,
+            }: SuggestionProps) => {
+                if (!clientRect || clientRect === undefined) return
+                const rect = clientRect()
+                if (!rect) return
+
+                const { left, top, height } = rect
+                setPosition({ left, top, height })
+                setElements(items)
+                setProps({ editor, range })
                 setOverlayActive(true)
-                setCoords({ x: location.x, y: location.y })
-                setElements(props.items)
             },
             onExit: () => {
                 // maybe just destroy the whole store at that point
                 setOverlayActive(false)
             },
-            onKeyDown: (props: any) => {
+            onKeyDown: (props: SuggestionKeyDownProps) => {
                 // Needs to stop the querying
                 if (props.event.key === "Escape") {
                     setOverlayActive(false)
                     return true
                 }
             },
-            onUpdate: (props: any) => {
+            onUpdate: (props: SuggestionProps) => {
                 setElements(props.items)
             },
         }
