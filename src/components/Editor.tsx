@@ -1,12 +1,10 @@
 import Placeholder from "@tiptap/extension-placeholder"
 import { useEditor, EditorContent } from "@tiptap/react"
 import StarterKit from "@tiptap/starter-kit"
-import { useEffect, useRef, useState } from "react"
 import { usePageStore } from "../pages/Page"
 import DraggableItem from "./draggable/DraggableItem"
 import { Overlay } from "./tiptap/Overlay"
 import { Overlays } from "./tiptap/Overlays"
-import { useOverlayStore } from "./tiptap/OverlayStore"
 import suggestion from "./tiptap/suggestion"
 
 interface Props {
@@ -15,8 +13,6 @@ interface Props {
 
 const Editor = (props: Props) => {
     const { updateContent } = usePageStore()
-    const { position, elements, overlayActive } = useOverlayStore()
-    const [selected, setSelected] = useState()
 
     const editor = useEditor({
         extensions: [

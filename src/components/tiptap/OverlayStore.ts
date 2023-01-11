@@ -2,7 +2,6 @@ import { Range } from "@tiptap/react"
 import { Editor } from "@tiptap/core"
 import { SuggestionProps } from "@tiptap/suggestion"
 import create from "zustand"
-import { Overlay } from "./Overlay"
 import { Item } from "./suggestion"
 
 interface Position {
@@ -27,6 +26,7 @@ interface OverlayState {
     setSelected: (selected: number) => void
     executeCommandByIndex: (index: number) => void
     executeCommandBySelected: () => void
+    getElements: () => Item[]
 }
 
 export const useOverlayStore = create<OverlayState>()((set, get) => ({
@@ -40,6 +40,9 @@ export const useOverlayStore = create<OverlayState>()((set, get) => ({
     setOverlayActive: (bool) => set({ overlayActive: bool }),
     setElements: (elements) => set({ elements }),
     setProps: ({ editor, range }) => set({ editor, range }),
+    getElements: () => {
+        return get().elements
+    },
     up: () =>
         set((state) => {
             return {
