@@ -19,7 +19,7 @@ export interface Item {
 
 const items: Item[] = [
     {
-        title: "heading 1",
+        title: "Heading 1",
         subtitle: "h1",
         command: ({ editor, range }) => {
             editor
@@ -31,7 +31,7 @@ const items: Item[] = [
         },
     },
     {
-        title: "heading 2",
+        title: "Heading 2",
         subtitle: "h2",
         command: ({ editor, range }) => {
             editor
@@ -43,7 +43,7 @@ const items: Item[] = [
         },
     },
     {
-        title: "heading 3",
+        title: "Heading 3",
         subtitle: "h3",
         command: ({ editor, range }) => {
             editor
@@ -69,6 +69,20 @@ const items: Item[] = [
         },
     },
     {
+        title: "Divider",
+        subtitle: "divide blocks",
+        command: ({ editor, range }) => {
+            editor.chain().focus().deleteRange(range).setHorizontalRule().run()
+        },
+    },
+    {
+        title: "Block qoute",
+        subtitle: "quote some stuff",
+        command: ({ editor, range }) => {
+            editor.chain().focus().deleteRange(range).toggleBlockquote().run()
+        },
+    },
+    {
         title: "Bold",
         subtitle: "bold",
         command: ({ editor, range }) => {
@@ -79,11 +93,10 @@ const items: Item[] = [
 
 export default {
     items: ({ query }: SuggestionProps) => {
-        return items
-            .filter((item) =>
-                item.title.toLowerCase().includes(query.toLowerCase())
-            )
-            .slice(0, 10)
+        return items.filter((item) =>
+            item.title.toLowerCase().includes(query.toLowerCase())
+        )
+        // .slice(0, 10)
     },
 
     render: () => {
@@ -120,13 +133,13 @@ export default {
                 }
 
                 if (event.key === "ArrowDown") {
-                    // event.preventDefault()
+                    event.preventDefault()
                     down()
                     return true
                 }
 
                 if (event.key === "ArrowUp") {
-                    // event.preventDefault()
+                    event.preventDefault()
                     up()
                     return true
                 }

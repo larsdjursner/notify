@@ -24,6 +24,8 @@ interface OverlayState {
     setElements: (elements: Array<any>) => void
     setProps: (props: Pick<SuggestionProps, "editor" | "range">) => void
     setSelected: (selected: number) => void
+    setSelectedByTitle: (title: string) => void
+    executeCommandByTitle: (title: string) => void
     executeCommandByIndex: (index: number) => void
     executeCommandBySelected: () => void
     getElements: () => Item[]
@@ -67,5 +69,17 @@ export const useOverlayStore = create<OverlayState>()((set, get) => ({
     },
     executeCommandBySelected: () => {
         get().executeCommandByIndex(get().selected)
+    },
+    setSelectedByTitle: (title) =>
+        set((state) => {
+            const idx = state.elements.findIndex((el) => el.title === title)
+            if (idx == -1) return state
+            return {
+                selected: idx,
+            }
+        }),
+    executeCommandByTitle: (title) => {
+        if (get().elements[get().selected].title === title)
+            get().executeCommandBySelected()
     },
 }))

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react"
+import React, { useCallback, useEffect, useRef } from "react"
 import { MenuItem } from "./MenuItem"
 import { useOverlayStore } from "./OverlayStore"
 export const Overlays = () => {
@@ -6,7 +6,21 @@ export const Overlays = () => {
         useOverlayStore()
 
     // TODO handle when cursor is in lower half of page
-    // todo handle scroll into view with keyboard
+
+    const itemsRef = useRef<HTMLDivElement[]>([])
+
+    useEffect(() => {
+        itemsRef.current = itemsRef.current.slice(0, elements.length)
+    }, [elements])
+
+    useEffect(() => {
+        if (selected < itemsRef.current.length)
+            itemsRef.current[selected].scrollIntoView({
+                behavior: "smooth",
+                block: "nearest",
+            })
+    }, [selected])
+
     return overlayActive ? (
         <>
             <div
@@ -22,7 +36,14 @@ export const Overlays = () => {
                 }}
             >
                 {elements.map((item, i) => {
-                    return <MenuItem key={i} item={item} index={i} />
+                    return (
+                        <div
+                            key={i}
+                            ref={(el) => el && (itemsRef.current[i] = el)}
+                        >
+                            <MenuItem item={item} initialIndex={i} />
+                        </div>
+                    )
                 })}
             </div>
         </>
