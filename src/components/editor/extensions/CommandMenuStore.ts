@@ -10,7 +10,7 @@ interface Position {
     height: number | undefined
 }
 
-interface OverlayState {
+interface CommandMenuState {
     elements: Item[]
     editor: Editor | null
     range: Range | null
@@ -31,7 +31,7 @@ interface OverlayState {
     getElements: () => Item[]
 }
 
-export const useOverlayStore = create<OverlayState>()((set, get) => ({
+export const useCommandStore = create<CommandMenuState>()((set, get) => ({
     elements: [],
     selected: 0,
     overlayActive: false,

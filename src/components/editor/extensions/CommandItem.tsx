@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react"
-import { useOverlayStore } from "./OverlayStore"
+import { useCommandStore } from "./CommandMenuStore"
 import { Item } from "./suggestion"
 
 interface Props {
     item: Item
-    initialIndex: number
 }
 
-export const MenuItem = ({ item, initialIndex }: Props) => {
+export const CommandItem = ({ item }: Props) => {
     const { selected, executeCommandByTitle, setSelectedByTitle, getElements } =
-        useOverlayStore()
+        useCommandStore()
     const [isSelected, setIsSelected] = useState(false)
 
     useEffect(() => {

@@ -1,8 +1,8 @@
 import { Extension } from "@tiptap/react"
 import Suggestion from "@tiptap/suggestion"
 
-export const Overlay = Extension.create({
-    name: "overlayMenu",
+export const CommandMenuExtension = Extension.create({
+    name: "commandMenu",
 
     addOptions() {
         return {

@@ -1,11 +1,10 @@
 import Placeholder from "@tiptap/extension-placeholder"
 import { useEditor, EditorContent } from "@tiptap/react"
 import StarterKit from "@tiptap/starter-kit"
-import { usePageStore } from "../pages/Page"
-import DraggableItem from "./draggable/DraggableItem"
-import { Overlay } from "./tiptap/Overlay"
-import { Overlays } from "./tiptap/Overlays"
-import suggestion from "./tiptap/suggestion"
+import { usePageStore } from "../../pages/Page"
+import { CommandMenuExtension } from "./extensions/CommandMenuExtension"
+import { CommandMenu } from "./extensions/CommandMenu"
+import suggestion from "./extensions/suggestion"
 
 interface Props {
     content: string
@@ -20,7 +19,7 @@ const Editor = (props: Props) => {
             // DraggableItem,
             // Image,
             StarterKit,
-            Overlay.configure({
+            CommandMenuExtension.configure({
                 suggestion,
             }),
             Placeholder.configure({
@@ -61,7 +60,7 @@ const Editor = (props: Props) => {
 
     return (
         <div className="w-full p-2">
-            <Overlays />
+            <CommandMenu />
             <EditorContent className="my-4" editor={editor} />
         </div>
     )

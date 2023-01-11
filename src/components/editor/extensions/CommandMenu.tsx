@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useRef } from "react"
-import { MenuItem } from "./MenuItem"
-import { useOverlayStore } from "./OverlayStore"
-export const Overlays = () => {
+import { CommandItem } from "./CommandItem"
+import { useCommandStore } from "./CommandMenuStore"
+export const CommandMenu = () => {
     const { elements, overlayActive, position, setOverlayActive, selected } =
-        useOverlayStore()
+        useCommandStore()
 
     // TODO handle when cursor is in lower half of page
 
@@ -41,7 +41,7 @@ export const Overlays = () => {
                             key={i}
                             ref={(el) => el && (itemsRef.current[i] = el)}
                         >
-                            <MenuItem item={item} initialIndex={i} />
+                            <CommandItem item={item} />
                         </div>
                     )
                 })}

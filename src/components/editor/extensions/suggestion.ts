@@ -1,5 +1,5 @@
 import { SuggestionKeyDownProps, SuggestionProps } from "@tiptap/suggestion"
-import { useOverlayStore } from "./OverlayStore"
+import { useCommandStore } from "./CommandMenuStore"
 const {
     setOverlayActive,
     setPosition,
@@ -9,7 +9,7 @@ const {
     down,
     executeCommandBySelected,
     setSelected,
-} = useOverlayStore.getState()
+} = useCommandStore.getState()
 
 export interface Item {
     title: string
