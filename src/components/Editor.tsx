@@ -16,6 +16,7 @@ interface Props {
 const Editor = (props: Props) => {
     const { updateContent } = usePageStore()
     const { position, elements, overlayActive } = useOverlayStore()
+    const [selected, setSelected] = useState()
 
     const editor = useEditor({
         extensions: [
@@ -58,12 +59,6 @@ const Editor = (props: Props) => {
             editor?.destroy()
         },
     })
-
-    useEffect(() => {
-        console.log("position", position)
-        console.log("elements", elements)
-        console.log("active", overlayActive)
-    }, [position, elements, overlayActive])
 
     return (
         <div className="w-full p-2">

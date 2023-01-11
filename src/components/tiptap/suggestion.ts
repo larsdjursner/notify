@@ -1,50 +1,87 @@
 import { SuggestionKeyDownProps, SuggestionProps } from "@tiptap/suggestion"
 import { useOverlayStore } from "./OverlayStore"
-const { setOverlayActive, setPosition, setElements, setProps } =
-    useOverlayStore.getState()
+const {
+    setOverlayActive,
+    setPosition,
+    setElements,
+    setProps,
+    up,
+    down,
+    executeCommandBySelected,
+    setSelected,
+} = useOverlayStore.getState()
+
+export interface Item {
+    title: string
+    subtitle: string | undefined | null
+    command: (props: Pick<SuggestionProps, "editor" | "range">) => void
+}
+
+const items: Item[] = [
+    {
+        title: "heading 1",
+        subtitle: "h1",
+        command: ({ editor, range }) => {
+            editor
+                .chain()
+                .focus()
+                .deleteRange(range)
+                .setNode("heading", { level: 1 })
+                .run()
+        },
+    },
+    {
+        title: "heading 2",
+        subtitle: "h2",
+        command: ({ editor, range }) => {
+            editor
+                .chain()
+                .focus()
+                .deleteRange(range)
+                .setNode("heading", { level: 2 })
+                .run()
+        },
+    },
+    {
+        title: "heading 3",
+        subtitle: "h3",
+        command: ({ editor, range }) => {
+            editor
+                .chain()
+                .focus()
+                .deleteRange(range)
+                .setNode("heading", { level: 3 })
+                .run()
+        },
+    },
+    {
+        title: "Bullet list",
+        subtitle: "unordered",
+        command: ({ editor, range }) => {
+            editor.chain().focus().deleteRange(range).toggleBulletList().run()
+        },
+    },
+    {
+        title: "Enumerated list",
+        subtitle: "ordered",
+        command: ({ editor, range }) => {
+            editor.chain().focus().deleteRange(range).toggleOrderedList().run()
+        },
+    },
+    {
+        title: "Bold",
+        subtitle: "bold",
+        command: ({ editor, range }) => {
+            editor.chain().focus().deleteRange(range).toggleBold().run()
+        },
+    },
+]
 
 export default {
     items: ({ query }: SuggestionProps) => {
-        return [
-            {
-                title: "heading 1",
-                subtitle: "h1",
-                command: ({ editor, range }: SuggestionProps) => {
-                    editor
-                        .chain()
-                        .focus()
-                        .deleteRange(range)
-                        .setNode("heading", { level: 1 })
-                        .run()
-                },
-            },
-            {
-                title: "heading 2",
-                subtitle: "h2",
-                command: ({ editor, range }: SuggestionProps) => {
-                    editor
-                        .chain()
-                        .focus()
-                        .deleteRange(range)
-                        .setNode("heading", { level: 2 })
-                        .run()
-                },
-            },
-            {
-                title: "heading 3",
-                subtitle: "h3",
-                command: ({ editor, range }: SuggestionProps) => {
-                    editor
-                        .chain()
-                        .focus()
-                        .deleteRange(range)
-                        .setNode("heading", { level: 3 })
-                        .run()
-                },
-            },
-        ]
+        return items
             .filter((item) =>
-                item.title.toLowerCase().startsWith(query.toLowerCase())
+                item.title.toLowerCase().includes(query.toLowerCase())
             )
             .slice(0, 10)
     },
@@ -59,6 +96,7 @@ export default {
             }: SuggestionProps) => {
                 if (!clientRect || clientRect === undefined) return
                 const rect = clientRect()
+
                 if (!rect) return
 
                 const { left, top, height } = rect
@@ -70,13 +108,35 @@ export default {
             onExit: () => {
                 // maybe just destroy the whole store at that point
                 setOverlayActive(false)
+                setSelected(0)
             },
-            onKeyDown: (props: SuggestionKeyDownProps) => {
+            onKeyDown: ({ event }: SuggestionKeyDownProps) => {
                 // Needs to stop the querying
-                if (props.event.key === "Escape") {
+                if (event.key === "Escape") {
+                    event.preventDefault()
                     setOverlayActive(false)
                     return true
                 }
+
+                if (event.key === "ArrowDown") {
+                    event.preventDefault()
+                    down()
+                    return true
+                }
+
+                if (event.key === "ArrowUp") {
+                    event.preventDefault()
+                    up()
+                    return true
+                }
+
+                if (event.key === "Enter") {
+                    event.preventDefault()
+                    executeCommandBySelected()
+                    return true
+                }
+
+                return false
             },
             onUpdate: (props: SuggestionProps) => {
                 setElements(props.items)

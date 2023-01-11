@@ -3,6 +3,7 @@ import { Editor } from "@tiptap/core"
 import { SuggestionProps } from "@tiptap/suggestion"
 import create from "zustand"
 import { Overlay } from "./Overlay"
+import { Item } from "./suggestion"
 
 interface Position {
     left: number | undefined
@@ -11,19 +12,26 @@ interface Position {
 }
 
 interface OverlayState {
-    elements: Array<any>
+    elements: Item[]
     editor: Editor | null
     range: Range | null
     overlayActive: boolean
     position: Position | undefined
+    selected: number
+    up: () => void
+    down: () => void
     setPosition: (position: Position) => void
     setOverlayActive: (bool: boolean) => void
     setElements: (elements: Array<any>) => void
     setProps: (props: Pick<SuggestionProps, "editor" | "range">) => void
+    setSelected: (selected: number) => void
+    executeCommandByIndex: (index: number) => void
+    executeCommandBySelected: () => void
 }
 
-export const useOverlayStore = create<OverlayState>()((set) => ({
+export const useOverlayStore = create<OverlayState>()((set, get) => ({
     elements: [],
+    selected: 0,
     overlayActive: false,
     position: undefined,
     editor: null,
@@ -32,4 +40,29 @@ export const useOverlayStore = create<OverlayState>()((set) => ({
     setOverlayActive: (bool) => set({ overlayActive: bool }),
     setElements: (elements) => set({ elements }),
     setProps: ({ editor, range }) => set({ editor, range }),
+    up: () =>
+        set((state) => {
+            return {
+                selected:
+                    (state.selected + state.elements.length - 1) %
+                    state.elements.length,
+            }
+        }),
+    down: () =>
+        set((state) => {
+            return {
+                selected: (state.selected + 1) % state.elements.length,
+            }
+        }),
+    setSelected: (selected) => set({ selected }),
+    executeCommandByIndex: (index) => {
+        const { elements, editor, range } = get()
+        if (!(index < elements.length) || !editor || !range) return
+
+        const item = get().elements[index]
+        item.command({ editor, range })
+    },
+    executeCommandBySelected: () => {
+        get().executeCommandByIndex(get().selected)
+    },
 }))
