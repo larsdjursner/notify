@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import {
     BrowserRouter as Router,
     Route,
@@ -13,6 +13,7 @@ import SignUp from "./pages/auth/SignUp"
 import Landing from "./pages/Landing"
 import { Page } from "./pages/Page"
 import { useAuthStore } from "./stores/authStore"
+import { supabase } from "./supabase"
 
 const ProtectedRoute = ({ redirectPath = "/" }: { redirectPath?: string }) => {
     const { getAuth } = useAuthStore()
@@ -45,6 +46,20 @@ const NewPage = () => {
 }
 
 function App() {
+    // const [session, setSession] = useState(null)
+
+    // useEffect(() => {
+    //     supabase.auth.getSession().then(({ data: { session } }) => {
+    //         // console.log(session)
+    //         // setSession(session)
+    //     })
+
+    //     supabase.auth.onAuthStateChange((_event, session) => {
+    //         // console.log(_event, session)
+    //         // setSession(session)
+    //     })
+
+    // }, [])
     return (
         <Router>
             <div className="h-screen w-screen flex max-h-screen max-w-screen">

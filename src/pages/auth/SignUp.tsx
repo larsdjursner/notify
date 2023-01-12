@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom"
 import FormInput from "../../components/generic/FormInput"
 import Throbber from "../../components/generic/Throbber"
 import { useAuthStore } from "../../stores/authStore"
+import { supabase } from "../../supabase"
 
 interface State {
     email: string
@@ -21,12 +22,31 @@ export default function SignUp() {
     const handleSubmit = async () => {
         if (password !== repeatPassword) return
 
-        // setSubmitting(true)
-        // const state = { email, password }
+        setSubmitting(true)
+
+        await supabase.auth
+            .signUp({ email, password, options: { data: { confirm } } })
+            .then(({ data, error }) => {
+                if (error) {
+                    setSubmitting(false)
+                    alert("error")
+                    return
+                }
+                console.log(data)
+                const token = data.session?.access_token
+                const user = data.user
+
+                if (token == undefined || user == null) {
+                    setSubmitting(false)
+                    alert("error")
+                    return
+                }
+
+                auth.setAuth(token!, user!)
+                setSubmitting(false)
+                navigate("/page/new")
+            })
         // console.log(state)
-        // setSubmitting(true)
-        auth.setToken("")
-        navigate("/page/new")
     }
 
     return (

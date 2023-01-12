@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom"
 import FormInput from "../../components/generic/FormInput"
 import Throbber from "../../components/generic/Throbber"
 import { useAuthStore } from "../../stores/authStore"
+import { supabase } from "../../supabase"
 
 interface State {
     email: string
@@ -18,12 +19,28 @@ export default function SignIn() {
     const [submitting, setSubmitting] = useState(false)
 
     const handleSubmit = async () => {
-        // setSubmitting(true)
-        // const state = { email, password }
-        // console.log(state)
-        // setSubmitting(true)
-        auth.setToken("")
-        navigate("/page/new")
+        await supabase.auth
+            .signInWithPassword({ email, password })
+            .then(({ data, error }) => {
+                console.log(data)
+                if (error) {
+                    setSubmitting(false)
+                    alert("error")
+                    return
+                }
+
+                console.log(data)
+                const token = data.session?.access_token
+                const user = data.user
+                if (token == undefined || user == null) {
+                    setSubmitting(false)
+                    alert("error")
+                    return
+                }
+                auth.setAuth(token!, user!)
+                setSubmitting(false)
+                navigate("/page/new")
+            })
     }
 
     return (
@@ -57,7 +74,7 @@ export default function SignIn() {
                 </button>
 
                 <Link
-                    to={"/signin"}
+                    to={"/signup"}
                     className="hover:underline text-blue-500 hover:text-blue-400 self-center"
                 >
                     Don't have an account? Sign up instead

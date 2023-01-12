@@ -1,23 +1,38 @@
+import { User } from "@supabase/supabase-js"
 import create from "zustand"
+import { supabase } from "../supabase"
 
 interface AuthState {
     isAuth: boolean
+    user: User | null
     getAuth: () => boolean
-    setToken: (token: string) => void
+    setAuth: (token: string, user: User) => void
     getToken: () => string
     logout: () => void
 }
 
 export const useAuthStore = create<AuthState>()((set, get) => ({
     isAuth: false,
+    user: null,
     getAuth: () => {
         return get().isAuth
     },
-    setToken: (token) => {
-        set(() => ({ isAuth: true }))
+    setAuth: (token, user) => {
+        // localStorage.setItem("jwt", token)
+        set(() => ({ isAuth: true, user }))
     },
     logout: () => {
+        supabase.auth.signOut()
+        localStorage.removeItem("jwt")
         set(() => ({ isAuth: false }))
     },
-    getToken: () => "token",
+    getToken: () => {
+        const token = localStorage.getItem("jwt")
+
+        if (token == null) {
+            get().logout()
+        }
+
+        return token!
+    },
 }))
