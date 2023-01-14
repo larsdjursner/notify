@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import {
     BrowserRouter as Router,
     Route,
     Routes,
     Navigate,
     Outlet,
+    useNavigate,
+    useLocation,
 } from "react-router-dom"
 import { Navbar } from "./components/navigation/Navbar"
 import { Sidebar } from "./components/navigation/Sidebar"
@@ -45,24 +47,38 @@ const NewPage = () => {
     return <div>new page!</div>
 }
 
+const RouterWrapper = ({
+    children,
+}: {
+    children: JSX.Element | JSX.Element[]
+}) => {
+    const { setAuth } = useAuthStore()
+    const navigate = useNavigate()
+    const { pathname } = useLocation()
+    const regularRoutes = ["/", "/signup", "/signin"]
+
+    useEffect(() => {
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            if (session?.user) {
+                setAuth(session.user)
+                navigate(
+                    regularRoutes.includes(pathname) ? "/page/new" : pathname
+                )
+            }
+        })
+    }, [])
+
+    return (
+        <div className="h-screen w-screen flex max-h-screen max-w-screen">
+            {children}
+        </div>
+    )
+}
+
 function App() {
-    // const [session, setSession] = useState(null)
-
-    // useEffect(() => {
-    //     supabase.auth.getSession().then(({ data: { session } }) => {
-    //         // console.log(session)
-    //         // setSession(session)
-    //     })
-
-    //     supabase.auth.onAuthStateChange((_event, session) => {
-    //         // console.log(_event, session)
-    //         // setSession(session)
-    //     })
-
-    // }, [])
     return (
         <Router>
-            <div className="h-screen w-screen flex max-h-screen max-w-screen">
+            <RouterWrapper>
                 <Routes>
                     <Route path="/" element={<Landing />} />
                     <Route path="/signup" element={<SignUp />} />
@@ -85,8 +101,13 @@ function App() {
                             }
                         />
                     </Route>
+
+                    <Route
+                        path="/*"
+                        element={<div>error page not found</div>}
+                    />
                 </Routes>
-            </div>
+            </RouterWrapper>
         </Router>
     )
 }

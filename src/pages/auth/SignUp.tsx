@@ -32,21 +32,18 @@ export default function SignUp() {
                     alert("error")
                     return
                 }
-                console.log(data)
-                const token = data.session?.access_token
                 const user = data.user
 
-                if (token == undefined || user == null) {
+                if (user == null) {
                     setSubmitting(false)
                     alert("error")
                     return
                 }
 
-                auth.setAuth(token!, user!)
+                auth.setAuth(user)
                 setSubmitting(false)
                 navigate("/page/new")
             })
-        // console.log(state)
     }
 
     return (

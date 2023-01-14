@@ -6,8 +6,7 @@ interface AuthState {
     isAuth: boolean
     user: User | null
     getAuth: () => boolean
-    setAuth: (token: string, user: User) => void
-    getToken: () => string
+    setAuth: (user: User) => void
     logout: () => void
 }
 
@@ -17,22 +16,11 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
     getAuth: () => {
         return get().isAuth
     },
-    setAuth: (token, user) => {
-        // localStorage.setItem("jwt", token)
+    setAuth: (user) => {
         set(() => ({ isAuth: true, user }))
     },
     logout: () => {
         supabase.auth.signOut()
-        localStorage.removeItem("jwt")
         set(() => ({ isAuth: false }))
-    },
-    getToken: () => {
-        const token = localStorage.getItem("jwt")
-
-        if (token == null) {
-            get().logout()
-        }
-
-        return token!
     },
 }))
