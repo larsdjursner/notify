@@ -16,8 +16,7 @@ export const Sidebar = () => {
     return (
         <div className="flex">
             {shown && (
-                <div className=" w-60 h-full bg-slate-200 border-r border-r-slate-300">
-                    <p>pages</p>
+                <div className=" w-60 h-full bg-slate-200 border-r border-r-slate-300 py-10 px-4 flex flex-col items-start">
                     {pages.map((page: any, i: number) => (
                         <button
                             onClick={() => navigate(`/page/${page.id}`)}
@@ -28,7 +27,7 @@ export const Sidebar = () => {
                     ))}
                 </div>
             )}
-            <div
+            <button
                 className="w-2 h-full bg-slate-300 flex flex-col"
                 onClick={() => setShown(!shown)}
             />

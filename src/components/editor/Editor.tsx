@@ -35,10 +35,6 @@ const Editor = (props: Props) => {
                     return ""
                 },
                 showOnlyCurrent: true,
-                // emptyEditorClass:
-                //     "first:before:text-gray-200 first:before:float-left first:before:content-[attr(data-placeholder)] first:before:pointer-events-none first:before:h-0",
-                // emptyNodeClass:
-                //     "first:before:text-gray-200 first:before:float-left first:before:content-[attr(data-placeholder)] first:before:pointer-events-none first:before:h-0",
             }),
         ],
         content: props.content,

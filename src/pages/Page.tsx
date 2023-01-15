@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import Editor from "../components/editor/Editor"
 import create from "zustand"
-import { supabase } from "../supabase"
+import { fetchPageById, supabase } from "../supabase"
 import { usePagesStore } from "../stores/pagesStore"
 import { useParams } from "react-router-dom"
 
@@ -33,15 +33,27 @@ export const Page = () => {
     const { id } = useParams()
 
     useEffect(() => {
-        ;(async () => {
-            pageStore.updateTitle("My favourite document")
-            pageStore.updateContent(
-                // `<div data-type="draggable-item"><p>This is rather confusing \n \n hey hey.</p></div><p>This is a boring item.</p><div data-type="draggable-item"><p>Followed by a fancy draggable item.</p></div><div data-type="draggable-item"><p>Followed by a fancy draggable item.</p></div>`
-                ``
-            )
-        })().then(() => setLoading(false))
+        // ;(async () => {
+        //     pageStore.updateTitle("My favourite document")
+        //     pageStore.updateContent(
+        //         // `<div data-type="draggable-item"><p>This is rather confusing \n \n hey hey.</p></div><p>This is a boring item.</p><div data-type="draggable-item"><p>Followed by a fancy draggable item.</p></div><div data-type="draggable-item"><p>Followed by a fancy draggable item.</p></div>`
+        //         ``
+        //     )
+        // })().then(() => setLoading(false))
+        if (!id) {
+            return
+        }
+        fetchPageById(id).then((res) => {
+            if (res == null) return
+
+            console.log(res[0].title)
+            pageStore.updateTitle(res[0].title)
+            pageStore.updateContent("")
+            // console.log(res[0])
+            // pageStore.updateTitle(res.title)
+        })
         return () => {}
-    }, [])
+    }, [id])
 
     return (
         <div className="w-full h-full max-h-full overflow-y-scroll pt-10 flex justify-center">
