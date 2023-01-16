@@ -1,18 +1,18 @@
 import Placeholder from "@tiptap/extension-placeholder"
-import { useEditor, EditorContent } from "@tiptap/react"
+import { useEditor, EditorContent, Content } from "@tiptap/react"
 import StarterKit from "@tiptap/starter-kit"
-import { usePageStore } from "../../pages/Page"
 import { CommandMenuExtension } from "./extensions/CommandMenuExtension"
 import { CommandMenu } from "./extensions/CommandMenu"
 import suggestion from "./extensions/suggestion"
+import { updateContentById } from "../../supabase"
+import { Json } from "../../schema"
 
 interface Props {
-    content: string
+    content: Json | undefined
+    onUpdate: (content: Json) => void
 }
 
-const Editor = (props: Props) => {
-    const { updateContent } = usePageStore()
-
+const Editor = ({ content, onUpdate }: Props) => {
     const editor = useEditor({
         extensions: [
             // CustomParagraph,
@@ -37,17 +37,18 @@ const Editor = (props: Props) => {
                 showOnlyCurrent: true,
             }),
         ],
-        content: props.content,
+        content: content as Content,
         editorProps: {
             attributes: {
                 class: "prose focus:outline-none min-w-full",
             },
         },
         onCreate: ({ editor }) => {
-            editor.commands.focus("start")
+            // editor.commands.focus("start")
+            editor.commands.focus("end")
         },
         onUpdate: ({ editor }) => {
-            updateContent(editor.getHTML())
+            onUpdate(editor.getJSON())
         },
         onDestroy: () => {
             editor?.destroy()
