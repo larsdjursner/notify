@@ -3,15 +3,12 @@ import { Json } from "../schema"
 import { Page, PageTitle } from "../supabase"
 
 interface PagesState {
-    loaded: boolean
     pages: PageTitle[]
-    setLoaded: (loaded: boolean) => void
     initPages: (pages: PageTitle[]) => void
+    addPage: (page: Page) => void
     reset: () => void
 
     // seperate state for page?
-    pageLoaded: boolean
-    setPageLoaded: (pageLoaded: boolean) => void
     currentPage: Page | null
     setCurrentPage: (currentPage: Page) => void
     updateTitle: (title: string) => void
@@ -19,24 +16,20 @@ interface PagesState {
 }
 
 export const usePagesStore = create<PagesState>()((set) => ({
-    loaded: false,
     pages: [],
-    setLoaded(loaded) {
-        set({ loaded })
-    },
     initPages(pages) {
-        set({ pages, loaded: true })
+        set({ pages })
     },
     reset() {
-        set({ pages: [], loaded: true })
-    },
-    pageLoaded: false,
-    setPageLoaded(pageLoaded) {
-        set({ pageLoaded })
+        set({ pages: [] })
     },
     currentPage: null,
     setCurrentPage(currentPage) {
-        set({ currentPage, pageLoaded: true })
+        set({ currentPage })
+    },
+    addPage(page) {
+        const _page: PageTitle = { id: page.id, title: page.title }
+        set((state) => ({ pages: [...state.pages, _page] }))
     },
     updateTitle(title) {
         set((state) => {

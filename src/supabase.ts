@@ -20,9 +20,16 @@ export async function fetchPageById(id: string) {
 }
 
 export async function updateTitleById(id: string, title: string) {
-    supabase.from("pages").update({ title }).eq("id", id).select()
+    return supabase.from("pages").update({ title }).eq("id", id).select()
 }
 
 export async function updateContentById(id: string, content: Json) {
     return supabase.from("pages").update({ content }).eq("id", id).select()
+}
+
+export async function addPage(user_id: string) {
+    return supabase
+        .from("pages")
+        .insert({ user_id }, { count: "exact" })
+        .select()
 }

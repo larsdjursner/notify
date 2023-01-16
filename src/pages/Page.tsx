@@ -1,40 +1,25 @@
 import React, { useEffect, useState } from "react"
 import Editor from "../components/editor/Editor"
-import {
-    fetchPageById,
-    supabase,
-    updateContentById,
-    updateTitleById,
-} from "../supabase"
+import { fetchPageById, updateContentById, updateTitleById } from "../supabase"
 import { usePagesStore } from "../stores/pagesStore"
-import { useNavigate, useParams } from "react-router-dom"
-import { Content } from "@tiptap/react"
-
-import { Page as PageType } from "../supabase"
+import { useParams } from "react-router-dom"
 import { Json } from "../schema"
 
 export const Page = () => {
-    // const [loaded, setLoaded] = useState(true)
-    const navigate = useNavigate()
-    // const [page, setPage] = useState<PageType>()
+    const [isLoading, setIsLoading] = useState(false)
     const { id } = useParams()
-    const {
-        pageLoaded,
-        setCurrentPage,
-        currentPage,
-        updateTitle,
-        setPageLoaded,
-        updateContent,
-    } = usePagesStore()
+    const { setCurrentPage, currentPage, updateTitle, updateContent } =
+        usePagesStore()
 
     const handleFetchPage = async (_id: string) => {
-        setPageLoaded(false)
+        setIsLoading(true)
 
         fetchPageById(_id).then((res) => {
             if (!res) return
 
             const currentPage = res[0]
             setCurrentPage(currentPage)
+            setIsLoading(false)
         })
     }
 
@@ -59,13 +44,15 @@ export const Page = () => {
         if (!id) return
 
         updateContent(content)
-        updateContentById(id, content)
+        updateContentById(id, content).then(({ data, error }) => {
+            console.log(data, error)
+        })
     }
 
     return (
         <div className="w-full h-full max-h-full overflow-y-scroll pt-10 flex justify-center">
             <div className="h-full w-[50rem]">
-                {pageLoaded ? (
+                {!isLoading ? (
                     <div className="min-h-full w-full flex flex-col shadow-sm p-2">
                         <input
                             placeholder="Untitled"

@@ -22,8 +22,8 @@ export interface Database {
           content?: Json | null
           created_at?: string
           id?: string
-          title: string
-          updated_at: string
+          title?: string
+          updated_at?: string
           user_id: string
         }
         Update: {
