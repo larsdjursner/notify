@@ -1,4 +1,5 @@
 import create from "zustand"
+import { addDeleteToast } from "../components/toast/ToastStore"
 import { Json } from "../schema"
 import { Page, PageTitle } from "../supabase"
 
@@ -11,7 +12,7 @@ interface PagesState {
     // seperate state for page?
     currentPage: Page | null
     setCurrentPage: (currentPage: Page) => void
-    removeCurrentPage: (removeFromPages?: boolean) => void
+    removeById: (id: string, removeFromPages?: boolean) => void
     updateTitle: (title: string) => void
     updateContent: (content: Json) => void
 
@@ -19,7 +20,7 @@ interface PagesState {
     currentPageEdited: boolean
 }
 
-export const usePagesStore = create<PagesState>()((set) => ({
+export const usePagesStore = create<PagesState>()((set, get) => ({
     pages: [],
     initPages(pages) {
         set({ pages })
@@ -54,15 +55,20 @@ export const usePagesStore = create<PagesState>()((set) => ({
             }
         })
     },
-    removeCurrentPage(removeFromPages = false) {
-        if (removeFromPages) {
-            set((state) => ({
-                pages: state.pages.filter(
-                    (p) => p.id !== state.currentPage?.id
-                ),
-            }))
+    removeById(id: string, removeFromPages = true) {
+        addDeleteToast(id)
+
+        if (get().currentPage?.id === id) {
+            set(() => ({ currentPage: null }))
         }
-        set(() => ({ currentPage: null }))
+
+        if (!removeFromPages) {
+            return
+        }
+
+        set((state) => ({
+            pages: state.pages.filter((p) => p.id !== id),
+        }))
     },
     updateContent(content) {
         set((state) => {

@@ -5,16 +5,17 @@ import { deleteById } from "../../supabase"
 import LastEditDate from "./LastEditDate"
 
 export const Navbar = () => {
-    const { currentPage, removeCurrentPage } = usePagesStore()
+    const { currentPage, removeById } = usePagesStore()
     const navigate = useNavigate()
 
     const handleDelete = () => {
         if (!currentPage?.id) return
 
         navigate("/page/new")
-        deleteById(currentPage?.id).then(() => {
-            removeCurrentPage()
-        })
+        removeById(currentPage.id)
+        // deleteById(currentPage?.id).then(() => {
+        //     removeCurrentPage(true)
+        // })
     }
 
     return (

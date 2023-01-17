@@ -1,15 +1,14 @@
 import { useState } from "react"
-import Toast from "../generic/Toast"
+import Toast from "../toast/ToastList"
 import { Navbar } from "../navigation/Navbar"
 import { Sidebar } from "../navigation/Sidebar"
+import useToastStore from "../toast/ToastStore"
 
 interface Props {
     children: JSX.Element | JSX.Element[] | string
 }
 
 const BaseLayout = ({ children }: Props) => {
-    const [deleteToast, setDeleteToast] = useState(true)
-
     return (
         <>
             <Sidebar />
@@ -17,7 +16,7 @@ const BaseLayout = ({ children }: Props) => {
                 <Navbar />
                 {children}
             </div>
-            {deleteToast && <Toast toastList={[]} />}
+            <Toast />
         </>
     )
 }
