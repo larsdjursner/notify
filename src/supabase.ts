@@ -33,3 +33,7 @@ export async function addPage(user_id: string) {
         .insert({ user_id }, { count: "exact" })
         .select()
 }
+
+export async function deleteById(id: string) {
+    return supabase.from("pages").delete().eq("id", id).select()
+}

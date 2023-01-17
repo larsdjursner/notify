@@ -23,6 +23,7 @@ export const Sidebar = () => {
             }
             const newPage = data[0]
             addPage(newPage)
+            navigate(`/page/${newPage.id}`)
         })
     }
 

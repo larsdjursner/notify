@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import Editor from "../components/editor/Editor"
 import { fetchPageById, updateContentById, updateTitleById } from "../supabase"
 import { usePagesStore } from "../stores/pagesStore"
@@ -23,16 +23,6 @@ export const Page = () => {
         })
     }
 
-    useEffect(() => {
-        if (!id) {
-            return
-        }
-
-        handleFetchPage(id)
-
-        return () => {}
-    }, [id])
-
     const handleTitleChange = (title: string) => {
         if (!id) return
 
@@ -44,10 +34,18 @@ export const Page = () => {
         if (!id) return
 
         updateContent(content)
-        updateContentById(id, content).then(({ data, error }) => {
-            console.log(data, error)
-        })
+        updateContentById(id, content).then(({ data, error }) => {})
     }
+
+    useEffect(() => {
+        if (!id) {
+            return
+        }
+
+        handleFetchPage(id)
+
+        return () => {}
+    }, [id])
 
     return (
         <div className="w-full h-full max-h-full overflow-y-scroll pt-10 flex justify-center">
@@ -55,6 +53,7 @@ export const Page = () => {
                 {!isLoading ? (
                     <div className="min-h-full w-full flex flex-col shadow-sm p-2">
                         <input
+                            id="pageInput"
                             placeholder="Untitled"
                             className="h-20 w-full text-4xl mx-2 focus:outline-none"
                             maxLength={32}

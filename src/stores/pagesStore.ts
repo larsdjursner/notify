@@ -11,8 +11,12 @@ interface PagesState {
     // seperate state for page?
     currentPage: Page | null
     setCurrentPage: (currentPage: Page) => void
+    removeCurrentPage: (removeFromPages?: boolean) => void
     updateTitle: (title: string) => void
     updateContent: (content: Json) => void
+
+    // Specific for the time component
+    currentPageEdited: boolean
 }
 
 export const usePagesStore = create<PagesState>()((set) => ({
@@ -25,7 +29,7 @@ export const usePagesStore = create<PagesState>()((set) => ({
     },
     currentPage: null,
     setCurrentPage(currentPage) {
-        set({ currentPage })
+        set({ currentPage, currentPageEdited: false })
     },
     addPage(page) {
         const _page: PageTitle = { id: page.id, title: page.title }
@@ -46,8 +50,19 @@ export const usePagesStore = create<PagesState>()((set) => ({
                         page.id === updated.id ? updated : page
                     ),
                 ],
+                currentPageEdited: true,
             }
         })
+    },
+    removeCurrentPage(removeFromPages = false) {
+        if (removeFromPages) {
+            set((state) => ({
+                pages: state.pages.filter(
+                    (p) => p.id !== state.currentPage?.id
+                ),
+            }))
+        }
+        set(() => ({ currentPage: null }))
     },
     updateContent(content) {
         set((state) => {
@@ -57,7 +72,9 @@ export const usePagesStore = create<PagesState>()((set) => ({
 
             return {
                 currentPage: { ...state.currentPage, content },
+                currentPageEdited: true,
             }
         })
     },
+    currentPageEdited: false,
 }))

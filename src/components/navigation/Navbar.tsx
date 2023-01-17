@@ -1,9 +1,21 @@
-import { useEffect } from "react"
+import { TrashIcon } from "@heroicons/react/24/outline"
+import { useNavigate } from "react-router-dom"
 import { usePagesStore } from "../../stores/pagesStore"
+import { deleteById } from "../../supabase"
 import LastEditDate from "./LastEditDate"
 
 export const Navbar = () => {
-    const { currentPage } = usePagesStore()
+    const { currentPage, removeCurrentPage } = usePagesStore()
+    const navigate = useNavigate()
+
+    const handleDelete = () => {
+        if (!currentPage?.id) return
+
+        navigate("/page/new")
+        deleteById(currentPage?.id).then(() => {
+            removeCurrentPage()
+        })
+    }
 
     return (
         <div className="w-full h-12 bg-slate-200 border-b border-slate-300">
@@ -14,7 +26,12 @@ export const Navbar = () => {
                             ? "Untitled"
                             : currentPage.title}
                     </p>
-                    <LastEditDate _date={currentPage.updated_at} />
+                    <div className="flex gap-4">
+                        <LastEditDate _date={currentPage.updated_at} />
+                        <button onClick={handleDelete}>
+                            <TrashIcon className="h-4 w-4" />
+                        </button>
+                    </div>
                 </div>
             ) : (
                 <></>

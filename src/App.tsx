@@ -8,8 +8,7 @@ import {
     useNavigate,
     useLocation,
 } from "react-router-dom"
-import { Navbar } from "./components/navigation/Navbar"
-import { Sidebar } from "./components/navigation/Sidebar"
+import BaseLayout from "./components/layout/BaseLayout"
 import SignIn from "./pages/auth/SignIn"
 import SignUp from "./pages/auth/SignUp"
 import Landing from "./pages/Landing"
@@ -25,22 +24,6 @@ const ProtectedRoute = ({ redirectPath = "/" }: { redirectPath?: string }) => {
     }
 
     return <Outlet />
-}
-
-const BaseLayout = ({
-    children,
-}: {
-    children: JSX.Element | JSX.Element[]
-}) => {
-    return (
-        <>
-            <Sidebar />
-            <div className="h-full w-full flex flex-col">
-                <Navbar />
-                {children}
-            </div>
-        </>
-    )
 }
 
 const NewPage = () => {
