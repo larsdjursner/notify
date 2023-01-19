@@ -4,6 +4,8 @@ import { usePagesStore } from "../../stores/pagesStore"
 import { addPage as addPageAPI, fetchPages } from "../../supabase"
 import { PlusIcon } from "@heroicons/react/24/outline"
 import { useAuthStore } from "../../stores/authStore"
+import TrashFlyout from "../TrashFlyout"
+import TooltipButton from "../generic/TooltipButton"
 
 export const Sidebar = () => {
     const [shown, setShown] = useState(true)
@@ -48,7 +50,7 @@ export const Sidebar = () => {
     return (
         <div className="flex">
             {shown && (
-                <div className=" w-60 h-full bg-slate-100 border-r border-r-slate-300 px-4 flex flex-col overflow-hidden ">
+                <div className="w-60 h-full bg-slate-100 border-r border-r-slate-300 px-4 flex flex-col">
                     <button className="h-12" onClick={logout}>
                         logout
                     </button>
@@ -59,7 +61,7 @@ export const Sidebar = () => {
                             <button
                                 onClick={() => navigate(`/page/${page.id}`)}
                                 key={i}
-                                className="w-full h-8 flex justify-start"
+                                className={`w-full h-8 flex justify-start`}
                             >
                                 <p className="truncate">
                                     {page.title === ""
@@ -73,13 +75,20 @@ export const Sidebar = () => {
                     )}
                     <span className="w-full h-1 bg-white rounded-full opacity-50" />
 
-                    <button
-                        onClick={handleAdd}
-                        className="w-full h-8 flex justify-start items-center"
-                    >
-                        <PlusIcon className="h-4 w-4 mr-4" />
-                        <p>Add page</p>
-                    </button>
+                    <TooltipButton
+                        button={
+                            <button
+                                onClick={handleAdd}
+                                className="w-full h-8 flex justify-start items-center hover:bg-slate-200 rounded-sm"
+                            >
+                                <PlusIcon className="h-4 w-4 mr-4" />
+                                <p>Add page</p>
+                            </button>
+                        }
+                        tooltip={"Add a new untitled document page"}
+                    />
+
+                    <TrashFlyout />
                 </div>
             )}
             <button

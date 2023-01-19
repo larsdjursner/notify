@@ -1,5 +1,5 @@
 import { useState } from "react"
-import Toast from "../toast/ToastList"
+import Toast, { Position } from "../toast/ToastList"
 import { Navbar } from "../navigation/Navbar"
 import { Sidebar } from "../navigation/Sidebar"
 import useToastStore from "../toast/ToastStore"
@@ -16,7 +16,7 @@ const BaseLayout = ({ children }: Props) => {
                 <Navbar />
                 {children}
             </div>
-            <Toast />
+            <Toast position={Position.Bottom} />
         </>
     )
 }
