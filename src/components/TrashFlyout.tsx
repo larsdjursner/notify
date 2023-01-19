@@ -8,7 +8,7 @@ const TrashFlyout = () => {
             button={
                 <TooltipButton
                     button={
-                        <button className="flex justify-start items-center w-full h-8 hover:bg-slate-200 rounded-sm">
+                        <button className="flex justify-start items-center w-full h-8 hover:bg-slate-200 rounded-sm px-4">
                             <TrashIcon className="h-4 w-4 mr-4" />
                             <p>Trash</p>
                         </button>
@@ -17,7 +17,7 @@ const TrashFlyout = () => {
                 />
             }
             content={
-                <div className="w-72 h-72 bg-white rounded-md shadow-sm">
+                <div className="w-72 h-72">
                     "collection of all deleted content so far"
                     <ul>
                         <li>a</li>
