@@ -32,7 +32,7 @@ export default useToastStore
 export const addDeleteToast = (id: string) => {
     const toast: DeleteToast = {
         id: id,
-        delay: 100000,
+        delay: 5000,
         text: "Moved to trash",
         undo: () => {
             console.log("undo", id)
