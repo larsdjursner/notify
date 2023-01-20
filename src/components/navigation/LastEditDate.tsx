@@ -8,6 +8,7 @@ const LastEditDate = ({ _date }: { _date: string }) => {
 
     useEffect(() => {
         // init
+        console.log(currentPage)
         const formatted = formatTime(_date)
         setTime(formatted)
 
@@ -50,7 +51,7 @@ export const formatTime = (_date: string) => {
         // today
         if (now.getDate() - date.getDate() < 1) {
             if (now.getHours() - date.getHours() <= 1) {
-                if (Math.floor(minDiff) == 0) {
+                if (Math.floor(minDiff) <= 0) {
                     return "Edited just now"
                 }
                 return `Edited ${Math.floor(minDiff)} minutes ago`

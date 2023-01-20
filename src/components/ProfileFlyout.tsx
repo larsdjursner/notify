@@ -12,7 +12,7 @@ const ProfileFlyout = () => {
                     <button onClick={logout}> Logout </button>
                 </div>
             }
-            direction={Direction.BottomRight}
+            direction={Direction.StickToY}
         />
     )
 }

@@ -2,7 +2,7 @@ import { EllipsisHorizontalIcon, TrashIcon } from "@heroicons/react/24/outline"
 import React from "react"
 import { useNavigate } from "react-router-dom"
 import { usePagesStore } from "../../stores/pagesStore"
-import { PageTitle } from "../../supabase"
+import { deleteById, PageTitle } from "../../supabase"
 
 interface Props {
     page: PageTitle
@@ -14,7 +14,9 @@ const PageItem = ({ page }: Props) => {
 
     const handleDelete = () => {
         removeById(page.id)
-        // deleteById(currentPage?.id).then(() => {
+        deleteById(page.id)
+        navigate("/page/new")
+        // .then(() => {
         //     removeCurrentPage(true)
         // })
     }

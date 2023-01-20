@@ -20,6 +20,7 @@ const TrashFlyout = () => {
                 <div className="w-72 h-72">
                     "collection of all deleted content so far"
                     <ul>
+                        <input placeholder="search" className="w-full h-12" />
                         <li>a</li>
                         <li>a</li>
                         <li>a</li>
@@ -29,7 +30,7 @@ const TrashFlyout = () => {
                     </ul>
                 </div>
             }
-            direction={Direction.Right}
+            direction={Direction.StickToX}
         />
     )
 }

@@ -1,10 +1,8 @@
 import { useEffect, useRef, useState } from "react"
 
 export const Direction = {
-    Right: "left-60 top-0",
-    TopRight: "left-60 bottom-0",
-    Left: "right-60 top-0",
-    BottomRight: "top-12 left-5",
+    StickToY: "1",
+    StickToX: "2",
 } as const
 
 export type Direction = typeof Direction[keyof typeof Direction]
@@ -15,21 +13,50 @@ interface Props {
     direction: Direction
 }
 
+const computeStyle = (dir: Direction, domRect: DOMRect) => {
+    const breakpointX = window.innerWidth / 2
+    const breakpointY = window.innerHeight / 2
+    if (dir === Direction.StickToX) {
+        if (domRect.x < breakpointX) {
+            if (domRect.y < breakpointY) {
+                return "left-60 top-0 origin-top-left"
+            } else {
+                return "left-60 bottom-0 origin-bottom-left"
+            }
+        } else {
+            if (domRect.y < breakpointY) {
+                return "right-60 top-0 origin-top-right"
+            } else {
+                return "right-60 bottom-0 origin-bottom-right"
+            }
+        }
+    } else {
+        if (domRect.x < breakpointX) {
+            if (domRect.y < breakpointY) {
+                return "left-5 top-12 origin-top-left"
+            } else {
+                return "left-5 bottom-12 origin-bottom-left"
+            }
+        } else {
+            if (domRect.y < breakpointY) {
+                return "right-5 top-12 origin-top-right"
+            } else {
+                return "right-5 bottom-12 origin-bottom-right"
+            }
+        }
+    }
+}
+
 const Flyout = (props: Props) => {
     const [open, setOpen] = useState(false)
     const anchor = useRef<HTMLDivElement>(null)
-    // const container = useRef<HTMLDivElement>(null)
-    const [direction, setDirection] = useState(props.direction)
+    const [direction, setDirection] = useState("")
 
     useEffect(() => {
         const domrect = anchor.current?.getBoundingClientRect()
         if (!domrect) return
-        // const breakpointX = window.innerWidth / 2
-        const breakpointY = window.innerHeight / 2
-
-        if (breakpointY < domrect?.y) {
-            setDirection(Direction.TopRight)
-        }
+        const style = computeStyle(props.direction, domrect)
+        setDirection(style)
     }, [open])
 
     return (
@@ -41,10 +68,9 @@ const Flyout = (props: Props) => {
             >
                 {props.button}
                 <div
-                    // ref={container}
                     onClick={(e) => e.stopPropagation()}
                     className={`absolute ${direction} z-40 shadow-xl bg-white rounded-md border border-slate-200 scale-0 
-                        transition-all duration-100 origin-bottom-left
+                        transition-all duration-100 
                         ${open && "scale-100"}
                         `}
                 >
