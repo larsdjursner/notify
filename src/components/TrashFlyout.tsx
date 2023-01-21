@@ -1,8 +1,21 @@
 import { TrashIcon } from "@heroicons/react/24/outline"
+import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { fetchDeletedPages, PageTitle } from "../supabase"
 import Flyout, { Direction } from "./generic/Flyout"
 import TooltipButton from "./generic/TooltipButton"
 
 const TrashFlyout = () => {
+    const [deletedPages, setDeletedPages] = useState<PageTitle[]>([])
+    const navigate = useNavigate()
+    useEffect(() => {
+        fetchDeletedPages().then((res) => {
+            if (!res) return
+            setDeletedPages(res)
+        })
+        return () => {}
+    }, [])
+
     return (
         <Flyout
             button={
@@ -17,17 +30,18 @@ const TrashFlyout = () => {
                 />
             }
             content={
-                <div className="w-72 h-72">
-                    "collection of all deleted content so far"
-                    <ul>
-                        <input placeholder="search" className="w-full h-12" />
-                        <li>a</li>
-                        <li>a</li>
-                        <li>a</li>
-                        <li>a</li>
-                        <li>a</li>
-                        <li>a</li>
-                    </ul>
+                <div className="w-72 h-72 flex flex-col items-start">
+                    <input placeholder="search" className="w-full h-12" />
+                    {deletedPages.map((page, i) => (
+                        <button
+                            onClick={() => navigate(`/page/${page.id}`)}
+                            key={i}
+                        >
+                            <p className="truncate">
+                                {page.title === "" ? "Untitled" : page.title}
+                            </p>
+                        </button>
+                    ))}
                 </div>
             }
             direction={Direction.StickToX}

@@ -8,11 +8,12 @@ import { updateContentById } from "../../supabase"
 import { Json } from "../../schema"
 
 interface Props {
+    editable: boolean
     content: Json | undefined
     onUpdate: (content: Json) => void
 }
 
-const Editor = ({ content, onUpdate }: Props) => {
+const Editor = ({ editable, content, onUpdate }: Props) => {
     const editor = useEditor({
         extensions: [
             // CustomParagraph,
@@ -46,6 +47,7 @@ const Editor = ({ content, onUpdate }: Props) => {
         onCreate: ({ editor }) => {
             // editor.commands.focus("start")
             editor.commands.focus("end")
+            editor.setEditable(editable)
         },
         onUpdate: ({ editor }) => {
             onUpdate(editor.getJSON())

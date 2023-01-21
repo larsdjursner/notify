@@ -28,7 +28,7 @@ export const Navbar = () => {
                             : currentPage.title}
                     </p>
                     <div className="flex gap-4">
-                        <LastEditDate _date={currentPage.updated_at} />
+                        {/* <LastEditDate _date={currentPage.updated_at} /> */}
                         <button onClick={handleDelete}>
                             <TrashIcon className="h-4 w-4" />
                         </button>

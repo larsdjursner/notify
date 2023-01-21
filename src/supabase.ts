@@ -37,3 +37,27 @@ export async function addPage(user_id: string) {
 export async function deleteById(id: string) {
     return supabase.from("pages").delete().eq("id", id).select()
 }
+
+export async function fetchDeletedPages() {
+    const { data } = await supabase.from("deleted_pages").select("id, title")
+    return data
+}
+
+export async function fetchDeletedPageById(id: string) {
+    const { data } = await supabase.from("deleted_pages").select().eq("id", id)
+    return data
+}
+
+export async function deletePermanentlyById(id: string) {
+    return supabase.from("deleted_pages").delete().eq("id", id).select()
+}
+
+export async function restorePage(id: string) {
+    fetchDeletedPageById(id).then((res) => {
+        if (!res) return
+
+        deletePermanentlyById(id)
+        const page = res[0]
+        return supabase.from("pages").insert(page).select()
+    })
+}

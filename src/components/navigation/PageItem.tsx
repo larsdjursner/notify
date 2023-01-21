@@ -1,5 +1,4 @@
 import { EllipsisHorizontalIcon, TrashIcon } from "@heroicons/react/24/outline"
-import React from "react"
 import { useNavigate } from "react-router-dom"
 import { usePagesStore } from "../../stores/pagesStore"
 import { deleteById, PageTitle } from "../../supabase"

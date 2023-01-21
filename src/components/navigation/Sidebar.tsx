@@ -96,7 +96,7 @@ export const Sidebar = () => {
             </div>
             {!shown && (
                 <ChevronDoubleRightIcon
-                    className="h-6 w-6 absolute bottom-5 left-5 cursor-pointer hover:scale-110"
+                    className="h-6 w-6 absolute bottom-5 left-5 cursor-pointer hover:scale-110 z-50"
                     onClick={() => setShown(true)}
                 />
             )}

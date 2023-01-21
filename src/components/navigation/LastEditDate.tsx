@@ -8,7 +8,6 @@ const LastEditDate = ({ _date }: { _date: string }) => {
 
     useEffect(() => {
         // init
-        console.log(currentPage)
         const formatted = formatTime(_date)
         setTime(formatted)
 
