@@ -1,18 +1,19 @@
 import Placeholder from "@tiptap/extension-placeholder"
-import { useEditor, EditorContent } from "@tiptap/react"
+import { useEditor, EditorContent, Content } from "@tiptap/react"
 import StarterKit from "@tiptap/starter-kit"
-import { usePageStore } from "../../pages/Page"
 import { CommandMenuExtension } from "./extensions/CommandMenuExtension"
 import { CommandMenu } from "./extensions/CommandMenu"
 import suggestion from "./extensions/suggestion"
+import { updateContentById } from "../../supabase"
+import { Json } from "../../schema"
 
 interface Props {
-    content: string
+    editable: boolean
+    content: Json | undefined
+    onUpdate: (content: Json) => void
 }
 
-const Editor = (props: Props) => {
-    const { updateContent } = usePageStore()
-
+const Editor = ({ editable, content, onUpdate }: Props) => {
     const editor = useEditor({
         extensions: [
             // CustomParagraph,
@@ -35,23 +36,21 @@ const Editor = (props: Props) => {
                     return ""
                 },
                 showOnlyCurrent: true,
-                // emptyEditorClass:
-                //     "first:before:text-gray-200 first:before:float-left first:before:content-[attr(data-placeholder)] first:before:pointer-events-none first:before:h-0",
-                // emptyNodeClass:
-                //     "first:before:text-gray-200 first:before:float-left first:before:content-[attr(data-placeholder)] first:before:pointer-events-none first:before:h-0",
             }),
         ],
-        content: props.content,
+        content: content as Content,
         editorProps: {
             attributes: {
                 class: "prose focus:outline-none min-w-full",
             },
         },
         onCreate: ({ editor }) => {
-            editor.commands.focus("start")
+            // editor.commands.focus("start")
+            editor.commands.focus("end")
+            editor.setEditable(editable)
         },
         onUpdate: ({ editor }) => {
-            updateContent(editor.getHTML())
+            onUpdate(editor.getJSON())
         },
         onDestroy: () => {
             editor?.destroy()
