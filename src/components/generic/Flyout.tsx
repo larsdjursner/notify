@@ -11,6 +11,8 @@ interface Props {
     button: JSX.Element
     content: JSX.Element | JSX.Element[] | string
     direction: Direction
+    open: boolean
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const computeStyle = (dir: Direction, domRect: DOMRect) => {
@@ -48,38 +50,38 @@ const computeStyle = (dir: Direction, domRect: DOMRect) => {
 }
 
 const Flyout = (props: Props) => {
-    const [open, setOpen] = useState(false)
     const anchor = useRef<HTMLDivElement>(null)
     const [direction, setDirection] = useState("")
 
     useEffect(() => {
         const domrect = anchor.current?.getBoundingClientRect()
         if (!domrect) return
+
         const style = computeStyle(props.direction, domrect)
         setDirection(style)
-    }, [open])
+    }, [props.open])
 
     return (
         <>
             <div
                 ref={anchor}
-                className={`relative ${open && "bg-slate-200"}`}
-                onClick={() => setOpen((prev) => !prev)}
+                className={`relative ${props.open && "bg-slate-200"}`}
+                onClick={() => props.setOpen((prev) => !prev)}
             >
                 {props.button}
                 <div
                     onClick={(e) => e.stopPropagation()}
                     className={`absolute ${direction} z-40 shadow-xl bg-white rounded-md border border-slate-200 scale-0 
                         transition-all duration-100 
-                        ${open && "scale-100"}
+                        ${props.open && "scale-100"}
                         `}
                 >
                     {props.content}
                 </div>
             </div>
-            {open && (
+            {props.open && (
                 <div
-                    onClick={() => setOpen(false)}
+                    onClick={() => props.setOpen(false)}
                     className="absolute inset-0 z-30"
                 />
             )}
