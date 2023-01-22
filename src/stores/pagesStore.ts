@@ -18,6 +18,10 @@ interface PagesState {
 
     // Specific for the time component
     currentPageEdited: boolean
+
+    // archived/deleted pages
+    // archivedPages: PageTitle[]
+    // setArchivedPages: (pages: PageTitle[]) => void
 }
 
 export const usePagesStore = create<PagesState>()((set, get) => ({

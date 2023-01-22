@@ -11,11 +11,10 @@ export const Navbar = () => {
     const handleDelete = () => {
         if (!currentPage?.id) return
 
-        navigate("/page/new")
-        removeById(currentPage.id)
-        // deleteById(currentPage?.id).then(() => {
-        //     removeCurrentPage(true)
-        // })
+        deleteById(currentPage?.id).then(() => {
+            navigate("/page/new")
+            removeById(currentPage.id)
+        })
     }
 
     return (
