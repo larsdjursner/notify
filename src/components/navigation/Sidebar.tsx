@@ -60,7 +60,7 @@ export const Sidebar = () => {
                         <ProfileFlyout />
                         {/* <span className="w-full h-1 bg-white rounded-full opacity-50" /> */}
 
-                        <div className=" max-h-[35rem] overflow-y-scroll bg-white my-4">
+                        <div className=" max-h-[35rem] min-h-[20rem] overflow-y-scroll bg-white my-4">
                             {!isLoading ? (
                                 pages.map((page, i: number) => (
                                     <PageItem page={page} key={i} />

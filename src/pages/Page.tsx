@@ -22,9 +22,10 @@ export const Page = () => {
         updateTitle,
         updateContent,
         resetCurrentPage,
+        restorePageById,
+        isArchived,
+        setIsArchived,
     } = usePagesStore()
-
-    const [isDeleted, setIsDeleted] = useState(false)
 
     const handleFetchPage = async (_id: string) => {
         setIsLoading(true)
@@ -37,7 +38,7 @@ export const Page = () => {
             }
 
             if (res.length === 0) {
-                setIsDeleted(true)
+                setIsArchived(true)
                 handleFetchDeletedPage(_id)
                 return
             }
@@ -76,11 +77,7 @@ export const Page = () => {
     const handleRestore = (_id: string | undefined): void => {
         if (!_id) return
 
-        restorePage(_id)
-            .then(() => {
-                setIsDeleted(false)
-            })
-            .catch((err) => console.log(err))
+        restorePageById(_id)
     }
 
     const handleTitleChange = (title: string) => {
@@ -104,16 +101,15 @@ export const Page = () => {
         }
 
         handleFetchPage(id)
-        // .then((res) => console.log(res))
 
         return () => {
-            setIsDeleted(false)
+            setIsArchived(false)
         }
     }, [id])
 
     return (
         <div className="w-full h-full max-h-full overflow-y-scroll pt-10 flex justify-center relative">
-            {isDeleted && (
+            {isArchived && (
                 <div className="absolute top-0 w-full h-12 bg-red-400 text-white flex justify-center items-center gap-8">
                     <p className="">
                         This page is archived. To edit, restore the page.{" "}
@@ -133,23 +129,23 @@ export const Page = () => {
                 </div>
             )}
             <div className="h-full w-[50rem]">
-                {!isLoading ? (
+                {!isLoading && currentPage ? (
                     <div className="min-h-full w-full flex flex-col shadow-sm p-2">
                         <input
                             id="pageInput"
                             placeholder="Untitled"
                             className="h-20 w-full text-4xl mx-2 focus:outline-none"
                             maxLength={32}
-                            value={currentPage?.title}
+                            value={currentPage.title}
                             onChange={(e) => handleTitleChange(e.target.value)}
-                            disabled={isDeleted}
+                            disabled={isArchived}
                         />
 
                         <span className="h-1 w-full bg-slate-50" />
 
                         <Editor
-                            editable={!isDeleted}
-                            content={currentPage?.content}
+                            editable={!isArchived}
+                            content={currentPage.content}
                             onUpdate={handleContentChange}
                         />
                     </div>

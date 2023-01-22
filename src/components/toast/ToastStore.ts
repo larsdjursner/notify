@@ -19,7 +19,6 @@ const useToastStore = create<State>((set) => ({
     addToast: (toast) =>
         set((state) => ({ toastList: [...state.toastList, toast] })),
     removeToast: (id) => {
-        console.log("removing toast", id)
         set((state) => ({
             toastList: state.toastList.filter((toast) => toast.id !== id),
         }))
@@ -29,17 +28,19 @@ const useToastStore = create<State>((set) => ({
 
 export default useToastStore
 
-export const addDeleteToast = (id: string) => {
+export const addDeleteToast = (
+    id: string,
+    undo: () => void,
+    delay = 5000,
+    text = "Moved to trash"
+) => {
     const toast: DeleteToast = {
-        id: id,
-        delay: 5000,
-        text: "Moved to trash",
-        undo: () => {
-            console.log("undo", id)
-        },
+        id,
+        delay,
+        text,
+        undo,
     }
 
-    console.log("adding", toast)
     useToastStore.setState((state) => ({
         toastList: [...state.toastList, toast],
     }))

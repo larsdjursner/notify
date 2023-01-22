@@ -13,16 +13,10 @@ const PageItem = ({ page }: Props) => {
 
     const handleDelete = () => {
         removeById(page.id)
-        deleteById(page.id)
         navigate("/page/new")
-        // .then(() => {
-        //     removeCurrentPage(true)
-        // })
     }
 
-    const handleOptions = () => {
-        console.log("options", page.title)
-    }
+    const handleOptions = () => {}
     return (
         <button
             onClick={() => navigate(`/page/${page.id}`)}

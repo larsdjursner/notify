@@ -1,4 +1,4 @@
-import { createClient } from "@supabase/supabase-js"
+import { createClient, PostgrestResponse } from "@supabase/supabase-js"
 import { Database, Json } from "./schema"
 
 export const supabase = createClient<Database>(
@@ -20,22 +20,26 @@ export async function fetchPageById(id: string) {
 }
 
 export async function updateTitleById(id: string, title: string) {
-    return supabase.from("pages").update({ title }).eq("id", id).select()
+    return await supabase.from("pages").update({ title }).eq("id", id).select()
 }
 
 export async function updateContentById(id: string, content: Json) {
-    return supabase.from("pages").update({ content }).eq("id", id).select()
+    return await supabase
+        .from("pages")
+        .update({ content })
+        .eq("id", id)
+        .select()
 }
 
 export async function addPage(user_id: string) {
-    return supabase
+    return await supabase
         .from("pages")
         .insert({ user_id }, { count: "exact" })
         .select()
 }
 
 export async function deleteById(id: string) {
-    return supabase.from("pages").delete().eq("id", id).select()
+    return await supabase.from("pages").delete().eq("id", id).select()
 }
 
 export async function fetchDeletedPages() {
@@ -49,15 +53,20 @@ export async function fetchDeletedPageById(id: string) {
 }
 
 export async function deletePermanentlyById(id: string) {
-    return supabase.from("deleted_pages").delete().eq("id", id).select()
+    return await supabase.from("deleted_pages").delete().eq("id", id).select()
 }
 
 export async function restorePage(id: string) {
-    fetchDeletedPageById(id).then((res) => {
-        if (!res) return
-
-        deletePermanentlyById(id)
-        const page = res[0]
-        return supabase.from("pages").insert(page).select()
+    const page = await fetchDeletedPageById(id).then((res) => {
+        if (!res) return null
+        return res[0]
     })
+
+    if (!page) {
+        return null
+    }
+
+    await deletePermanentlyById(id)
+
+    return await supabase.from("pages").insert(page).select()
 }

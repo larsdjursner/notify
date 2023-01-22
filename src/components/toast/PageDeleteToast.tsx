@@ -3,16 +3,14 @@ import { DeleteToast } from "./ToastStore"
 
 export const PageDeleteToast = ({ delay, text, undo, id }: DeleteToast) => {
     const [visible, setVisible] = useState(true)
+
     const handleUndo = () => {
         setVisible(false)
         undo()
     }
 
     useEffect(() => {
-        console.log(id)
-
         setTimeout(() => {
-            console.log("removed", id)
             setVisible(false)
         }, delay)
     }, [])
