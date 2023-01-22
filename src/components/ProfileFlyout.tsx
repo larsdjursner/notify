@@ -1,8 +1,11 @@
+import { SetStateAction, useState } from "react"
 import { useAuthStore } from "../stores/authStore"
 import Flyout, { Direction } from "./generic/Flyout"
 
 const ProfileFlyout = () => {
     const { user, logout } = useAuthStore()
+    const [open, setOpen] = useState(false)
+
     return (
         <Flyout
             button={<button className="h-12 w-full">{user?.email}</button>}
@@ -13,6 +16,8 @@ const ProfileFlyout = () => {
                 </div>
             }
             direction={Direction.StickToY}
+            open={open}
+            setOpen={setOpen}
         />
     )
 }

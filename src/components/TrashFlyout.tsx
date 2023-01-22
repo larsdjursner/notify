@@ -8,14 +8,20 @@ import TooltipButton from "./generic/TooltipButton"
 const TrashFlyout = () => {
     const [deletedPages, setDeletedPages] = useState<PageTitle[]>([])
     const navigate = useNavigate()
+    const [open, setOpen] = useState(false)
+
     useEffect(() => {
         fetchDeletedPages().then((res) => {
             if (!res) return
             setDeletedPages(res)
         })
         return () => {}
-    }, [])
+    }, [open])
 
+    const handleNavigate = (page: PageTitle) => {
+        navigate(`/page/${page.id}`)
+        setOpen(false)
+    }
     return (
         <Flyout
             button={
@@ -33,10 +39,7 @@ const TrashFlyout = () => {
                 <div className="w-72 h-72 flex flex-col items-start">
                     <input placeholder="search" className="w-full h-12" />
                     {deletedPages.map((page, i) => (
-                        <button
-                            onClick={() => navigate(`/page/${page.id}`)}
-                            key={i}
-                        >
+                        <button onClick={() => handleNavigate(page)} key={i}>
                             <p className="truncate">
                                 {page.title === "" ? "Untitled" : page.title}
                             </p>
@@ -45,6 +48,8 @@ const TrashFlyout = () => {
                 </div>
             }
             direction={Direction.StickToX}
+            open={open}
+            setOpen={setOpen}
         />
     )
 }
