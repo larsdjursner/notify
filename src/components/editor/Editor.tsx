@@ -4,8 +4,8 @@ import StarterKit from "@tiptap/starter-kit"
 import { CommandMenuExtension } from "./extensions/CommandMenuExtension"
 import { CommandMenu } from "./extensions/CommandMenu"
 import suggestion from "./extensions/suggestion"
-import { updateContentById } from "../../supabase"
 import { Json } from "../../schema"
+import { useEffect } from "react"
 
 interface Props {
     editable: boolean
@@ -45,7 +45,6 @@ const Editor = ({ editable, content, onUpdate }: Props) => {
             },
         },
         onCreate: ({ editor }) => {
-            // editor.commands.focus("start")
             editor.commands.focus("end")
             editor.setEditable(editable)
         },
@@ -56,6 +55,13 @@ const Editor = ({ editable, content, onUpdate }: Props) => {
             editor?.destroy()
         },
     })
+
+    useEffect(() => {
+        editor?.setEditable(editable)
+        if (editable) {
+            editor?.commands.focus("end")
+        }
+    }, [editable])
 
     return (
         <div className="w-full p-2">

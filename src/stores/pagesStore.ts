@@ -12,6 +12,7 @@ interface PagesState {
     // seperate state for page?
     currentPage: Page | null
     setCurrentPage: (currentPage: Page) => void
+    resetCurrentPage: () => void
     removeById: (id: string, removeFromPages?: boolean) => void
     updateTitle: (title: string) => void
     updateContent: (content: Json) => void
@@ -31,6 +32,9 @@ export const usePagesStore = create<PagesState>()((set, get) => ({
     },
     reset() {
         set({ pages: [] })
+    },
+    resetCurrentPage() {
+        set({ currentPage: null })
     },
     currentPage: null,
     setCurrentPage(currentPage) {
@@ -63,7 +67,7 @@ export const usePagesStore = create<PagesState>()((set, get) => ({
         addDeleteToast(id)
 
         if (get().currentPage?.id === id) {
-            set(() => ({ currentPage: null }))
+            set({ currentPage: null })
         }
 
         if (!removeFromPages) {

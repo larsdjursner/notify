@@ -16,8 +16,13 @@ export const Page = () => {
     const [isLoading, setIsLoading] = useState(false)
     const navigate = useNavigate()
     const { id } = useParams()
-    const { setCurrentPage, currentPage, updateTitle, updateContent } =
-        usePagesStore()
+    const {
+        setCurrentPage,
+        currentPage,
+        updateTitle,
+        updateContent,
+        resetCurrentPage,
+    } = usePagesStore()
 
     const [isDeleted, setIsDeleted] = useState(false)
 
@@ -61,9 +66,19 @@ export const Page = () => {
         if (!_id) return
 
         deletePermanentlyById(_id)
-            .then((res) => {
-                console.log(res)
+            .then(() => {
                 navigate("/page/new")
+                resetCurrentPage()
+            })
+            .catch((err) => console.log(err))
+    }
+
+    const handleRestore = (_id: string | undefined): void => {
+        if (!_id) return
+
+        restorePage(_id)
+            .then(() => {
+                setIsDeleted(false)
             })
             .catch((err) => console.log(err))
     }
@@ -95,16 +110,6 @@ export const Page = () => {
             setIsDeleted(false)
         }
     }, [id])
-
-    const handleRestore = (_id: string | undefined): void => {
-        if (!_id) return
-
-        restorePage(_id)
-            .then((res) => {
-                console.log(res)
-            })
-            .catch((err) => console.log(err))
-    }
 
     return (
         <div className="w-full h-full max-h-full overflow-y-scroll pt-10 flex justify-center relative">
