@@ -48,7 +48,9 @@ const Editor = ({ editable, content, onUpdate }: Props) => {
             editor.commands.focus("end")
             editor.setEditable(editable)
         },
-        onUpdate: ({ editor }) => {
+        onUpdate: ({ editor, transaction }) => {
+            if (!transaction.docChanged) return
+            console.log(transaction)
             onUpdate(editor.getJSON())
         },
         onDestroy: () => {

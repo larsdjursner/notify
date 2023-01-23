@@ -62,7 +62,6 @@ export const usePagesStore = create<State & Actions>()((set, get) => ({
             if (!state.currentPage) {
                 return state
             }
-            console.log("updated shit")
 
             return {
                 currentPage: {

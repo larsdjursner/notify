@@ -72,7 +72,6 @@ export const Page = () => {
 
     const handleContentChange = (content: Json) => {
         if (!id) return
-        console.log("why")
 
         updateContent(content)
         updateContentById(id, content)
