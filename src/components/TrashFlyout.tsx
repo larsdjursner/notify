@@ -7,17 +7,24 @@ import Flyout, { Direction } from "./generic/Flyout"
 import TooltipButton from "./generic/TooltipButton"
 
 const TrashFlyout = () => {
-    const { restorePageById } = usePagesStore()
-    const [deletedPages, setDeletedPages] = useState<PageTitle[]>([])
+    const {
+        restorePageById,
+        deletePermanently,
+        archivedPages,
+        setArchivedPages,
+    } = usePagesStore()
     const navigate = useNavigate()
     const [open, setOpen] = useState(false)
 
     useEffect(() => {
         fetchDeletedPages().then((res) => {
             if (!res) return
-            setDeletedPages(res)
+            setArchivedPages(res)
         })
-        return () => {}
+
+        return () => {
+            setArchivedPages([])
+        }
     }, [open])
 
     const handleNavigate = (page: PageTitle) => {
@@ -29,10 +36,14 @@ const TrashFlyout = () => {
         if (!_id) return
 
         restorePageById(_id)
+        setOpen(false)
     }
 
     const handleDeletePermanently = (_id: string | undefined) => {
         if (!_id) return
+
+        deletePermanently(_id)
+        setOpen(false)
     }
     return (
         <Flyout
@@ -54,13 +65,15 @@ const TrashFlyout = () => {
                         className="w-full h-12 p-2 mb-4"
                     />
                     <div className="h-full w-full overflow-y-scroll flex flex-col">
-                        {deletedPages.map((page, i) => (
+                        {archivedPages.map((page, i) => (
                             <button
-                                onClick={() => handleNavigate(page)}
                                 key={i}
                                 className="flex items-center gap-4 hover:bg-slate-200 py-1 px-2"
                             >
-                                <p className="truncate flex-1 text-start">
+                                <p
+                                    className="truncate flex-1 text-start"
+                                    onClick={() => handleNavigate(page)}
+                                >
                                     {page.title === ""
                                         ? "Untitled"
                                         : page.title}
@@ -69,7 +82,12 @@ const TrashFlyout = () => {
                                     onClick={() => handleRestore(page.id)}
                                     className="h-4 w-4"
                                 />
-                                <TrashIcon className="h-4 w-4" />
+                                <TrashIcon
+                                    onClick={() =>
+                                        handleDeletePermanently(page.id)
+                                    }
+                                    className="h-4 w-4"
+                                />
                             </button>
                         ))}
                     </div>

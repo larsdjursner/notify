@@ -16,7 +16,7 @@ export const Navbar = () => {
     }
 
     return (
-        <div className="w-full h-12 bg-slate-200 border-b border-slate-300">
+        <div className="w-full h-12 bg-slate-50 border-b border-slate-100">
             {currentPage ? (
                 <div className="flex justify-between items-center px-10 py-2">
                     <p>

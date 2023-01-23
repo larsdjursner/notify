@@ -56,9 +56,8 @@ export const Sidebar = () => {
         <>
             <div className="flex">
                 {shown && (
-                    <div className="w-60 h-full bg-slate-100 border-r border-r-slate-300 px-1 flex flex-col">
+                    <div className="w-60 h-full bg-slate-50 border-r-2 border-r-slate-100 px-1 flex flex-col">
                         <ProfileFlyout />
-                        {/* <span className="w-full h-1 bg-white rounded-full opacity-50" /> */}
 
                         <div className=" max-h-[35rem] min-h-[20rem] overflow-y-scroll bg-white my-4">
                             {!isLoading ? (
@@ -69,6 +68,7 @@ export const Sidebar = () => {
                                 <p>Loading</p>
                             )}
                         </div>
+
                         <TooltipButton
                             button={
                                 <button

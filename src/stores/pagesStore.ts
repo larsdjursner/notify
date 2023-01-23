@@ -1,7 +1,13 @@
 import create from "zustand"
 import { addDeleteToast } from "../components/toast/ToastStore"
 import { Json } from "../schema"
-import { deleteById, Page, PageTitle, restorePage } from "../supabase"
+import {
+    deleteById,
+    deletePermanentlyById,
+    Page,
+    PageTitle,
+    restorePage,
+} from "../supabase"
 
 interface PagesState {
     pages: PageTitle[]
@@ -25,8 +31,9 @@ interface PagesState {
     // archived/deleted pages
     isArchived: boolean
     setIsArchived: (bool: boolean) => void
-    // archivedPages: PageTitle[]
-    // setArchivedPages: (pages: PageTitle[]) => void
+    deletePermanently: (id: string) => void
+    archivedPages: PageTitle[]
+    setArchivedPages: (pages: PageTitle[]) => void
 }
 
 export const usePagesStore = create<PagesState>()((set, get) => ({
@@ -133,5 +140,17 @@ export const usePagesStore = create<PagesState>()((set, get) => ({
     isArchived: false,
     setIsArchived: (bool) => {
         set({ isArchived: bool })
+    },
+    deletePermanently: async (id) => {
+        const res = await deletePermanentlyById(id)
+        if (!res) return
+
+        if (id === get().currentPage?.id) {
+            set({ currentPage: null })
+        }
+    },
+    archivedPages: [],
+    setArchivedPages: (pages) => {
+        set({ archivedPages: pages })
     },
 }))

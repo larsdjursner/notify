@@ -9,7 +9,7 @@ interface Props {
 
 const PageItem = ({ page }: Props) => {
     const navigate = useNavigate()
-    const { removeById } = usePagesStore()
+    const { removeById, currentPage } = usePagesStore()
 
     const handleDelete = () => {
         removeById(page.id)
@@ -20,7 +20,9 @@ const PageItem = ({ page }: Props) => {
     return (
         <button
             onClick={() => navigate(`/page/${page.id}`)}
-            className={`w-full h-10 py-1 flex justify-between px-4 group hover:bg-slate-200 items-center`}
+            className={`w-full h-10 py-1 flex justify-between px-4 group hover:bg-slate-100 items-center
+                ${currentPage?.id === page.id ? "bg-slate-100" : "bg-white"}
+                `}
         >
             <p className="truncate">
                 {page.title === "" ? "Untitled" : page.title}
