@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react"
-import Editor from "../components/editor/Editor"
+import Editor from "../../components/editor/Editor"
 import {
-    deletePermanentlyById,
     fetchDeletedPageById,
     fetchPageById,
-    restorePage,
     updateContentById,
     updateTitleById,
-} from "../supabase"
-import { usePagesStore } from "../stores/pagesStore"
+} from "../../supabase"
+import { usePagesStore } from "../../stores/pagesStore"
 import { useNavigate, useParams } from "react-router-dom"
-import { Json } from "../schema"
+import { Json } from "../../schema"
+import Banner from "./Banner"
 
 export const Page = () => {
     const [isLoading, setIsLoading] = useState(false)
@@ -21,8 +20,6 @@ export const Page = () => {
         currentPage,
         updateTitle,
         updateContent,
-        resetCurrentPage,
-        restorePageById,
         isArchived,
         setIsArchived,
     } = usePagesStore()
@@ -63,23 +60,6 @@ export const Page = () => {
         })
     }
 
-    const handleDeletePermanently = async (_id: string | undefined) => {
-        if (!_id) return
-
-        deletePermanentlyById(_id)
-            .then(() => {
-                navigate("/page/new")
-                resetCurrentPage()
-            })
-            .catch((err) => console.log(err))
-    }
-
-    const handleRestore = (_id: string | undefined): void => {
-        if (!_id) return
-
-        restorePageById(_id)
-    }
-
     const handleTitleChange = (title: string) => {
         if (!id) return
 
@@ -109,25 +89,7 @@ export const Page = () => {
 
     return (
         <div className="w-full h-full max-h-full overflow-y-scroll pt-10 flex justify-center relative">
-            {isArchived && (
-                <div className="absolute top-0 w-full h-12 bg-red-400 text-white flex justify-center items-center gap-8">
-                    <p className="">
-                        This page is archived. To edit, restore the page.{" "}
-                    </p>
-                    <button
-                        className="rounded-lg border-2 border-white py-1 px-2 hover:bg-white hover:text-black"
-                        onClick={() => handleRestore(id)}
-                    >
-                        Restore
-                    </button>
-                    <button
-                        className="rounded-lg border-2 border-white py-1 px-2 hover:bg-white hover:text-black"
-                        onClick={() => handleDeletePermanently(id)}
-                    >
-                        Delete permanently
-                    </button>
-                </div>
-            )}
+            {isArchived && <Banner />}
             <div className="h-full w-[50rem]">
                 {!isLoading && currentPage ? (
                     <div className="min-h-full w-full flex flex-col shadow-sm p-2">
@@ -140,8 +102,6 @@ export const Page = () => {
                             onChange={(e) => handleTitleChange(e.target.value)}
                             disabled={isArchived}
                         />
-
-                        <span className="h-1 w-full bg-slate-50" />
 
                         <Editor
                             editable={!isArchived}
