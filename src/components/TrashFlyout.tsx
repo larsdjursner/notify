@@ -15,6 +15,7 @@ const TrashFlyout = () => {
     } = usePagesStore()
     const navigate = useNavigate()
     const [open, setOpen] = useState(false)
+    const [query, setQuery] = useState("")
 
     useEffect(() => {
         fetchDeletedPages().then((res) => {
@@ -61,35 +62,39 @@ const TrashFlyout = () => {
             content={
                 <div className="w-72 h-72 flex flex-col items-start">
                     <input
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
                         placeholder="search"
                         className="w-full h-12 p-2 mb-4"
                     />
                     <div className="h-full w-full overflow-y-scroll flex flex-col">
-                        {archivedPages.map((page, i) => (
-                            <button
-                                key={i}
-                                className="flex items-center gap-4 hover:bg-slate-200 py-1 px-2"
-                            >
-                                <p
-                                    className="truncate flex-1 text-start"
-                                    onClick={() => handleNavigate(page)}
+                        {archivedPages
+                            .filter((p) => p.title.includes(query))
+                            .map((page, i) => (
+                                <button
+                                    key={i}
+                                    className="flex items-center gap-4 hover:bg-slate-200 py-1 px-2"
                                 >
-                                    {page.title === ""
-                                        ? "Untitled"
-                                        : page.title}
-                                </p>
-                                <ArrowUturnLeftIcon
-                                    onClick={() => handleRestore(page.id)}
-                                    className="h-4 w-4"
-                                />
-                                <TrashIcon
-                                    onClick={() =>
-                                        handleDeletePermanently(page.id)
-                                    }
-                                    className="h-4 w-4"
-                                />
-                            </button>
-                        ))}
+                                    <p
+                                        className="truncate flex-1 text-start"
+                                        onClick={() => handleNavigate(page)}
+                                    >
+                                        {page.title === ""
+                                            ? "Untitled"
+                                            : page.title}
+                                    </p>
+                                    <ArrowUturnLeftIcon
+                                        onClick={() => handleRestore(page.id)}
+                                        className="h-4 w-4"
+                                    />
+                                    <TrashIcon
+                                        onClick={() =>
+                                            handleDeletePermanently(page.id)
+                                        }
+                                        className="h-4 w-4"
+                                    />
+                                </button>
+                            ))}
                     </div>
                 </div>
             }
