@@ -58,7 +58,7 @@ export const Sidebar = () => {
                 {shown && (
                     <div className="w-60 h-full bg-white border-r px-1 flex flex-col">
                         <ProfileFlyout />
-                        <span className="border-t rounded-full" />
+                        {/* <span className="border-t rounded-full" /> */}
 
                         <p className="w-full align-bottom pt-4 px-4 underline decoration-teal-700/60 decoration-2 underline-offset-2">
                             Your pages

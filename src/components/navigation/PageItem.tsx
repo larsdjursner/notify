@@ -1,14 +1,8 @@
-import {
-    ArrowRightIcon,
-    ChevronRightIcon,
-    EllipsisHorizontalIcon,
-    TrashIcon,
-} from "@heroicons/react/24/outline"
-import { MouseEvent, SetStateAction, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { ChevronRightIcon, TrashIcon } from "@heroicons/react/24/outline"
+import { useCallback, useState } from "react"
+import { useNavigate, useParams } from "react-router-dom"
 import { usePagesStore } from "../../stores/pagesStore"
-import { deleteById, PageTitle } from "../../supabase"
-import Flyout, { Direction } from "../generic/Flyout"
+import { PageTitle } from "../../supabase"
 import IconButton from "./IconButton"
 
 interface Props {
@@ -17,7 +11,11 @@ interface Props {
 
 const PageItem = ({ page }: Props) => {
     const navigate = useNavigate()
-    const { removeById, currentPage } = usePagesStore()
+    const { id } = useParams()
+    const { removeById } = usePagesStore()
+    const currentPage = usePagesStore(
+        useCallback((state) => state.currentPage, [id])
+    )
     const [open, setOpen] = useState(false)
 
     const handleDelete = () => {

@@ -62,9 +62,14 @@ export const usePagesStore = create<State & Actions>()((set, get) => ({
             if (!state.currentPage) {
                 return state
             }
+            console.log("updated shit")
 
             return {
-                currentPage: { ...state.currentPage, content },
+                currentPage: {
+                    ...state.currentPage,
+                    content,
+                    // updated_at: new Date(Date.now()).toISOString(),
+                },
                 currentPageEdited: true,
             }
         })
