@@ -54,12 +54,16 @@ export const Sidebar = () => {
 
     return (
         <>
-            <div className="flex">
+            <div className="flex relative my-2">
                 {shown && (
-                    <div className="w-60 h-full bg-slate-50 border-r-2 border-r-slate-100 px-1 flex flex-col">
+                    <div className="w-60 h-full bg-white border-r px-1 flex flex-col">
                         <ProfileFlyout />
+                        <span className="border-t rounded-full" />
 
-                        <div className=" max-h-[35rem] min-h-[20rem] overflow-y-scroll bg-white my-4">
+                        <p className="w-full align-bottom pt-4 px-4 underline decoration-teal-700/60 decoration-2 underline-offset-2">
+                            Your pages
+                        </p>
+                        <div className="w-full relative overflow-y-scroll max-h-full">
                             {!isLoading ? (
                                 pages.map((page, i: number) => (
                                     <PageItem page={page} key={i} />
@@ -68,6 +72,8 @@ export const Sidebar = () => {
                                 <p>Loading</p>
                             )}
                         </div>
+
+                        <span className="border-t rounded-full" />
 
                         <TooltipButton
                             button={
@@ -83,23 +89,16 @@ export const Sidebar = () => {
                         />
 
                         <TrashFlyout />
-                        <span className="flex-1" />
-
-                        <div className="w-full h-10 flex justify-end px-4">
-                            <ChevronDoubleLeftIcon
-                                className="h-6 w-6 cursor-pointer hover:scale-110"
-                                onClick={() => setShown(false)}
-                            />
-                        </div>
                     </div>
                 )}
-            </div>
-            {!shown && (
                 <ChevronDoubleRightIcon
-                    className="h-6 w-6 absolute bottom-5 left-5 cursor-pointer hover:scale-110 z-50"
-                    onClick={() => setShown(true)}
+                    className={`h-6 w-6 absolute bottom-5 -right-10 cursor-pointer hover:scale-110 z-50 
+                        ${
+                            shown ? "rotate-180" : "rotate-0"
+                        } transition-all duration-100 delay-100`}
+                    onClick={() => setShown((prev) => !prev)}
                 />
-            )}
+            </div>
         </>
     )
 }

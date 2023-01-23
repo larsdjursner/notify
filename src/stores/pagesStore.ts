@@ -9,45 +9,47 @@ import {
     restorePage,
 } from "../supabase"
 
-interface PagesState {
+interface State {
     pages: PageTitle[]
+    currentPage: Page | null
+    currentPageEdited: boolean
+    isArchived: boolean
+    archivedPages: PageTitle[]
+}
+interface Actions {
     initPages: (pages: PageTitle[]) => void
     addPage: (page: Page) => void
     reset: () => void
-
-    // seperate state for page?
-    currentPage: Page | null
     setCurrentPage: (currentPage: Page) => void
     resetCurrentPage: () => void
     removeById: (id: string) => void
     updateTitle: (title: string) => void
     updateContent: (content: Json) => void
-
-    // Specific for the time component
-    currentPageEdited: boolean
-
     restorePageById: (id: string) => void
-
-    // archived/deleted pages
-    isArchived: boolean
     setIsArchived: (bool: boolean) => void
     deletePermanently: (id: string) => void
-    archivedPages: PageTitle[]
     setArchivedPages: (pages: PageTitle[]) => void
 }
 
-export const usePagesStore = create<PagesState>()((set, get) => ({
+const initialState: State = {
     pages: [],
+    currentPage: null,
+    currentPageEdited: false,
+    isArchived: false,
+    archivedPages: [],
+}
+
+export const usePagesStore = create<State & Actions>()((set, get) => ({
+    ...initialState,
     initPages(pages) {
         set({ pages })
     },
     reset() {
-        set({ pages: [] })
+        set(initialState)
     },
     resetCurrentPage() {
         set({ currentPage: null })
     },
-    currentPage: null,
     setCurrentPage(currentPage) {
         set({ currentPage, currentPageEdited: false })
     },
@@ -134,10 +136,6 @@ export const usePagesStore = create<PagesState>()((set, get) => ({
             set({ isArchived: false })
         }
     },
-
-    currentPageEdited: false,
-
-    isArchived: false,
     setIsArchived: (bool) => {
         set({ isArchived: bool })
     },
@@ -149,7 +147,6 @@ export const usePagesStore = create<PagesState>()((set, get) => ({
             set({ currentPage: null })
         }
     },
-    archivedPages: [],
     setArchivedPages: (pages) => {
         set({ archivedPages: pages })
     },

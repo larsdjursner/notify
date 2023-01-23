@@ -10,9 +10,11 @@ const ProfileFlyout = () => {
         <Flyout
             button={<button className="h-12 w-full">{user?.email}</button>}
             content={
-                <div className="bg-white w-80 h-60 rounded-md">
-                    <p>{user?.email}</p>
-                    <button onClick={logout}> Logout </button>
+                <div className="bg-white w-80 rounded-md">
+                    <p className="px-4 py-2">{user?.email}</p>
+                    <button className="px-4 py-2" onClick={logout}>
+                        Logout
+                    </button>
                 </div>
             }
             direction={Direction.StickToY}

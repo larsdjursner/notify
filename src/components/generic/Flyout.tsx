@@ -71,7 +71,7 @@ const Flyout = (props: Props) => {
                 {props.button}
                 <div
                     onClick={(e) => e.stopPropagation()}
-                    className={`absolute ${direction} z-40 shadow-xl bg-white rounded-md border border-slate-200 scale-0 
+                    className={`absolute ${direction} z-50 shadow-xl bg-white rounded-md border border-slate-200 scale-0 
                         transition-all duration-100 
                         ${props.open && "scale-100"}
                         `}

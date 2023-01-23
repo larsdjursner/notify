@@ -1,13 +1,22 @@
 import { TrashIcon } from "@heroicons/react/24/outline"
-import { useNavigate } from "react-router-dom"
+import { useCallback } from "react"
+import { useNavigate, useParams } from "react-router-dom"
 import { usePagesStore } from "../../stores/pagesStore"
 import { deleteById } from "../../supabase"
 import LastEditDate from "./LastEditDate"
 
 export const Navbar = () => {
-    const { currentPage, removeById } = usePagesStore()
+    const { id } = useParams()
     const navigate = useNavigate()
+    const { removeById } = usePagesStore()
+    const currentPage = usePagesStore(
+        useCallback((state) => state.currentPage, [id])
+    )
 
+    const unsub = usePagesStore.subscribe(
+        (state) => state.currentPage
+        // (curr, prev) => console.log(curr, prev)
+    )
     const handleDelete = () => {
         if (!currentPage?.id) return
 
@@ -25,6 +34,8 @@ export const Navbar = () => {
                             : currentPage.title}
                     </p>
                     <div className="flex gap-4">
+                        {/* last edit */}
+                        <div>{currentPage.updated_at}</div>
                         {/* <LastEditDate _date={currentPage.updated_at} /> */}
                         <button onClick={handleDelete}>
                             <TrashIcon className="h-4 w-4" />
