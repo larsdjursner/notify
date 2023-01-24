@@ -122,10 +122,8 @@ export default {
                 setOverlayActive(true)
             },
             onExit: () => {
-                useCommandStore.destroy()
-                // maybe just destroy the whole store at that point
-                // setOverlayActive(false)
-                // setSelected(0)
+                setOverlayActive(false)
+                setSelected(0)
             },
             onKeyDown: ({ event, range, view }: SuggestionKeyDownProps) => {
                 // Needs to stop the querying
