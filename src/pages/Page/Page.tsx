@@ -106,7 +106,7 @@ export const Page = () => {
                             disabled={isArchived}
                         />
 
-                        <p className="text-slate-300 mx-2">{`Created ${format(
+                        <p className="text-slate-300 text-sm mx-2">{`Created ${format(
                             parseISO(currentPage.created_at),
                             "Do MMMM, yyyy"
                         )} by ${user?.email}`}</p>

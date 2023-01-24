@@ -1,11 +1,13 @@
 import Placeholder from "@tiptap/extension-placeholder"
 import { useEditor, EditorContent, Content } from "@tiptap/react"
 import StarterKit from "@tiptap/starter-kit"
-import { CommandMenuExtension } from "./extensions/CommandMenuExtension"
-import { CommandMenu } from "./extensions/CommandMenu"
-import suggestion from "./extensions/suggestion"
+import { CommandMenuExtension } from "./extensions/CommandMenu/CommandMenuExtension"
+import { CommandMenu } from "./extensions/CommandMenu/CommandMenu"
+import suggestion from "./extensions/CommandMenu/suggestion"
 import { Json } from "../../schema"
 import { useEffect } from "react"
+import Link from "@tiptap/extension-link"
+import SubpageLink from "./extensions/Subpage/Subpage"
 
 interface Props {
     editable: boolean
@@ -20,6 +22,12 @@ const Editor = ({ editable, content, onUpdate }: Props) => {
             // DraggableItem,
             // Image,
             StarterKit,
+            // Link.configure({
+            //     HTMLAttributes: {
+            //         class: "bg-red-400",
+            //     },
+            // }),
+            // SubpageLink,
             CommandMenuExtension.configure({
                 suggestion,
             }),
@@ -50,7 +58,6 @@ const Editor = ({ editable, content, onUpdate }: Props) => {
         },
         onUpdate: ({ editor, transaction }) => {
             if (!transaction.docChanged) return
-            console.log(transaction)
             onUpdate(editor.getJSON())
         },
         onDestroy: () => {

@@ -2,11 +2,7 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { usePagesStore } from "../../stores/pagesStore"
 import { addPage as addPageAPI, fetchPages } from "../../supabase"
-import {
-    ChevronDoubleLeftIcon,
-    ChevronDoubleRightIcon,
-    PlusIcon,
-} from "@heroicons/react/24/outline"
+import { ChevronDoubleRightIcon, PlusIcon } from "@heroicons/react/24/outline"
 import { useAuthStore } from "../../stores/authStore"
 import TrashFlyout from "../TrashFlyout"
 import TooltipButton from "../generic/TooltipButton"
@@ -61,7 +57,7 @@ export const Sidebar = () => {
                         {/* <span className="border-t rounded-full" /> */}
 
                         <p className="w-full align-bottom pt-4 px-4 underline decoration-teal-700/60 decoration-2 underline-offset-2">
-                            Your pages
+                            My pages
                         </p>
                         <div className="w-full relative overflow-y-scroll max-h-full">
                             {!isLoading ? (
