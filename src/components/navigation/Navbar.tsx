@@ -20,7 +20,7 @@ export const Navbar = () => {
     }
 
     return (
-        <div className="w-full h-10 bg-white border-b border-slate-200 mt-2">
+        <div className="w-full h-10 bg-white border-b border-slate-200 mt-2 ml-1">
             {currentPage ? (
                 <div className="flex justify-between items-center px-10 py-2">
                     <p>

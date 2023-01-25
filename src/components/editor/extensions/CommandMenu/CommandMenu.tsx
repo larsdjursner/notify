@@ -33,16 +33,20 @@ export const CommandMenu = () => {
                     top: position?.top,
                 }}
             >
-                {elements.map((item, i) => {
-                    return (
-                        <div
-                            key={i}
-                            ref={(el) => el && (itemsRef.current[i] = el)}
-                        >
-                            <CommandItem item={item} />
-                        </div>
-                    )
-                })}
+                {elements.length > 0 ? (
+                    elements.map((item, i) => {
+                        return (
+                            <div
+                                key={i}
+                                ref={(el) => el && (itemsRef.current[i] = el)}
+                            >
+                                <CommandItem item={item} />
+                            </div>
+                        )
+                    })
+                ) : (
+                    <p>No results found</p>
+                )}
             </div>
         </>
     ) : null

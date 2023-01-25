@@ -112,10 +112,10 @@ export default {
                 if (!clientRect || clientRect === undefined) return
 
                 const rect = clientRect()
-
                 if (!rect) return
-
                 const { left, top, height } = rect
+                if (top === 0) return
+
                 setPosition({ left, top, height })
                 setElements(items)
                 setProps({ editor, range })
@@ -124,13 +124,17 @@ export default {
             onExit: () => {
                 setOverlayActive(false)
                 setSelected(0)
+                useCommandStore.destroy()
             },
             onKeyDown: ({ event, range, view }: SuggestionKeyDownProps) => {
                 // Needs to stop the querying
                 if (event.key === "Escape") {
                     event.preventDefault()
+                    setSelected(0)
                     setOverlayActive(false)
-                    return true
+                    useCommandStore.destroy()
+
+                    return false
                 }
 
                 if (event.key === "ArrowDown") {

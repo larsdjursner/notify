@@ -53,7 +53,6 @@ const Editor = ({ editable, content, onUpdate }: Props) => {
             },
         },
         onCreate: ({ editor }) => {
-            editor.commands.focus("end")
             editor.setEditable(editable)
         },
         onUpdate: ({ editor, transaction }) => {
