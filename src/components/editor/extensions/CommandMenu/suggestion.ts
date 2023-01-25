@@ -154,7 +154,6 @@ export default {
                 return false
             },
             onUpdate: (props: SuggestionProps) => {
-                console.log("updated", props)
                 setElements(props.items)
             },
         }
