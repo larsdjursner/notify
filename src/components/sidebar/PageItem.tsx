@@ -5,13 +5,15 @@ import {
 } from "@heroicons/react/24/outline"
 import { useCallback, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
+import { useAddPage } from "../../hooks/useAddPage"
 import { useAuthStore } from "../../stores/authStore"
 import { usePagesStore } from "../../stores/pagesStore"
-import { addPage, fetchSubpagesByParentId, PageTitle } from "../../supabase"
+import { Page } from "../../supabase"
 import IconButton from "../navigation/IconButton"
+import Subpages from "./Subpages"
 
 interface Props {
-    page: PageTitle
+    page: Page
 }
 
 const PageItem = ({ page }: Props) => {
@@ -21,32 +23,26 @@ const PageItem = ({ page }: Props) => {
     const currentPage = usePagesStore(
         useCallback((state) => state.currentPage, [id])
     )
-    const { user } = useAuthStore()
+    const isCurrent = currentPage?.id === page.id
 
-    const [children, setChildren] = useState<PageTitle[]>([])
     const [open, setOpen] = useState(false)
 
     const handleDelete = (id: string) => {
         removeById(id)
         navigate("/page/new")
     }
-    const handleOpen = (id: string) => {
-        fetchSubpagesByParentId(id).then((res) => {
-            if (!res) return
-            setChildren(res)
-            setOpen((prev) => !prev)
-        })
+
+    const mutation = useAddPage(page.id)
+    const handleAdd = async () => {
+        try {
+            const page = await mutation?.mutateAsync()
+            if (!page) return
+            navigate(`/page/${page.id}`)
+        } catch (error) {
+            console.error(error)
+        }
     }
 
-    const handleAddSubpage = (id: string) => {
-        if (!user) return
-        addPage(user.id, id).then(({ data, error }) => {
-            if (!data || error) return
-
-            setChildren((prev) => [...prev, ...data])
-        })
-    }
-    const isCurrent = currentPage?.id === page.id
     return (
         <div className="flex flex-col">
             <button
@@ -65,7 +61,7 @@ const PageItem = ({ page }: Props) => {
                     }
                     onClick={(e) => {
                         e.stopPropagation()
-                        handleOpen(page.id)
+                        setOpen((prev) => !prev)
                     }}
                 />
 
@@ -90,22 +86,11 @@ const PageItem = ({ page }: Props) => {
                     }
                     onClick={(e) => {
                         e.stopPropagation()
-                        handleAddSubpage(page.id)
+                        handleAdd()
                     }}
                 />
             </button>
-            {open &&
-                (children.length > 0 ? (
-                    <div className="pl-4">
-                        {children.map((child) => (
-                            <PageItem page={child} key={child.id} />
-                        ))}
-                    </div>
-                ) : (
-                    <div className="w-full pl-10 text-sm text-slate-500">
-                        There are no pages inside
-                    </div>
-                ))}
+            {open && <Subpages parent_id={page.id} />}
         </div>
     )
 }

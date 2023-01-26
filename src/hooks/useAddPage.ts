@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { QueryKey, useMutation, useQueryClient } from "@tanstack/react-query"
 import { useAuthStore } from "../stores/authStore"
 import { Page, supabase } from "../supabase"
 
@@ -34,7 +34,8 @@ export function useAddPage(parent_id: null | string = null) {
             return addPage(userid, parent_id)
         },
         onSuccess: () => {
-            queryClient.refetchQueries(["pages"])
+            const key: QueryKey = parent_id ? [`pages-${parent_id}`] : ["pages"]
+            queryClient.refetchQueries(key)
         },
     })
 }
