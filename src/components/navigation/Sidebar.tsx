@@ -51,8 +51,9 @@ export const Sidebar = () => {
     return (
         <>
             <div className="flex relative my-2">
+                {/* <p className="w-full cursor-pointer"></p> */}
                 {shown && (
-                    <div className="w-60 h-full bg-white border-r px-1 flex flex-col">
+                    <div className="w-60 h-full bg-white border-r px-2 flex flex-col">
                         <ProfileFlyout />
                         {/* <span className="border-t rounded-full" /> */}
 
@@ -62,7 +63,7 @@ export const Sidebar = () => {
                         <div className="w-full relative overflow-y-scroll max-h-full">
                             {!isLoading ? (
                                 pages.map((page, i: number) => (
-                                    <PageItem page={page} key={i} />
+                                    <PageItem page={page} key={page.id} />
                                 ))
                             ) : (
                                 <p>Loading</p>

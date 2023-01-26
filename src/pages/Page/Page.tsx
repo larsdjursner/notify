@@ -91,9 +91,9 @@ export const Page = () => {
     }, [id])
 
     return (
-        <div className="w-full h-full max-h-full overflow-y-scroll pt-10 flex justify-center relative">
+        <div className="w-full h-full max-h-full overflow-y-scroll p-10 flex justify-center relative bg-slate-50">
             {isArchived && <Banner />}
-            <div className="h-full w-[50rem]">
+            <div className="h-full w-[50rem] bg-white rounded-md">
                 {!isLoading && currentPage ? (
                     <div className="min-h-full w-full flex flex-col shadow-sm p-2">
                         <input
