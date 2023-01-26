@@ -64,7 +64,11 @@ export const usePagesStore = create<State & Actions>()((set, get) => ({
             }
 
             return {
-                currentPage: { ...state.currentPage, content },
+                currentPage: {
+                    ...state.currentPage,
+                    content,
+                    // updated_at: new Date(Date.now()).toISOString(),
+                },
                 currentPageEdited: true,
             }
         })

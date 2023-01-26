@@ -10,11 +10,14 @@ import { usePagesStore } from "../../stores/pagesStore"
 import { useNavigate, useParams } from "react-router-dom"
 import { Json } from "../../schema"
 import Banner from "./Banner"
+import { format, parseISO } from "date-fns"
+import { useAuthStore } from "../../stores/authStore"
 
 export const Page = () => {
     const [isLoading, setIsLoading] = useState(false)
     const navigate = useNavigate()
     const { id } = useParams()
+    const { user } = useAuthStore()
     const {
         setCurrentPage,
         currentPage,
@@ -88,20 +91,25 @@ export const Page = () => {
     }, [id])
 
     return (
-        <div className="w-full h-full max-h-full overflow-y-scroll pt-10 flex justify-center relative">
+        <div className="w-full h-full max-h-full overflow-y-scroll p-10 flex justify-center relative bg-slate-50">
             {isArchived && <Banner />}
-            <div className="h-full w-[50rem]">
+            <div className="h-full w-[50rem] bg-white rounded-md">
                 {!isLoading && currentPage ? (
                     <div className="min-h-full w-full flex flex-col shadow-sm p-2">
                         <input
                             id="pageInput"
                             placeholder="Untitled"
-                            className="h-20 w-full text-4xl mx-2 focus:outline-none"
+                            className="h-16 w-full text-4xl mx-2 focus:outline-none"
                             maxLength={32}
                             value={currentPage.title}
                             onChange={(e) => handleTitleChange(e.target.value)}
                             disabled={isArchived}
                         />
+
+                        <p className="text-slate-300 text-sm mx-2">{`Created ${format(
+                            parseISO(currentPage.created_at),
+                            "Do MMMM, yyyy"
+                        )} by ${user?.email}`}</p>
 
                         <Editor
                             editable={!isArchived}

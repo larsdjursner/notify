@@ -1,4 +1,8 @@
-import { SuggestionKeyDownProps, SuggestionProps } from "@tiptap/suggestion"
+import Suggestion, {
+    SuggestionKeyDownProps,
+    SuggestionProps,
+} from "@tiptap/suggestion"
+
 import { useCommandStore } from "./CommandMenuStore"
 const {
     setOverlayActive,
@@ -18,6 +22,30 @@ export interface Item {
 }
 
 const items: Item[] = [
+    {
+        title: "subpage",
+        subtitle: "subpage",
+        command: ({ editor, range }) => {
+            // const content = "<p>hey</p>"
+            const url = "77c822d6-7515-4bf2-a53b-7a0e0eb65254"
+            // editor
+            //     .chain()
+            //     .focus()
+            //     .deleteRange(range)
+            //     .insertContent(content)
+            //     .setTextSelection(range)
+            //     .run()
+            // editor.commands.setLink({ href: "www.google.dk" }).valueOf
+            editor
+                .chain()
+                .focus()
+                .deleteRange(range)
+                .extendMarkRange("link")
+                .setLink({ href: url, target: "_self" })
+                .insertContent("Untitled")
+                .run()
+        },
+    },
     {
         title: "Heading 1",
         subtitle: "h1",
@@ -96,9 +124,8 @@ export default {
         return items.filter((item) =>
             item.title.toLowerCase().includes(query.toLowerCase())
         )
-        // .slice(0, 10)
     },
-
+    startOfLine: true,
     render: () => {
         return {
             onStart: ({
@@ -110,26 +137,29 @@ export default {
                 if (!clientRect || clientRect === undefined) return
 
                 const rect = clientRect()
-
                 if (!rect) return
-
                 const { left, top, height } = rect
+                if (top === 0) return
+
                 setPosition({ left, top, height })
                 setElements(items)
                 setProps({ editor, range })
                 setOverlayActive(true)
             },
             onExit: () => {
-                // maybe just destroy the whole store at that point
                 setOverlayActive(false)
                 setSelected(0)
+                useCommandStore.destroy()
             },
             onKeyDown: ({ event, range, view }: SuggestionKeyDownProps) => {
                 // Needs to stop the querying
                 if (event.key === "Escape") {
                     event.preventDefault()
+                    setSelected(0)
                     setOverlayActive(false)
-                    return true
+                    useCommandStore.destroy()
+
+                    return false
                 }
 
                 if (event.key === "ArrowDown") {
