@@ -6,7 +6,6 @@ import {
 import { useCallback, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { useAddPage } from "../../hooks/useAddPage"
-import { useAuthStore } from "../../stores/authStore"
 import { usePagesStore } from "../../stores/pagesStore"
 import { Page } from "../../supabase"
 import IconButton from "../navigation/IconButton"
@@ -24,7 +23,6 @@ const PageItem = ({ page }: Props) => {
         useCallback((state) => state.currentPage, [id])
     )
     const isCurrent = currentPage?.id === page.id
-
     const [open, setOpen] = useState(false)
 
     const handleDelete = (id: string) => {
