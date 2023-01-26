@@ -59,21 +59,3 @@ export const Sidebar = () => {
         </>
     )
 }
-
-// const fetchPagesWithTitle = async () => {
-//     setIsLoading(true)
-//     fetchPages().then((res) => {
-//         if (!res) return
-
-//         initPages(res)
-//         setIsLoading(false)
-//     })
-// }
-
-// useEffect(() => {
-//     fetchPagesWithTitle()
-
-//     return () => {
-//         reset()
-//     }
-// }, [])

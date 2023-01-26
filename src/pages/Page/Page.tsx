@@ -12,9 +12,11 @@ import { Json } from "../../schema"
 import Banner from "./Banner"
 import { format, parseISO } from "date-fns"
 import { useAuthStore } from "../../stores/authStore"
+import usePage from "../../hooks/usePage"
+import EditorContainer from "./EditorContainer"
 
 export const Page = () => {
-    const [isLoading, setIsLoading] = useState(false)
+    // const [isLoading, setIsLoading] = useState(false)
     const navigate = useNavigate()
     const { id } = useParams()
     const { user } = useAuthStore()
@@ -27,71 +29,83 @@ export const Page = () => {
         setIsArchived,
     } = usePagesStore()
 
-    const handleFetchPage = async (_id: string) => {
-        setIsLoading(true)
+    // const handleFetchPage = async (_id: string) => {
+    //     setIsLoading(true)
 
-        fetchPageById(_id).then((res) => {
-            if (!res) {
-                // Ideally navigate to a not found page
-                navigate("/page/new")
-                return
-            }
+    //     fetchPageById(_id).then((res) => {
+    //         if (!res) {
+    //             // Ideally navigate to a not found page
+    //             navigate("/page/new")
+    //             return
+    //         }
 
-            if (res.length === 0) {
-                setIsArchived(true)
-                handleFetchDeletedPage(_id)
-                return
-            }
+    //         if (res.length === 0) {
+    //             setIsArchived(true)
+    //             handleFetchDeletedPage(_id)
+    //             return
+    //         }
 
-            const currentPage = res[0]
-            setCurrentPage(currentPage)
-            setIsLoading(false)
-        })
-    }
+    //         const currentPage = res[0]
+    //         setCurrentPage(currentPage)
+    //         setIsLoading(false)
+    //     })
+    // }
 
-    const handleFetchDeletedPage = async (_id: string) => {
-        fetchDeletedPageById(_id).then((res) => {
-            if (!res || res.length === 0) {
-                // Ideally navigate to a not found page
-                navigate("/page/new")
-                return
-            }
+    // const handleFetchDeletedPage = async (_id: string) => {
+    //     fetchDeletedPageById(_id).then((res) => {
+    //         if (!res || res.length === 0) {
+    //             // Ideally navigate to a not found page
+    //             navigate("/page/new")
+    //             return
+    //         }
 
-            const currentPage = res[0]
-            // setCurrentPage(currentPage)
-            setIsLoading(false)
-        })
-    }
+    //         const currentPage = res[0]
+    //         // setCurrentPage(currentPage)
+    //         setIsLoading(false)
+    //     })
+    // }
 
-    const handleTitleChange = (title: string) => {
-        if (!id) return
+    // const handleTitleChange = (title: string) => {
+    //     if (!id) return
 
-        updateTitle(title)
-        updateTitleById(id, title)
-    }
+    //     updateTitle(title)
+    //     updateTitleById(id, title)
+    // }
 
-    const handleContentChange = (content: Json) => {
-        if (!id) return
+    // const handleContentChange = (content: Json) => {
+    //     if (!id) return
 
-        updateContent(content)
-        updateContentById(id, content)
-        // .then(({ data, error }) => {})
-    }
+    //     updateContent(content)
+    //     updateContentById(id, content)
+    //     // .then(({ data, error }) => {})
+    // }
 
-    useEffect(() => {
-        if (!id) {
-            return
-        }
+    // useEffect(() => {
+    //     if (!id) {
+    //         return
+    //     }
 
-        handleFetchPage(id)
+    //     // handleFetchPage(id)
 
-        return () => {
-            setIsArchived(false)
-        }
-    }, [id])
+    //     return () => {
+    //         setIsArchived(false)
+    //     }
+    // }, [id])
+
+    const { data, error, isError, isLoading } = usePage(id)
+
+    if (data === undefined) return <p>shit</p>
 
     return (
         <div className="w-full h-full max-h-full overflow-y-scroll p-10 flex justify-center relative bg-slate-50">
+            <div className="h-full w-[50rem] bg-white rounded-md">
+                {isLoading ? (
+                    <p>...loading</p>
+                ) : (
+                    <EditorContainer page={data} />
+                )}
+            </div>
+
             {/* {isArchived && <Banner />}
             <div className="h-full w-[50rem] bg-white rounded-md">
                 {!isLoading && currentPage ? (

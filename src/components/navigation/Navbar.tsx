@@ -20,26 +20,24 @@ export const Navbar = () => {
     }
 
     return (
-        <div className="w-full  bg-white pt-2 px-2">
-            <div className="border-b border-slate-200">
-                {currentPage ? (
-                    <div className="flex justify-between items-center px-10 py-2">
-                        <p>
-                            {currentPage.title === ""
-                                ? "Untitled"
-                                : currentPage.title}
-                        </p>
-                        <div className="flex gap-4">
-                            <EditDate page={currentPage} />
-                            <button onClick={handleDelete}>
-                                <TrashIcon className="h-4 w-4" />
-                            </button>
-                        </div>
+        <div className="w-full h-12 bg-white pt-2 px-2 border-b border-slate-200 shadow-lg">
+            {currentPage ? (
+                <div className="flex justify-between items-center px-10 py-2">
+                    <p>
+                        {currentPage.title === ""
+                            ? "Untitled"
+                            : currentPage.title}
+                    </p>
+                    <div className="flex gap-4">
+                        <EditDate page={currentPage} />
+                        <button onClick={handleDelete}>
+                            <TrashIcon className="h-4 w-4" />
+                        </button>
                     </div>
-                ) : (
-                    <></>
-                )}
-            </div>
+                </div>
+            ) : (
+                <></>
+            )}
         </div>
     )
 }

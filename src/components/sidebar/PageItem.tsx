@@ -45,6 +45,8 @@ const PageItem = ({ page }: Props) => {
         try {
             const page = await addMutation?.mutateAsync()
             if (!page) return
+
+            setOpen(true)
             navigate(`/page/${page.id}`)
         } catch (error) {
             console.error(error)
