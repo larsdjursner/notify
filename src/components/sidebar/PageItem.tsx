@@ -8,7 +8,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import { useAuthStore } from "../../stores/authStore"
 import { usePagesStore } from "../../stores/pagesStore"
 import { addPage, fetchSubpagesByParentId, PageTitle } from "../../supabase"
-import IconButton from "./IconButton"
+import IconButton from "../navigation/IconButton"
 
 interface Props {
     page: PageTitle

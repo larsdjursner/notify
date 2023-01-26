@@ -12,9 +12,9 @@ export type PageTitle = Pick<Page, "id" | "title">
 export async function fetchPages() {
     const { data, error } = await supabase
         .from("pages")
-        .select("id, title")
+        .select("*")
         .is("parent_id", null)
-    return data
+    return { data, error }
 }
 
 export async function fetchSubpagesByParentId(parent_id: string) {
