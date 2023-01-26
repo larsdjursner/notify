@@ -4,8 +4,13 @@ import {
     TrashIcon,
 } from "@heroicons/react/24/outline"
 import { useCallback, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
+import {
+    UNSAFE_NavigationContext,
+    useNavigate,
+    useParams,
+} from "react-router-dom"
 import { useAddPage } from "../../hooks/useAddPage"
+import { useDeletePage } from "../../hooks/useDeletePage"
 import { usePagesStore } from "../../stores/pagesStore"
 import { Page } from "../../supabase"
 import IconButton from "../navigation/IconButton"
@@ -18,22 +23,27 @@ interface Props {
 const PageItem = ({ page }: Props) => {
     const navigate = useNavigate()
     const { id } = useParams()
-    const { removeById } = usePagesStore()
     const currentPage = usePagesStore(
         useCallback((state) => state.currentPage, [id])
     )
     const isCurrent = currentPage?.id === page.id
     const [open, setOpen] = useState(false)
 
-    const handleDelete = (id: string) => {
-        removeById(id)
-        navigate("/page/new")
+    const deleteMutation = useDeletePage(page.id, page.parent_id)
+    const handleDelete = async () => {
+        try {
+            const page = await deleteMutation?.mutateAsync()
+            console.log(page)
+            navigate("/page/new")
+        } catch (error) {
+            console.error(error)
+        }
     }
 
-    const mutation = useAddPage(page.id)
+    const addMutation = useAddPage(page.id)
     const handleAdd = async () => {
         try {
-            const page = await mutation?.mutateAsync()
+            const page = await addMutation?.mutateAsync()
             if (!page) return
             navigate(`/page/${page.id}`)
         } catch (error) {
@@ -75,7 +85,7 @@ const PageItem = ({ page }: Props) => {
                     }
                     onClick={(e) => {
                         e.stopPropagation()
-                        handleDelete(page.id)
+                        handleDelete()
                     }}
                 />
                 <IconButton
