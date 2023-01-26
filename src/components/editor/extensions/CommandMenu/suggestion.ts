@@ -2,6 +2,7 @@ import Suggestion, {
     SuggestionKeyDownProps,
     SuggestionProps,
 } from "@tiptap/suggestion"
+
 import { useCommandStore } from "./CommandMenuStore"
 const {
     setOverlayActive,
@@ -21,6 +22,30 @@ export interface Item {
 }
 
 const items: Item[] = [
+    {
+        title: "subpage",
+        subtitle: "subpage",
+        command: ({ editor, range }) => {
+            // const content = "<p>hey</p>"
+            const url = "77c822d6-7515-4bf2-a53b-7a0e0eb65254"
+            // editor
+            //     .chain()
+            //     .focus()
+            //     .deleteRange(range)
+            //     .insertContent(content)
+            //     .setTextSelection(range)
+            //     .run()
+            // editor.commands.setLink({ href: "www.google.dk" }).valueOf
+            editor
+                .chain()
+                .focus()
+                .deleteRange(range)
+                .extendMarkRange("link")
+                .setLink({ href: url, target: "_self" })
+                .insertContent("Untitled")
+                .run()
+        },
+    },
     {
         title: "Heading 1",
         subtitle: "h1",

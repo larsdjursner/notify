@@ -40,6 +40,7 @@ export interface Database {
           content: Json | null
           created_at: string
           id: string
+          parent_id: string | null
           title: string
           updated_at: string
           user_id: string
@@ -48,6 +49,7 @@ export interface Database {
           content?: Json | null
           created_at?: string
           id?: string
+          parent_id?: string | null
           title?: string
           updated_at?: string
           user_id: string
@@ -56,6 +58,7 @@ export interface Database {
           content?: Json | null
           created_at?: string
           id?: string
+          parent_id?: string | null
           title?: string
           updated_at?: string
           user_id?: string

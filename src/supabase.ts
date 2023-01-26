@@ -10,7 +10,19 @@ export type Page = Database["public"]["Tables"]["pages"]["Row"]
 export type PageTitle = Pick<Page, "id" | "title">
 
 export async function fetchPages() {
-    const { data } = await supabase.from("pages").select("id, title")
+    const { data, error } = await supabase
+        .from("pages")
+        .select("id, title")
+        .is("parent_id", null)
+    return data
+}
+
+export async function fetchSubpagesByParentId(parent_id: string) {
+    const { data, error } = await supabase
+        .from("pages")
+        .select("id, title")
+        .eq("parent_id", parent_id)
+
     return data
 }
 
@@ -31,10 +43,13 @@ export async function updateContentById(id: string, content: Json) {
         .select()
 }
 
-export async function addPage(user_id: string) {
+export async function addPage(
+    user_id: string,
+    parent_id: null | string = null
+) {
     return await supabase
         .from("pages")
-        .insert({ user_id }, { count: "exact" })
+        .insert({ user_id, parent_id }, { count: "exact" })
         .select()
 }
 

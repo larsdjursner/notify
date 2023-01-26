@@ -22,11 +22,11 @@ const Editor = ({ editable, content, onUpdate }: Props) => {
             // DraggableItem,
             // Image,
             StarterKit,
-            // Link.configure({
-            //     HTMLAttributes: {
-            //         class: "bg-red-400",
-            //     },
-            // }),
+            Link.configure({
+                HTMLAttributes: {
+                    class: "w-full cursor-pointer bg-red-200",
+                },
+            }),
             // SubpageLink,
             CommandMenuExtension.configure({
                 suggestion,
