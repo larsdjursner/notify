@@ -7,7 +7,6 @@ import suggestion from "./extensions/CommandMenu/suggestion"
 import { Json } from "../../schema"
 import { useEffect } from "react"
 import Link from "@tiptap/extension-link"
-import SubpageLink from "./extensions/Subpage/Subpage"
 
 interface Props {
     editable: boolean

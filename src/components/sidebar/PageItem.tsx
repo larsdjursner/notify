@@ -54,7 +54,11 @@ const PageItem = ({ page }: Props) => {
     }
 
     return (
-        <div className="flex flex-col">
+        <div
+            className={`flex flex-col ${
+                open && " border-l-2 border-slate-300"
+            }`}
+        >
             <button
                 onClick={() => navigate(`/page/${page.id}`)}
                 className={`w-full py-2 flex justify-start gap-2 items-center pl-2 pr-4 group hover:bg-slate-50 

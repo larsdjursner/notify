@@ -12,7 +12,7 @@ const fetchPage = async (id: string | undefined) => {
         throw new Error(error.message)
     }
 
-    if (!data) {
+    if (!data || data === undefined) {
         throw new Error("No page found")
     }
 

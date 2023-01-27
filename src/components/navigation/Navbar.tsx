@@ -12,12 +12,12 @@ export const Navbar = () => {
         useCallback((state) => state.currentPage, [id])
     )
 
-    const handleDelete = () => {
-        if (!currentPage?.id) return
+    // const handleDelete = () => {
+    //     if (!currentPage?.id) return
 
-        removeById(currentPage.id)
-        navigate("/page/new")
-    }
+    //     removeById(currentPage.id)
+    //     navigate("/page/new")
+    // }
 
     return (
         <div className="w-full h-12 bg-white pt-2 px-2 border-b border-slate-200 shadow-lg">
@@ -30,7 +30,9 @@ export const Navbar = () => {
                     </p>
                     <div className="flex gap-4">
                         <EditDate page={currentPage} />
-                        <button onClick={handleDelete}>
+                        <button
+                        // onClick={}
+                        >
                             <TrashIcon className="h-4 w-4" />
                         </button>
                     </div>

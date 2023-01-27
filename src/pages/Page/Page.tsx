@@ -94,7 +94,7 @@ export const Page = () => {
 
     const { data, error, isError, isLoading } = usePage(id)
 
-    if (data === undefined) return <p>shit</p>
+    if (isError) return <p>{error.message}</p>
 
     return (
         <div className="w-full h-full max-h-full overflow-y-scroll p-10 flex justify-center relative bg-slate-50">
