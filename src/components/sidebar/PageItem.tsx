@@ -33,7 +33,6 @@ const PageItem = ({ page }: Props) => {
     const handleDelete = async () => {
         try {
             const page = await deleteMutation?.mutateAsync()
-            console.log(page)
             navigate("/page/new")
         } catch (error) {
             console.error(error)
@@ -54,11 +53,7 @@ const PageItem = ({ page }: Props) => {
     }
 
     return (
-        <div
-            className={`flex flex-col ${
-                open && " border-l-2 border-slate-300"
-            }`}
-        >
+        <div className={`flex flex-col`}>
             <button
                 onClick={() => navigate(`/page/${page.id}`)}
                 className={`w-full py-2 flex justify-start gap-2 items-center pl-2 pr-4 group hover:bg-slate-50 

@@ -11,7 +11,7 @@ const Subpages = ({ parent_id }: Props) => {
     if (isError) return <span>{error.message}</span>
 
     return (
-        <div className="pl-4">
+        <div className="pl-4 border-l border-slate-600">
             {isLoading ? (
                 <span className="w-full text-sm text-slate-500">
                     Loading...
