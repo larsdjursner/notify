@@ -7,6 +7,7 @@ export const supabase = createClient<Database>(
 )
 
 export type Page = Database["public"]["Tables"]["pages"]["Row"]
+export type ArchivedPage = Database["public"]["Tables"]["deleted_pages"]["Row"]
 export type PageTitle = Pick<Page, "id" | "title">
 
 // export async function fetchPages() {

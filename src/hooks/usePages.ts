@@ -3,8 +3,16 @@ import { Page, supabase } from "../supabase"
 
 const fetchPages = async (parent_id: string | null = null) => {
     const { data, error } = parent_id
-        ? await supabase.from("pages").select("*").eq("parent_id", parent_id)
-        : await supabase.from("pages").select("*").is("parent_id", null)
+        ? await supabase
+              .from("pages")
+              .select("*")
+              .eq("archived", false)
+              .eq("parent_id", parent_id)
+        : await supabase
+              .from("pages")
+              .select("*")
+              .eq("archived", false)
+              .is("parent_id", null)
 
     if (error) {
         throw new Error(error.message)

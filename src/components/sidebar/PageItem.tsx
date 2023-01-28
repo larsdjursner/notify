@@ -29,7 +29,10 @@ const PageItem = ({ page }: Props) => {
     const isCurrent = currentPage?.id === page.id
     const [open, setOpen] = useState(false)
 
-    const deleteMutation = useDeletePage(page.id, page.parent_id)
+    const deleteMutation = useDeletePage({
+        id: page.id,
+        parent_id: page.parent_id,
+    })
     const handleDelete = async () => {
         try {
             const page = await deleteMutation?.mutateAsync()

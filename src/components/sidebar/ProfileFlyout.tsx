@@ -1,6 +1,6 @@
 import { useState } from "react"
-import { useAuthStore } from "../stores/authStore"
-import Flyout, { Direction } from "./generic/Flyout"
+import { useAuthStore } from "../../stores/authStore"
+import Flyout, { Direction } from "../generic/Flyout"
 
 const ProfileFlyout = () => {
     const { user, logout } = useAuthStore()

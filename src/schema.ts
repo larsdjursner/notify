@@ -9,34 +9,9 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
-      deleted_pages: {
-        Row: {
-          content: Json | null
-          created_at: string
-          id: string
-          title: string
-          updated_at: string
-          user_id: string
-        }
-        Insert: {
-          content?: Json | null
-          created_at: string
-          id: string
-          title: string
-          updated_at: string
-          user_id: string
-        }
-        Update: {
-          content?: Json | null
-          created_at?: string
-          id?: string
-          title?: string
-          updated_at?: string
-          user_id?: string
-        }
-      }
       pages: {
         Row: {
+          archived: boolean
           content: Json | null
           created_at: string
           id: string
@@ -46,6 +21,7 @@ export interface Database {
           user_id: string
         }
         Insert: {
+          archived?: boolean
           content?: Json | null
           created_at?: string
           id?: string
@@ -55,6 +31,7 @@ export interface Database {
           user_id: string
         }
         Update: {
+          archived?: boolean
           content?: Json | null
           created_at?: string
           id?: string

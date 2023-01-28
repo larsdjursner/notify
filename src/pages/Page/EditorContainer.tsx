@@ -30,7 +30,6 @@ const EditorContainer = ({ page }: Props) => {
 
     return (
         <div className="min-h-full w-full flex flex-col shadow-sm p-2">
-            {/* {page.id} */}
             <input
                 id="pageInput"
                 placeholder="Untitled"
@@ -38,7 +37,7 @@ const EditorContainer = ({ page }: Props) => {
                 maxLength={32}
                 value={page.title}
                 onChange={(e) => handleTitleChange(e.target.value)}
-                // disabled={isArchived}
+                disabled={page.archived}
             />
 
             <p className="text-slate-300 text-sm mx-2">{`Created ${format(
@@ -48,7 +47,7 @@ const EditorContainer = ({ page }: Props) => {
             {/* by ${user?.email}`} */}
 
             <Editor
-                editable={true}
+                editable={!page.archived}
                 content={page.content}
                 onUpdate={(content) => handleContentChange(content)}
             />
