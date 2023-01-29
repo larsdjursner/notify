@@ -5,6 +5,7 @@ import TooltipButton from "../generic/TooltipButton"
 import Pages from "./Pages"
 import { useAddPage } from "../../hooks/useAddPage"
 import { useNavigate } from "react-router-dom"
+import ProfileFlyout from "./ProfileFlyout"
 
 export const Sidebar = () => {
     const [shown, setShown] = useState(true)
