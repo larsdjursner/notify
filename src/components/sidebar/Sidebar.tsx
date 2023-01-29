@@ -2,7 +2,6 @@ import { useState } from "react"
 import { ChevronDoubleRightIcon, PlusIcon } from "@heroicons/react/24/outline"
 import TrashFlyout from "./TrashFlyout"
 import TooltipButton from "../generic/TooltipButton"
-import ProfileFlyout from "./ProfileFlyout"
 import Pages from "./Pages"
 import { useAddPage } from "../../hooks/useAddPage"
 import { useNavigate } from "react-router-dom"
@@ -30,7 +29,7 @@ export const Sidebar = () => {
                         <ProfileFlyout />
                         <Pages />
 
-                        <span className="border-t rounded-full" />
+                        <span className="border-t rounded-full my-2" />
 
                         <TooltipButton
                             button={

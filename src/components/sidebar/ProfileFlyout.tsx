@@ -9,7 +9,7 @@ const ProfileFlyout = () => {
     return (
         <Flyout
             button={
-                <button className="h-10 w-full text-start px-4 ">
+                <button className="h-10 w-full text-start px-4">
                     {user?.email}
                 </button>
             }
