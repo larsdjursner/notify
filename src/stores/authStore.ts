@@ -1,7 +1,6 @@
 import { User } from "@supabase/supabase-js"
 import create from "zustand"
 import { supabase } from "../supabase"
-import { usePagesStore } from "./pagesStore"
 
 interface AuthState {
     isAuth: boolean
@@ -25,7 +24,6 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
         set(() => ({ isAuth: false }))
 
         // destroy store
-        usePagesStore.destroy()
         useAuthStore.destroy()
     },
 }))

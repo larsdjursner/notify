@@ -1,40 +1,12 @@
-import { ArrowUturnLeftIcon, TrashIcon } from "@heroicons/react/24/outline"
-import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
-import useFetchArchivedPages from "../../hooks/useFetchArchivedPages"
-import { usePagesStore } from "../../stores/pagesStore"
-import { ArchivedPage, fetchDeletedPages, PageTitle } from "../../supabase"
+import { TrashIcon } from "@heroicons/react/24/outline"
+import { useState } from "react"
 import Flyout, { Direction } from "../generic/Flyout"
 import TooltipButton from "../generic/TooltipButton"
 import ArchivedPages from "./ArchivedPages"
 
 const TrashFlyout = () => {
-    // const {
-    //     restorePageById,
-    //     deletePermanently,
-    //     archivedPages,
-    //     setArchivedPages,
-    // } = usePagesStore()
     const [open, setOpen] = useState(false)
 
-    // const handleNavigate = (page: ArchivedPage) => {
-    //     navigate(`/page/${page.id}`)
-    //     setOpen(false)
-    // }
-
-    // const handleRestore = (_id: string | undefined) => {
-    //     if (!_id) return
-
-    //     restorePageById(_id)
-    //     setOpen(false)
-    // }
-
-    // const handleDeletePermanently = (_id: string | undefined) => {
-    //     if (!_id) return
-
-    //     deletePermanently(_id)
-    //     setOpen(false)
-    // }
     return (
         <Flyout
             button={

@@ -3,7 +3,7 @@ import {
     PlusIcon,
     TrashIcon,
 } from "@heroicons/react/24/outline"
-import { useCallback, useState } from "react"
+import { useState } from "react"
 import {
     UNSAFE_NavigationContext,
     useNavigate,
@@ -11,7 +11,6 @@ import {
 } from "react-router-dom"
 import { useAddPage } from "../../hooks/useAddPage"
 import { useDeletePage } from "../../hooks/useDeletePage"
-import { usePagesStore } from "../../stores/pagesStore"
 import { Page } from "../../supabase"
 import IconButton from "../navigation/IconButton"
 import Subpages from "./Subpages"
