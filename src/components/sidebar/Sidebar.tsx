@@ -24,9 +24,9 @@ export const Sidebar = () => {
 
     return (
         <>
-            <div className="flex relative my-2">
+            <div className="flex relative">
                 {shown && (
-                    <div className="w-60 h-full bg-white border-r px-2 flex flex-col">
+                    <div className="w-60 h-full bg-white border-r px-2 py-2 flex flex-col">
                         <ProfileFlyout />
                         <Pages />
 
