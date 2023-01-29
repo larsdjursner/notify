@@ -10,14 +10,14 @@ interface Props {
 
 const BaseLayout = ({ children }: Props) => {
     return (
-        <>
-            <Sidebar />
-            <div className="h-full w-full flex flex-col">
-                <Navbar />
+        <div className="h-full w-full flex flex-col">
+            <Navbar />
+            <div className="h-full w-full flex">
+                <Sidebar />
                 {children}
             </div>
             <Toast position={Position.Bottom} />
-        </>
+        </div>
     )
 }
 

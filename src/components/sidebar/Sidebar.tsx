@@ -2,7 +2,6 @@ import { useState } from "react"
 import { ChevronDoubleRightIcon, PlusIcon } from "@heroicons/react/24/outline"
 import TrashFlyout from "./TrashFlyout"
 import TooltipButton from "../generic/TooltipButton"
-import ProfileFlyout from "./ProfileFlyout"
 import Pages from "./Pages"
 import { useAddPage } from "../../hooks/useAddPage"
 import { useNavigate } from "react-router-dom"
@@ -24,13 +23,12 @@ export const Sidebar = () => {
 
     return (
         <>
-            <div className="flex relative my-2">
+            <div className="flex relative">
                 {shown && (
-                    <div className="w-60 h-full bg-white border-r px-2 flex flex-col">
-                        <ProfileFlyout />
+                    <div className="w-72 h-full bg-white border-r px-2 flex flex-col">
                         <Pages />
 
-                        <span className="border-t rounded-full" />
+                        <span className="border-t rounded-full my-2" />
 
                         <TooltipButton
                             button={
