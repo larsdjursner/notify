@@ -32,7 +32,6 @@ export function useUpdatetitle(id: string, parent_id?: string | null) {
             if (parent_id) {
                 queryKey = [`pages-${parent_id}`]
             }
-            console.log(queryKey)
 
             queryClient.setQueryData<Page[]>(queryKey, (old) => {
                 if (old === undefined) return []
