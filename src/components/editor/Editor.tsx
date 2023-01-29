@@ -20,13 +20,13 @@ const Editor = ({ editable, content, onUpdate }: Props) => {
             // CustomParagraph,
             // DraggableItem,
             // Image,
+            // SubpageLink,
             StarterKit,
             Link.configure({
                 HTMLAttributes: {
                     class: "w-full cursor-pointer bg-red-200",
                 },
             }),
-            // SubpageLink,
             CommandMenuExtension.configure({
                 suggestion,
             }),
@@ -59,6 +59,7 @@ const Editor = ({ editable, content, onUpdate }: Props) => {
             onUpdate(editor.getJSON())
         },
         onDestroy: () => {
+            console.log("destroy")
             editor?.destroy()
         },
     })

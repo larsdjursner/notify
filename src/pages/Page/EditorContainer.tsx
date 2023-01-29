@@ -1,10 +1,8 @@
 import { format, parseISO } from "date-fns"
-import { useEffect } from "react"
 import Editor from "../../components/editor/Editor"
 import { useUpdateContent } from "../../hooks/useUpdateContent"
 import { useUpdatetitle } from "../../hooks/useUpdateTitle"
 import { Json } from "../../schema"
-import { usePagesStore } from "../../stores/pagesStore"
 import { Page } from "../../supabase"
 
 interface Props {
@@ -12,12 +10,6 @@ interface Props {
 }
 
 const EditorContainer = ({ page }: Props) => {
-    const { setCurrentPage } = usePagesStore()
-
-    useEffect(() => {
-        setCurrentPage(page)
-    }, [page])
-
     const updateContent = useUpdateContent(page.id)
     const handleContentChange = (content: Json) => {
         updateContent.mutate(content)

@@ -1,20 +1,35 @@
-import { useParams } from "react-router-dom"
-import { usePagesStore } from "../../stores/pagesStore"
+import { useNavigate, useParams } from "react-router-dom"
+import { useDeletePage } from "../../hooks/useDeletePage"
+import { useRestorePage } from "../../hooks/useRestorePage"
+import { Page } from "../../supabase"
 
-const Banner = () => {
-    const { id } = useParams()
-    const { restorePageById, deletePermanently } = usePagesStore()
+interface Props {
+    page: Page
+}
+const Banner = ({ page }: Props) => {
+    const navigate = useNavigate()
+    const restoreMutation = useRestorePage({ id: page.id })
+    const deleteMutation = useDeletePage({
+        id: page.id,
+        softDelete: false,
+        parent_id: page.parent_id,
+    })
 
-    const handleDeletePermanently = async (_id: string | undefined) => {
-        if (!_id) return
-
-        deletePermanently(_id)
+    const handleDeletePermanently = async () => {
+        try {
+            await deleteMutation.mutateAsync()
+            navigate("/page/new")
+        } catch (error) {
+            console.error(error)
+        }
     }
 
-    const handleRestore = (_id: string | undefined): void => {
-        if (!_id) return
-
-        restorePageById(_id)
+    const handleRestore = async () => {
+        try {
+            await restoreMutation.mutateAsync()
+        } catch (error) {
+            console.error(error)
+        }
     }
 
     return (
@@ -24,13 +39,13 @@ const Banner = () => {
             </p>
             <button
                 className="rounded-lg border-2 border-white py-1 px-2 hover:bg-white hover:text-black"
-                onClick={() => handleRestore(id)}
+                onClick={handleRestore}
             >
                 Restore
             </button>
             <button
                 className="rounded-lg border-2 border-white py-1 px-2 hover:bg-white hover:text-black"
-                onClick={() => handleDeletePermanently(id)}
+                onClick={handleDeletePermanently}
             >
                 Delete permanently
             </button>

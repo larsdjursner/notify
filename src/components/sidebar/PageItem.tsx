@@ -23,10 +23,8 @@ interface Props {
 const PageItem = ({ page }: Props) => {
     const navigate = useNavigate()
     const { id } = useParams()
-    const currentPage = usePagesStore(
-        useCallback((state) => state.currentPage, [id])
-    )
-    const isCurrent = currentPage?.id === page.id
+
+    const isCurrent = id === page.id
     const [open, setOpen] = useState(false)
 
     const deleteMutation = useDeletePage({
@@ -35,7 +33,7 @@ const PageItem = ({ page }: Props) => {
     })
     const handleDelete = async () => {
         try {
-            const page = await deleteMutation?.mutateAsync()
+            await deleteMutation?.mutateAsync()
             navigate("/page/new")
         } catch (error) {
             console.error(error)

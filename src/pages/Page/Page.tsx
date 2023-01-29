@@ -11,7 +11,7 @@ export const Page = () => {
 
     return (
         <div className="w-full h-full max-h-full overflow-y-scroll p-10 flex justify-center relative bg-slate-50">
-            {data?.archived && <Banner />}
+            {!isLoading && data?.archived && <Banner page={data} />}
             <div className="h-full w-[50rem] bg-white rounded-md">
                 {isLoading ? (
                     <p>...loading</p>

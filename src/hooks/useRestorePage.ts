@@ -28,6 +28,8 @@ export function useRestorePage({ id }: { id: string }) {
         mutationFn: () => restorePage(id),
         onSuccess: (newPage) => {
             queryClient.setQueryData(["pages", id], newPage)
+            queryClient.refetchQueries(["pages"])
+            queryClient.refetchQueries(["archived_pages"])
         },
     })
 }

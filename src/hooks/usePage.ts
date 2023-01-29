@@ -24,5 +24,7 @@ export default function usePage(id: string | undefined) {
     return useQuery<Page, Error>({
         queryKey: key,
         queryFn: () => fetchPage(id),
+        cacheTime: 0,
+        refetchOnMount: true,
     })
 }
