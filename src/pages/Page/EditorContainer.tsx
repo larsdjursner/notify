@@ -21,7 +21,7 @@ const EditorContainer = ({ page }: Props) => {
     }
 
     return (
-        <div className="min-h-full w-full flex flex-col shadow-sm p-2">
+        <div className="min-h-full w-full flex flex-col shadow-sm p-2 bg-white rounded-md border border-slate-100">
             <input
                 id="pageInput"
                 placeholder="Untitled"

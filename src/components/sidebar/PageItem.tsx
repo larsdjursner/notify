@@ -1,5 +1,7 @@
 import {
     ChevronRightIcon,
+    DocumentIcon,
+    DocumentTextIcon,
     PlusIcon,
     TrashIcon,
 } from "@heroicons/react/24/outline"
@@ -74,9 +76,17 @@ const PageItem = ({ page }: Props) => {
                     }}
                 />
 
-                <p className="truncate text-sm">
-                    {page.title === "" ? "Untitled" : page.title}
-                </p>
+                {/* title */}
+                <div className="flex gap-2 items-center">
+                    {!page.content ? (
+                        <DocumentIcon className="h-4 w-4" />
+                    ) : (
+                        <DocumentTextIcon className="h-4 w-4" />
+                    )}
+                    <p className="truncate text-sm">
+                        {page.title === "" ? "Untitled" : page.title}
+                    </p>
+                </div>
 
                 <span className="flex-1" />
 

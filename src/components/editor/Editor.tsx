@@ -7,6 +7,7 @@ import suggestion from "./extensions/CommandMenu/suggestion"
 import { Json } from "../../schema"
 import { useEffect } from "react"
 import Link from "@tiptap/extension-link"
+import { Subpage } from "./extensions/Subpage/Subpage"
 
 interface Props {
     editable: boolean
@@ -20,13 +21,13 @@ const Editor = ({ editable, content, onUpdate }: Props) => {
             // CustomParagraph,
             // DraggableItem,
             // Image,
-            // SubpageLink,
             StarterKit,
             Link.configure({
                 HTMLAttributes: {
                     class: "w-full cursor-pointer bg-red-200",
                 },
             }),
+            Subpage,
             CommandMenuExtension.configure({
                 suggestion,
             }),

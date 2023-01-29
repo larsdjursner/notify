@@ -3,6 +3,7 @@ import { Editor } from "@tiptap/core"
 import { SuggestionProps } from "@tiptap/suggestion"
 import create from "zustand"
 import { Item } from "./suggestion"
+import { useAddPage } from "../../../../hooks/useAddPage"
 
 interface Position {
     left: number | undefined
@@ -68,6 +69,12 @@ export const useCommandStore = create<CommandMenuState>()((set, get) => ({
         item.command({ editor, range })
     },
     executeCommandBySelected: () => {
+        const element = get().getElements().at(get().selected)
+        if (element === undefined) return
+
+        if (element.title === "Subpage") {
+            console.log("hey")
+        }
         get().executeCommandByIndex(get().selected)
     },
     setSelectedByTitle: (title) =>
