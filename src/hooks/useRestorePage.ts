@@ -29,7 +29,6 @@ export function useRestorePage({ id }: { id: string }) {
         onSuccess: (newPage) => {
             queryClient.setQueryData(["pages", id], newPage)
             queryClient.refetchQueries(["pages"])
-            queryClient.refetchQueries(["archived_pages"])
         },
     })
 }

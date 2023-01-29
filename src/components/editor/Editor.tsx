@@ -59,7 +59,6 @@ const Editor = ({ editable, content, onUpdate }: Props) => {
             onUpdate(editor.getJSON())
         },
         onDestroy: () => {
-            console.log("destroy")
             editor?.destroy()
         },
     })

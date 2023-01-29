@@ -15,7 +15,7 @@ const EditorContainer = ({ page }: Props) => {
         updateContent.mutate(content)
     }
 
-    const updateTitle = useUpdatetitle(page.id)
+    const updateTitle = useUpdatetitle(page.id, page.parent_id)
     const handleTitleChange = (title: string) => {
         updateTitle.mutate(title)
     }
