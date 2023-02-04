@@ -72,6 +72,14 @@ const items: Item[] = [
         },
     },
     {
+        title: "Todo-list",
+        subtitle: "Todo or todon't",
+        command: ({ editor, range }) => {
+            editor.chain().focus().deleteRange(range).toggleTaskList().run()
+        },
+    },
+
+    {
         title: "Bullet list",
         subtitle: "unordered",
         command: ({ editor, range }) => {
