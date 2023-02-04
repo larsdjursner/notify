@@ -1,6 +1,7 @@
-import React, { useCallback, useEffect, useRef } from "react"
+import { useEffect, useRef } from "react"
 import { CommandItem } from "./CommandItem"
 import { useCommandStore } from "./CommandMenuStore"
+
 export const CommandMenu = () => {
     const { elements, overlayActive, position, setOverlayActive, selected } =
         useCommandStore()

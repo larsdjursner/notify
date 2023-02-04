@@ -7,24 +7,25 @@ export const supabase = createClient<Database>(
 )
 
 export type Page = Database["public"]["Tables"]["pages"]["Row"]
+export type ArchivedPage = Database["public"]["Tables"]["deleted_pages"]["Row"]
 export type PageTitle = Pick<Page, "id" | "title">
 
-export async function fetchPages() {
-    const { data, error } = await supabase
-        .from("pages")
-        .select("id, title")
-        .is("parent_id", null)
-    return data
-}
+// export async function fetchPages() {
+//     const { data, error } = await supabase
+//         .from("pages")
+//         .select("*")
+//         .is("parent_id", null)
+//     return { data, error }
+// }
 
-export async function fetchSubpagesByParentId(parent_id: string) {
-    const { data, error } = await supabase
-        .from("pages")
-        .select("id, title")
-        .eq("parent_id", parent_id)
+// export async function fetchSubpagesByParentId(parent_id: string) {
+//     const { data, error } = await supabase
+//         .from("pages")
+//         .select("id, title")
+//         .eq("parent_id", parent_id)
 
-    return data
-}
+//     return data
+// }
 
 export async function fetchPageById(id: string) {
     const { data } = await supabase.from("pages").select().eq("id", id)

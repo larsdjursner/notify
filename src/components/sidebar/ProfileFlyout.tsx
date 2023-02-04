@@ -1,6 +1,6 @@
 import { useState } from "react"
-import { useAuthStore } from "../stores/authStore"
-import Flyout, { Direction } from "./generic/Flyout"
+import { useAuthStore } from "../../stores/authStore"
+import Flyout, { Direction } from "../generic/Flyout"
 
 const ProfileFlyout = () => {
     const { user, logout } = useAuthStore()
@@ -9,7 +9,7 @@ const ProfileFlyout = () => {
     return (
         <Flyout
             button={
-                <button className="h-10 w-full text-start px-4 border-b border-slate-200">
+                <button className="h-10 w-full text-start px-4">
                     {user?.email}
                 </button>
             }

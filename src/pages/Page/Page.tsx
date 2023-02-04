@@ -1,124 +1,36 @@
-import { useEffect, useState } from "react"
-import Editor from "../../components/editor/Editor"
-import {
-    fetchDeletedPageById,
-    fetchPageById,
-    updateContentById,
-    updateTitleById,
-} from "../../supabase"
-import { usePagesStore } from "../../stores/pagesStore"
-import { useNavigate, useParams } from "react-router-dom"
-import { Json } from "../../schema"
+import { useParams } from "react-router-dom"
 import Banner from "./Banner"
-import { format, parseISO } from "date-fns"
-import { useAuthStore } from "../../stores/authStore"
+import usePage from "../../hooks/usePage"
+import EditorContainer from "./EditorContainer"
+import { usePagesStore } from "../../stores/pagesStore"
+import { useEffect } from "react"
 
 export const Page = () => {
-    const [isLoading, setIsLoading] = useState(false)
-    const navigate = useNavigate()
     const { id } = useParams()
-    const { user } = useAuthStore()
-    const {
-        setCurrentPage,
-        currentPage,
-        updateTitle,
-        updateContent,
-        isArchived,
-        setIsArchived,
-    } = usePagesStore()
+    const { data, error, isError, isLoading } = usePage(id)
+    // const { data, error, isError, isLoading } = usePages(id)
 
-    const handleFetchPage = async (_id: string) => {
-        setIsLoading(true)
+    if (isError) return <p>{error.message}</p>
 
-        fetchPageById(_id).then((res) => {
-            if (!res) {
-                // Ideally navigate to a not found page
-                navigate("/page/new")
-                return
-            }
-
-            if (res.length === 0) {
-                setIsArchived(true)
-                handleFetchDeletedPage(_id)
-                return
-            }
-
-            const currentPage = res[0]
-            setCurrentPage(currentPage)
-            setIsLoading(false)
-        })
-    }
-
-    const handleFetchDeletedPage = async (_id: string) => {
-        fetchDeletedPageById(_id).then((res) => {
-            if (!res || res.length === 0) {
-                // Ideally navigate to a not found page
-                navigate("/page/new")
-                return
-            }
-
-            const currentPage = res[0]
-            setCurrentPage(currentPage)
-            setIsLoading(false)
-        })
-    }
-
-    const handleTitleChange = (title: string) => {
-        if (!id) return
-
-        updateTitle(title)
-        updateTitleById(id, title)
-    }
-
-    const handleContentChange = (content: Json) => {
-        if (!id) return
-
-        updateContent(content)
-        updateContentById(id, content)
-        // .then(({ data, error }) => {})
-    }
-
+    const { setCurrentPage, resetCurrentPage } = usePagesStore()
     useEffect(() => {
-        if (!id) {
+        if (data === undefined) {
             return
         }
-
-        handleFetchPage(id)
-
+        setCurrentPage(data)
         return () => {
-            setIsArchived(false)
+            resetCurrentPage()
         }
-    }, [id])
+    }, [data])
 
     return (
         <div className="w-full h-full max-h-full overflow-y-scroll p-10 flex justify-center relative bg-slate-50">
-            {isArchived && <Banner />}
-            <div className="h-full w-[50rem] bg-white rounded-md">
-                {!isLoading && currentPage ? (
-                    <div className="min-h-full w-full flex flex-col shadow-sm p-2">
-                        <input
-                            id="pageInput"
-                            placeholder="Untitled"
-                            className="h-16 w-full text-4xl mx-2 focus:outline-none"
-                            maxLength={32}
-                            value={currentPage.title}
-                            onChange={(e) => handleTitleChange(e.target.value)}
-                            disabled={isArchived}
-                        />
-
-                        <p className="text-slate-300 text-sm mx-2">{`Created ${format(
-                            parseISO(currentPage.created_at),
-                            "Do MMMM, yyyy"
-                        )} by ${user?.email}`}</p>
-
-                        <Editor
-                            editable={!isArchived}
-                            content={currentPage.content}
-                            onUpdate={handleContentChange}
-                        />
-                    </div>
+            {!isLoading && data?.archived && <Banner page={data} />}
+            <div className="md:w-[50rem] w-full">
+                {isLoading ? (
+                    <p>...loading</p>
                 ) : (
-                    <p>Loading...</p>
+                    <EditorContainer page={data} />
                 )}
             </div>
         </div>

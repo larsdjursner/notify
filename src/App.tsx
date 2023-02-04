@@ -16,6 +16,8 @@ import { Page } from "./pages/Page/Page"
 import { useAuthStore } from "./stores/authStore"
 import { supabase } from "./supabase"
 
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+
 const ProtectedRoute = ({ redirectPath = "/" }: { redirectPath?: string }) => {
     const { getAuth } = useAuthStore()
 
@@ -59,39 +61,43 @@ const RouterWrapper = ({
 }
 
 function App() {
-    return (
-        <Router>
-            <RouterWrapper>
-                <Routes>
-                    <Route path="/" element={<Landing />} />
-                    <Route path="/signup" element={<SignUp />} />
-                    <Route path="/signin" element={<SignIn />} />
-                    <Route element={<ProtectedRoute />}>
-                        <Route
-                            path="/page/:id"
-                            element={
-                                <BaseLayout>
-                                    <Page />
-                                </BaseLayout>
-                            }
-                        />
-                        <Route
-                            path="/page/new"
-                            element={
-                                <BaseLayout>
-                                    <NewPage />
-                                </BaseLayout>
-                            }
-                        />
-                    </Route>
+    const queryClient = new QueryClient()
 
-                    <Route
-                        path="/*"
-                        element={<div>error page not found</div>}
-                    />
-                </Routes>
-            </RouterWrapper>
-        </Router>
+    return (
+        <QueryClientProvider client={queryClient}>
+            <Router>
+                <RouterWrapper>
+                    <Routes>
+                        <Route path="/" element={<Landing />} />
+                        <Route path="/signup" element={<SignUp />} />
+                        <Route path="/signin" element={<SignIn />} />
+                        <Route element={<ProtectedRoute />}>
+                            <Route
+                                path="/page/:id"
+                                element={
+                                    <BaseLayout>
+                                        <Page />
+                                    </BaseLayout>
+                                }
+                            />
+                            <Route
+                                path="/page/new"
+                                element={
+                                    <BaseLayout>
+                                        <NewPage />
+                                    </BaseLayout>
+                                }
+                            />
+                        </Route>
+
+                        <Route
+                            path="/*"
+                            element={<div>error page not found</div>}
+                        />
+                    </Routes>
+                </RouterWrapper>
+            </Router>
+        </QueryClientProvider>
     )
 }
 

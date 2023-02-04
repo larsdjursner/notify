@@ -7,7 +7,10 @@ import suggestion from "./extensions/CommandMenu/suggestion"
 import { Json } from "../../schema"
 import { useEffect } from "react"
 import Link from "@tiptap/extension-link"
-import SubpageLink from "./extensions/Subpage/Subpage"
+import { Subpage } from "./extensions/Subpage/Subpage"
+import TaskList from "@tiptap/extension-task-list"
+import TaskItem from "@tiptap/extension-task-item"
+import { Document } from "@tiptap/extension-document"
 
 interface Props {
     editable: boolean
@@ -21,13 +24,20 @@ const Editor = ({ editable, content, onUpdate }: Props) => {
             // CustomParagraph,
             // DraggableItem,
             // Image,
-            StarterKit,
-            Link.configure({
-                HTMLAttributes: {
-                    class: "w-full cursor-pointer bg-red-200",
-                },
+            // Subpage,
+            // Link.configure({
+            //     HTMLAttributes: {
+            //         class: "w-full cursor-pointer bg-red-200",
+            //     },
+            // }),
+            StarterKit.configure({ document: false }),
+            Document.extend({
+                content: "heading block*",
             }),
-            // SubpageLink,
+            TaskList,
+            TaskItem.configure({
+                nested: true,
+            }),
             CommandMenuExtension.configure({
                 suggestion,
             }),
@@ -49,7 +59,7 @@ const Editor = ({ editable, content, onUpdate }: Props) => {
         content: content as Content,
         editorProps: {
             attributes: {
-                class: "prose focus:outline-none min-w-full",
+                class: "prose focus:outline-none min-w-full my-2",
             },
         },
         onCreate: ({ editor }) => {

@@ -1,7 +1,7 @@
-import Suggestion, {
-    SuggestionKeyDownProps,
-    SuggestionProps,
-} from "@tiptap/suggestion"
+import { SuggestionKeyDownProps, SuggestionProps } from "@tiptap/suggestion"
+import { addPage } from "../../../../hooks/useAddPage"
+import { useAuthStore } from "../../../../stores/authStore"
+import { usePagesStore } from "../../../../stores/pagesStore"
 
 import { useCommandStore } from "./CommandMenuStore"
 const {
@@ -18,34 +18,23 @@ const {
 export interface Item {
     title: string
     subtitle: string | undefined | null
-    command: (props: Pick<SuggestionProps, "editor" | "range">) => void
+    command: (props: SuggestionProps) => void
 }
 
 const items: Item[] = [
-    {
-        title: "subpage",
-        subtitle: "subpage",
-        command: ({ editor, range }) => {
-            // const content = "<p>hey</p>"
-            const url = "77c822d6-7515-4bf2-a53b-7a0e0eb65254"
-            // editor
-            //     .chain()
-            //     .focus()
-            //     .deleteRange(range)
-            //     .insertContent(content)
-            //     .setTextSelection(range)
-            //     .run()
-            // editor.commands.setLink({ href: "www.google.dk" }).valueOf
-            editor
-                .chain()
-                .focus()
-                .deleteRange(range)
-                .extendMarkRange("link")
-                .setLink({ href: url, target: "_self" })
-                .insertContent("Untitled")
-                .run()
-        },
-    },
+    // {
+    //     title: "Subpage",
+    //     subtitle: "Add a sub page with a reference",
+    //     command: ({ editor, range }) => {
+    //         editor
+    //             .chain()
+    //             .focus()
+    //             .deleteRange(range)
+    //             .setSubpage()
+    //             .setNode("paragraph")
+    //             .run()
+    //     },
+    // },
     {
         title: "Heading 1",
         subtitle: "h1",
@@ -82,6 +71,14 @@ const items: Item[] = [
                 .run()
         },
     },
+    {
+        title: "Todo-list",
+        subtitle: "Todo or todon't",
+        command: ({ editor, range }) => {
+            editor.chain().focus().deleteRange(range).toggleTaskList().run()
+        },
+    },
+
     {
         title: "Bullet list",
         subtitle: "unordered",
