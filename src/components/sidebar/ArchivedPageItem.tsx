@@ -1,9 +1,9 @@
-import { ArrowUturnLeftIcon, TrashIcon } from "@heroicons/react/24/outline"
-import { useNavigate } from "react-router-dom"
-import { useDeletePage } from "../../hooks/useDeletePage"
-import usePage from "../../hooks/usePage"
-import { useRestorePage } from "../../hooks/useRestorePage"
-import { Page } from "../../supabase"
+import { ArrowUturnLeftIcon, TrashIcon } from '@heroicons/react/24/outline'
+import { useNavigate } from 'react-router-dom'
+import { useDeletePage } from '../../hooks/useDeletePage'
+import usePage from '../../hooks/usePage'
+import { useRestorePage } from '../../hooks/useRestorePage'
+import { Page } from '../../supabase'
 
 interface Props {
     page: Page
@@ -24,7 +24,7 @@ const ArchivedPageItem = ({ page, onClick }: Props) => {
         try {
             await deleteMutation.mutateAsync()
             onClick()
-            navigate("/page/new")
+            navigate('/page/new')
         } catch (error) {
             console.error(error)
         }
@@ -45,18 +45,27 @@ const ArchivedPageItem = ({ page, onClick }: Props) => {
         navigate(`/page/${page.id}`)
     }
 
-    const name = page.title === "" ? "Untitled" : page.title
+    const name = page.title === '' ? 'Untitled' : page.title
 
     return (
         <button
             key={page.id}
             className="flex items-center gap-4 hover:bg-slate-200 py-1 px-2"
         >
-            <p className="truncate flex-1 text-start" onClick={handleNavigate}>
+            <p
+                className="truncate flex-1 text-start"
+                onClick={handleNavigate}
+            >
                 {name}
             </p>
-            <ArrowUturnLeftIcon onClick={handleRestore} className="h-4 w-4" />
-            <TrashIcon onClick={handleDeletePermanently} className="h-4 w-4" />
+            <ArrowUturnLeftIcon
+                onClick={handleRestore}
+                className="h-4 w-4"
+            />
+            <TrashIcon
+                onClick={handleDeletePermanently}
+                className="h-4 w-4"
+            />
         </button>
     )
 }

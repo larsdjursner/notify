@@ -1,9 +1,9 @@
-import { SuggestionKeyDownProps, SuggestionProps } from "@tiptap/suggestion"
-import { addPage } from "../../../../hooks/useAddPage"
-import { useAuthStore } from "../../../../stores/authStore"
-import { usePagesStore } from "../../../../stores/pagesStore"
+import { SuggestionKeyDownProps, SuggestionProps } from '@tiptap/suggestion'
+import { addPage } from '../../../../hooks/useAddPage'
+import { useAuthStore } from '../../../../stores/authStore'
+import { usePagesStore } from '../../../../stores/pagesStore'
 
-import { useCommandStore } from "./CommandMenuStore"
+import { useCommandStore } from './CommandMenuStore'
 const {
     setOverlayActive,
     setPosition,
@@ -36,43 +36,28 @@ const items: Item[] = [
     //     },
     // },
     {
-        title: "Heading 1",
-        subtitle: "h1",
+        title: 'Heading 1',
+        subtitle: 'h1',
         command: ({ editor, range }) => {
-            editor
-                .chain()
-                .focus()
-                .deleteRange(range)
-                .setNode("heading", { level: 1 })
-                .run()
+            editor.chain().focus().deleteRange(range).setNode('heading', { level: 1 }).run()
         },
     },
     {
-        title: "Heading 2",
-        subtitle: "h2",
+        title: 'Heading 2',
+        subtitle: 'h2',
         command: ({ editor, range }) => {
-            editor
-                .chain()
-                .focus()
-                .deleteRange(range)
-                .setNode("heading", { level: 2 })
-                .run()
+            editor.chain().focus().deleteRange(range).setNode('heading', { level: 2 }).run()
         },
     },
     {
-        title: "Heading 3",
-        subtitle: "h3",
+        title: 'Heading 3',
+        subtitle: 'h3',
         command: ({ editor, range }) => {
-            editor
-                .chain()
-                .focus()
-                .deleteRange(range)
-                .setNode("heading", { level: 3 })
-                .run()
+            editor.chain().focus().deleteRange(range).setNode('heading', { level: 3 }).run()
         },
     },
     {
-        title: "Todo-list",
+        title: 'Todo-list',
         subtitle: "Todo or todon't",
         command: ({ editor, range }) => {
             editor.chain().focus().deleteRange(range).toggleTaskList().run()
@@ -80,36 +65,36 @@ const items: Item[] = [
     },
 
     {
-        title: "Bullet list",
-        subtitle: "unordered",
+        title: 'Bullet list',
+        subtitle: 'unordered',
         command: ({ editor, range }) => {
             editor.chain().focus().deleteRange(range).toggleBulletList().run()
         },
     },
     {
-        title: "Enumerated list",
-        subtitle: "ordered",
+        title: 'Enumerated list',
+        subtitle: 'ordered',
         command: ({ editor, range }) => {
             editor.chain().focus().deleteRange(range).toggleOrderedList().run()
         },
     },
     {
-        title: "Divider",
-        subtitle: "divide blocks",
+        title: 'Divider',
+        subtitle: 'divide blocks',
         command: ({ editor, range }) => {
             editor.chain().focus().deleteRange(range).setHorizontalRule().run()
         },
     },
     {
-        title: "Block qoute",
-        subtitle: "quote some stuff",
+        title: 'Block qoute',
+        subtitle: 'quote some stuff',
         command: ({ editor, range }) => {
             editor.chain().focus().deleteRange(range).toggleBlockquote().run()
         },
     },
     {
-        title: "Bold",
-        subtitle: "bold",
+        title: 'Bold',
+        subtitle: 'bold',
         command: ({ editor, range }) => {
             editor.chain().focus().deleteRange(range).toggleBold().run()
         },
@@ -118,19 +103,12 @@ const items: Item[] = [
 
 export default {
     items: ({ query }: SuggestionProps) => {
-        return items.filter((item) =>
-            item.title.toLowerCase().includes(query.toLowerCase())
-        )
+        return items.filter((item) => item.title.toLowerCase().includes(query.toLowerCase()))
     },
     startOfLine: true,
     render: () => {
         return {
-            onStart: ({
-                editor,
-                range,
-                clientRect,
-                items,
-            }: SuggestionProps) => {
+            onStart: ({ editor, range, clientRect, items }: SuggestionProps) => {
                 if (!clientRect || clientRect === undefined) return
 
                 const rect = clientRect()
@@ -150,7 +128,7 @@ export default {
             },
             onKeyDown: ({ event, range, view }: SuggestionKeyDownProps) => {
                 // Needs to stop the querying
-                if (event.key === "Escape") {
+                if (event.key === 'Escape') {
                     event.preventDefault()
                     setSelected(0)
                     setOverlayActive(false)
@@ -159,19 +137,19 @@ export default {
                     return false
                 }
 
-                if (event.key === "ArrowDown") {
+                if (event.key === 'ArrowDown') {
                     event.preventDefault()
                     down()
                     return true
                 }
 
-                if (event.key === "ArrowUp") {
+                if (event.key === 'ArrowUp') {
                     event.preventDefault()
                     up()
                     return true
                 }
 
-                if (event.key === "Enter") {
+                if (event.key === 'Enter') {
                     event.preventDefault()
                     executeCommandBySelected()
                     return true

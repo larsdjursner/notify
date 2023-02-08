@@ -1,6 +1,6 @@
-import { formatDistance, parseISO } from "date-fns"
-import { useEffect, useState } from "react"
-import { Page } from "../../supabase"
+import { formatDistance, parseISO } from 'date-fns'
+import { useEffect, useState } from 'react'
+import { Page } from '../../supabase'
 
 interface Props {
     page: Page
@@ -11,15 +11,11 @@ const EditDate = ({ page }: Props) => {
 
     useEffect(() => {
         // init
-        setFormattedDate(
-            formatDistance(parseISO(page.updated_at), new Date(Date.now()))
-        )
+        setFormattedDate(formatDistance(parseISO(page.updated_at), new Date(Date.now())))
 
         // keep updating
         const updateTime = setInterval(() => {
-            setFormattedDate(
-                formatDistance(parseISO(page.updated_at), new Date(Date.now()))
-            )
+            setFormattedDate(formatDistance(parseISO(page.updated_at), new Date(Date.now())))
         }, 30 * 1000)
 
         return () => {

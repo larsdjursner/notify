@@ -1,8 +1,8 @@
-import { TrashIcon } from "@heroicons/react/24/outline"
-import { useState } from "react"
-import Flyout, { Direction } from "../generic/Flyout"
-import TooltipButton from "../generic/TooltipButton"
-import ArchivedPages from "./ArchivedPages"
+import { TrashIcon } from '@heroicons/react/24/outline'
+import { useState } from 'react'
+import Flyout, { Direction } from '../generic/Flyout'
+import TooltipButton from '../generic/TooltipButton'
+import ArchivedPages from './ArchivedPages'
 
 const TrashFlyout = () => {
     const [open, setOpen] = useState(false)
@@ -17,12 +17,10 @@ const TrashFlyout = () => {
                             <p>Trash</p>
                         </button>
                     }
-                    tooltip={"View recently deleted document pages"}
+                    tooltip={'View recently deleted document pages'}
                 />
             }
-            content={
-                open ? <ArchivedPages onClose={() => setOpen(false)} /> : <></>
-            }
+            content={open ? <ArchivedPages onClose={() => setOpen(false)} /> : <></>}
             direction={Direction.StickToX}
             open={open}
             setOpen={setOpen}

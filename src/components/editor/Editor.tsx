@@ -1,16 +1,16 @@
-import Placeholder from "@tiptap/extension-placeholder"
-import { useEditor, EditorContent, Content } from "@tiptap/react"
-import StarterKit from "@tiptap/starter-kit"
-import { CommandMenuExtension } from "./extensions/CommandMenu/CommandMenuExtension"
-import { CommandMenu } from "./extensions/CommandMenu/CommandMenu"
-import suggestion from "./extensions/CommandMenu/suggestion"
-import { Json } from "../../schema"
-import { useEffect } from "react"
-import Link from "@tiptap/extension-link"
-import { Subpage } from "./extensions/Subpage/Subpage"
-import TaskList from "@tiptap/extension-task-list"
-import TaskItem from "@tiptap/extension-task-item"
-import { Document } from "@tiptap/extension-document"
+import Placeholder from '@tiptap/extension-placeholder'
+import { useEditor, EditorContent, Content } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
+import { CommandMenuExtension } from './extensions/CommandMenu/CommandMenuExtension'
+import { CommandMenu } from './extensions/CommandMenu/CommandMenu'
+import suggestion from './extensions/CommandMenu/suggestion'
+import { Json } from '../../schema'
+import { useEffect } from 'react'
+import Link from '@tiptap/extension-link'
+import { Subpage } from './extensions/Subpage/Subpage'
+import TaskList from '@tiptap/extension-task-list'
+import TaskItem from '@tiptap/extension-task-item'
+import { Document } from '@tiptap/extension-document'
 
 interface Props {
     editable: boolean
@@ -32,7 +32,7 @@ const Editor = ({ editable, content, onUpdate }: Props) => {
             // }),
             StarterKit.configure({ document: false }),
             Document.extend({
-                content: "heading block*",
+                content: 'heading block*',
             }),
             TaskList,
             TaskItem.configure({
@@ -43,15 +43,15 @@ const Editor = ({ editable, content, onUpdate }: Props) => {
             }),
             Placeholder.configure({
                 placeholder: ({ node }) => {
-                    if (node.type.name === "heading") {
+                    if (node.type.name === 'heading') {
                         return "What's the title?"
                     }
 
-                    if (node.type.name === "paragraph") {
+                    if (node.type.name === 'paragraph') {
                         return 'Type "/" to see available commands'
                     }
 
-                    return ""
+                    return ''
                 },
                 showOnlyCurrent: true,
             }),
@@ -59,7 +59,7 @@ const Editor = ({ editable, content, onUpdate }: Props) => {
         content: content as Content,
         editorProps: {
             attributes: {
-                class: "prose focus:outline-none min-w-full my-2",
+                class: 'prose focus:outline-none min-w-full my-2',
             },
         },
         onCreate: ({ editor }) => {
@@ -77,14 +77,17 @@ const Editor = ({ editable, content, onUpdate }: Props) => {
     useEffect(() => {
         editor?.setEditable(editable)
         if (editable) {
-            editor?.commands.focus("end")
+            editor?.commands.focus('end')
         }
     }, [editable])
 
     return (
         <div className="w-full p-2">
             <CommandMenu />
-            <EditorContent className="my-4" editor={editor} />
+            <EditorContent
+                className="my-4"
+                editor={editor}
+            />
         </div>
     )
 }

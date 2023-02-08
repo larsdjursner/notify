@@ -1,6 +1,6 @@
-import create from "zustand"
-import { addDeleteToast } from "../components/toast/ToastStore"
-import { Page } from "../supabase"
+import create from 'zustand'
+import { addDeleteToast } from '../components/toast/ToastStore'
+import { Page } from '../supabase'
 
 interface State {
     currentPage: Page | null

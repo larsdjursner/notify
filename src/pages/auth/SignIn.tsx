@@ -1,9 +1,9 @@
-import { useReducer, useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
-import FormInput from "../../components/generic/FormInput"
-import Throbber from "../../components/generic/Throbber"
-import { useAuthStore } from "../../stores/authStore"
-import { supabase } from "../../supabase"
+import { useReducer, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import FormInput from '../../components/generic/FormInput'
+import Throbber from '../../components/generic/Throbber'
+import { useAuthStore } from '../../stores/authStore'
+import { supabase } from '../../supabase'
 
 interface State {
     email: string
@@ -14,30 +14,28 @@ interface State {
 export default function SignIn() {
     const auth = useAuthStore()
     const navigate = useNavigate()
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
     const [submitting, setSubmitting] = useState(false)
 
     const handleSubmit = async () => {
-        await supabase.auth
-            .signInWithPassword({ email, password })
-            .then(({ data, error }) => {
-                if (error) {
-                    setSubmitting(false)
-                    alert("error")
-                    return
-                }
-
-                const user = data.user
-                if (user == null) {
-                    setSubmitting(false)
-                    alert("error")
-                    return
-                }
-                auth.setAuth(user)
+        await supabase.auth.signInWithPassword({ email, password }).then(({ data, error }) => {
+            if (error) {
                 setSubmitting(false)
-                navigate("/page/new")
-            })
+                alert('error')
+                return
+            }
+
+            const user = data.user
+            if (user == null) {
+                setSubmitting(false)
+                alert('error')
+                return
+            }
+            auth.setAuth(user)
+            setSubmitting(false)
+            navigate('/page/new')
+        })
     }
 
     return (
@@ -49,7 +47,7 @@ export default function SignIn() {
                 <FormInput
                     value={email}
                     required
-                    text={"Email"}
+                    text={'Email'}
                     handleChange={(s) => setEmail(s)}
                 />
 
@@ -57,7 +55,7 @@ export default function SignIn() {
                     value={password}
                     required
                     password
-                    text={"Password"}
+                    text={'Password'}
                     handleChange={(s) => setPassword(s)}
                 />
 
@@ -71,7 +69,7 @@ export default function SignIn() {
                 </button>
 
                 <Link
-                    to={"/signup"}
+                    to={'/signup'}
                     className="hover:underline text-blue-500 hover:text-blue-400 self-center"
                 >
                     Don't have an account? Sign up instead

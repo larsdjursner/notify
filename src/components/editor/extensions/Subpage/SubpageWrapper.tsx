@@ -1,11 +1,11 @@
-import { DocumentIcon } from "@heroicons/react/24/outline"
-import { NodeViewWrapper } from "@tiptap/react"
-import { useEffect, useMemo, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
-import { useAddPage } from "../../../../hooks/useAddPage"
-import { usePagesStore } from "../../../../stores/pagesStore"
-import { Page } from "../../../../supabase"
-import { Subpage } from "./Subpage"
+import { DocumentIcon } from '@heroicons/react/24/outline'
+import { NodeViewWrapper } from '@tiptap/react'
+import { useEffect, useMemo, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useAddPage } from '../../../../hooks/useAddPage'
+import { usePagesStore } from '../../../../stores/pagesStore'
+import { Page } from '../../../../supabase'
+import { Subpage } from './Subpage'
 const SubpageWrapper = () => {
     const { id } = useParams()
     const pagesStore = usePagesStore()

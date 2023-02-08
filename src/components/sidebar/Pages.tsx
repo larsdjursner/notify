@@ -1,5 +1,5 @@
-import usePages from "../../hooks/usePages"
-import PageItem from "./PageItem"
+import usePages from '../../hooks/usePages'
+import PageItem from './PageItem'
 
 interface Props {}
 
@@ -18,7 +18,10 @@ const Pages = (props: Props) => {
             ) : (
                 <div className="w-full relative overflow-y-scroll max-h-full">
                     {data?.map((page) => (
-                        <PageItem page={page} key={page.id} />
+                        <PageItem
+                            page={page}
+                            key={page.id}
+                        />
                     ))}
                 </div>
             )}

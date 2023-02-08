@@ -1,11 +1,11 @@
-import { useState } from "react"
-import { ChevronDoubleRightIcon, PlusIcon } from "@heroicons/react/24/outline"
-import TrashFlyout from "./TrashFlyout"
-import TooltipButton from "../generic/TooltipButton"
-import Pages from "./Pages"
-import { useAddPage } from "../../hooks/useAddPage"
-import { useNavigate } from "react-router-dom"
-import ProfileFlyout from "./ProfileFlyout"
+import { useState } from 'react'
+import { ChevronDoubleRightIcon, PlusIcon } from '@heroicons/react/24/outline'
+import TrashFlyout from './TrashFlyout'
+import TooltipButton from '../generic/TooltipButton'
+import Pages from './Pages'
+import { useAddPage } from '../../hooks/useAddPage'
+import { useNavigate } from 'react-router-dom'
+import ProfileFlyout from './ProfileFlyout'
 
 export const Sidebar = () => {
     const [shown, setShown] = useState(true)
@@ -42,7 +42,7 @@ export const Sidebar = () => {
                                     <p>Add page</p>
                                 </button>
                             }
-                            tooltip={"Add a new untitled document page"}
+                            tooltip={'Add a new untitled document page'}
                         />
 
                         <TrashFlyout />
@@ -50,9 +50,7 @@ export const Sidebar = () => {
                 )}
                 <ChevronDoubleRightIcon
                     className={`h-6 w-6 absolute bottom-5 -right-10 cursor-pointer hover:scale-110 z-50
-                        ${
-                            shown ? "rotate-180" : "rotate-0"
-                        } transition-all duration-100 delay-100`}
+                        ${shown ? 'rotate-180' : 'rotate-0'} transition-all duration-100 delay-100`}
                     onClick={() => setShown((prev) => !prev)}
                 />
             </div>

@@ -1,9 +1,9 @@
-import { useReducer, useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
-import FormInput from "../../components/generic/FormInput"
-import Throbber from "../../components/generic/Throbber"
-import { useAuthStore } from "../../stores/authStore"
-import { supabase } from "../../supabase"
+import { useReducer, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import FormInput from '../../components/generic/FormInput'
+import Throbber from '../../components/generic/Throbber'
+import { useAuthStore } from '../../stores/authStore'
+import { supabase } from '../../supabase'
 
 interface State {
     email: string
@@ -14,9 +14,9 @@ interface State {
 export default function SignUp() {
     const auth = useAuthStore()
     const navigate = useNavigate()
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const [repeatPassword, setRepeatPassword] = useState("")
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [repeatPassword, setRepeatPassword] = useState('')
     const [submitting, setSubmitting] = useState(false)
 
     const handleSubmit = async () => {
@@ -29,20 +29,20 @@ export default function SignUp() {
             .then(({ data, error }) => {
                 if (error) {
                     setSubmitting(false)
-                    alert("error")
+                    alert('error')
                     return
                 }
                 const user = data.user
 
                 if (user == null) {
                     setSubmitting(false)
-                    alert("error")
+                    alert('error')
                     return
                 }
 
                 auth.setAuth(user)
                 setSubmitting(false)
-                navigate("/page/new")
+                navigate('/page/new')
             })
     }
 
@@ -55,7 +55,7 @@ export default function SignUp() {
                 <FormInput
                     value={email}
                     required
-                    text={"Email"}
+                    text={'Email'}
                     handleChange={(s) => setEmail(s)}
                 />
 
@@ -63,7 +63,7 @@ export default function SignUp() {
                     value={password}
                     required
                     password
-                    text={"Password"}
+                    text={'Password'}
                     handleChange={(s) => setPassword(s)}
                 />
 
@@ -71,7 +71,7 @@ export default function SignUp() {
                     value={repeatPassword}
                     required
                     password
-                    text={"Repeat password"}
+                    text={'Repeat password'}
                     handleChange={(s) => setRepeatPassword(s)}
                 />
 
@@ -85,7 +85,7 @@ export default function SignUp() {
                 </button>
 
                 <Link
-                    to={"/signin"}
+                    to={'/signin'}
                     className="hover:underline text-blue-500 hover:text-blue-400 self-center"
                 >
                     Already have an account? Sign in instead

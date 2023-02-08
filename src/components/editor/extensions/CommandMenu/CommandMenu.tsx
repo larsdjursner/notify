@@ -1,10 +1,9 @@
-import { useEffect, useRef } from "react"
-import { CommandItem } from "./CommandItem"
-import { useCommandStore } from "./CommandMenuStore"
+import { useEffect, useRef } from 'react'
+import { CommandItem } from './CommandItem'
+import { useCommandStore } from './CommandMenuStore'
 
 export const CommandMenu = () => {
-    const { elements, overlayActive, position, setOverlayActive, selected } =
-        useCommandStore()
+    const { elements, overlayActive, position, setOverlayActive, selected } = useCommandStore()
 
     // TODO handle when cursor is in lower half of page
 
@@ -17,8 +16,8 @@ export const CommandMenu = () => {
     useEffect(() => {
         if (selected < itemsRef.current.length)
             itemsRef.current[selected].scrollIntoView({
-                behavior: "smooth",
-                block: "nearest",
+                behavior: 'smooth',
+                block: 'nearest',
             })
     }, [selected])
 

@@ -1,20 +1,17 @@
-import { Extension, Node } from "@tiptap/react"
-import Suggestion, {
-    SuggestionOptions,
-    SuggestionProps,
-} from "@tiptap/suggestion"
+import { Extension, Node } from '@tiptap/react'
+import Suggestion, { SuggestionOptions, SuggestionProps } from '@tiptap/suggestion'
 
 // type CommandOptions = {
 //     suggestion: Omit<SuggestionOptions, "editor">
 // }
 
 export const CommandMenuExtension = Extension.create({
-    name: "commandMenu",
+    name: 'commandMenu',
 
     addOptions() {
         return {
             suggestion: {
-                char: "/",
+                char: '/',
                 command: ({ editor, range, props }: any) => {
                     props.command({ editor, range })
                 },

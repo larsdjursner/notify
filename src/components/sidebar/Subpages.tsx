@@ -1,5 +1,5 @@
-import usePages from "../../hooks/usePages"
-import PageItem from "./PageItem"
+import usePages from '../../hooks/usePages'
+import PageItem from './PageItem'
 
 interface Props {
     parent_id: string
@@ -13,15 +13,16 @@ const Subpages = ({ parent_id }: Props) => {
     return (
         <div className="pl-4 border-l border-slate-600">
             {isLoading ? (
-                <span className="w-full text-sm text-slate-500">
-                    Loading...
-                </span>
+                <span className="w-full text-sm text-slate-500">Loading...</span>
             ) : data.length > 0 ? (
-                data.map((child) => <PageItem page={child} key={child.id} />)
+                data.map((child) => (
+                    <PageItem
+                        page={child}
+                        key={child.id}
+                    />
+                ))
             ) : (
-                <span className="w-full text-sm text-slate-500">
-                    There are no pages inside
-                </span>
+                <span className="w-full text-sm text-slate-500">There are no pages inside</span>
             )}
         </div>
     )

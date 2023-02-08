@@ -1,8 +1,8 @@
-import { useState } from "react"
-import Toast, { Position } from "../toast/ToastList"
-import { Navbar } from "../navigation/Navbar"
-import { Sidebar } from "../sidebar/Sidebar"
-import useToastStore from "../toast/ToastStore"
+import { useState } from 'react'
+import Toast, { Position } from '../toast/ToastList'
+import { Navbar } from '../navigation/Navbar'
+import { Sidebar } from '../sidebar/Sidebar'
+import useToastStore from '../toast/ToastStore'
 
 interface Props {
     children: JSX.Element | JSX.Element[] | string

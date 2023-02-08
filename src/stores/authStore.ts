@@ -1,6 +1,6 @@
-import { User } from "@supabase/supabase-js"
-import create from "zustand"
-import { supabase } from "../supabase"
+import { User } from '@supabase/supabase-js'
+import create from 'zustand'
+import { supabase } from '../supabase'
 
 interface AuthState {
     isAuth: boolean

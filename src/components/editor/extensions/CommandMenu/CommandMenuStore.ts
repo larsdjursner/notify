@@ -1,9 +1,9 @@
-import { Range } from "@tiptap/react"
-import { Editor } from "@tiptap/core"
-import { SuggestionProps } from "@tiptap/suggestion"
-import create from "zustand"
-import { Item } from "./suggestion"
-import { useAddPage } from "../../../../hooks/useAddPage"
+import { Range } from '@tiptap/react'
+import { Editor } from '@tiptap/core'
+import { SuggestionProps } from '@tiptap/suggestion'
+import create from 'zustand'
+import { Item } from './suggestion'
+import { useAddPage } from '../../../../hooks/useAddPage'
 
 interface Position {
     left: number | undefined
@@ -23,7 +23,7 @@ interface CommandMenuState {
     setPosition: (position: Position) => void
     setOverlayActive: (bool: boolean) => void
     setElements: (elements: Array<any>) => void
-    setProps: (props: Pick<SuggestionProps, "editor" | "range">) => void
+    setProps: (props: Pick<SuggestionProps, 'editor' | 'range'>) => void
     setSelected: (selected: number) => void
     setSelectedByTitle: (title: string) => void
     executeCommandByTitle: (title: string) => void
@@ -49,9 +49,7 @@ export const useCommandStore = create<CommandMenuState>()((set, get) => ({
     up: () =>
         set((state) => {
             return {
-                selected:
-                    (state.selected + state.elements.length - 1) %
-                    state.elements.length,
+                selected: (state.selected + state.elements.length - 1) % state.elements.length,
             }
         }),
     down: () =>
@@ -72,8 +70,8 @@ export const useCommandStore = create<CommandMenuState>()((set, get) => ({
         const element = get().getElements().at(get().selected)
         if (element === undefined) return
 
-        if (element.title === "Subpage") {
-            console.log("hey")
+        if (element.title === 'Subpage') {
+            console.log('hey')
         }
         get().executeCommandByIndex(get().selected)
     },
@@ -86,7 +84,6 @@ export const useCommandStore = create<CommandMenuState>()((set, get) => ({
             }
         }),
     executeCommandByTitle: (title) => {
-        if (get().elements[get().selected].title === title)
-            get().executeCommandBySelected()
+        if (get().elements[get().selected].title === title) get().executeCommandBySelected()
     },
 }))

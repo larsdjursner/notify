@@ -1,12 +1,12 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { Json } from "../schema"
-import { Page, supabase } from "../supabase"
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { Json } from '../schema'
+import { Page, supabase } from '../supabase'
 
 async function updateTitle(id: string, title: string) {
     const { data, error } = await supabase
-        .from("pages")
+        .from('pages')
         .update({ title })
-        .eq("id", id)
+        .eq('id', id)
         .select()
         .single()
 
@@ -15,7 +15,7 @@ async function updateTitle(id: string, title: string) {
     }
 
     if (!data) {
-        throw new Error("Page could not be updated")
+        throw new Error('Page could not be updated')
     }
 
     return data
@@ -27,17 +27,15 @@ export function useUpdatetitle(id: string, parent_id?: string | null) {
     return useMutation({
         mutationFn: (title: string) => updateTitle(id, title),
         onSuccess: (newPage) => {
-            queryClient.setQueryData(["pages", id], newPage)
-            let queryKey = ["pages"]
+            queryClient.setQueryData(['pages', id], newPage)
+            let queryKey = ['pages']
             if (parent_id) {
                 queryKey = [`pages-${parent_id}`]
             }
 
             queryClient.setQueryData<Page[]>(queryKey, (old) => {
                 if (old === undefined) return []
-                return old.map((page) =>
-                    page.id === newPage.id ? newPage : page
-                )
+                return old.map((page) => (page.id === newPage.id ? newPage : page))
             })
         },
     })

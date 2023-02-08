@@ -4,18 +4,14 @@ import {
     DocumentTextIcon,
     PlusIcon,
     TrashIcon,
-} from "@heroicons/react/24/outline"
-import { useState } from "react"
-import {
-    UNSAFE_NavigationContext,
-    useNavigate,
-    useParams,
-} from "react-router-dom"
-import { useAddPage } from "../../hooks/useAddPage"
-import { useDeletePage } from "../../hooks/useDeletePage"
-import { Page } from "../../supabase"
-import IconButton from "../navigation/IconButton"
-import Subpages from "./Subpages"
+} from '@heroicons/react/24/outline'
+import { useState } from 'react'
+import { UNSAFE_NavigationContext, useNavigate, useParams } from 'react-router-dom'
+import { useAddPage } from '../../hooks/useAddPage'
+import { useDeletePage } from '../../hooks/useDeletePage'
+import { Page } from '../../supabase'
+import IconButton from '../navigation/IconButton'
+import Subpages from './Subpages'
 
 interface Props {
     page: Page
@@ -35,7 +31,7 @@ const PageItem = ({ page }: Props) => {
     const handleDelete = async () => {
         try {
             await deleteMutation?.mutateAsync()
-            navigate("/page/new")
+            navigate('/page/new')
         } catch (error) {
             console.error(error)
         }
@@ -59,14 +55,14 @@ const PageItem = ({ page }: Props) => {
             <button
                 onClick={() => navigate(`/page/${page.id}`)}
                 className={`w-full py-2 flex justify-start gap-2 items-center pl-2 pr-4 group hover:bg-slate-50 
-                ${isCurrent || open ? "bg-slate-50" : "bg-white"}
+                ${isCurrent || open ? 'bg-slate-50' : 'bg-white'}
                 `}
             >
                 <IconButton
                     icon={
                         <ChevronRightIcon
                             className={`h-4 w-4 ${
-                                open ? "rotate-90" : "rotate-0"
+                                open ? 'rotate-90' : 'rotate-0'
                             } transition-all duration-100 delay-100`}
                         />
                     }
@@ -84,25 +80,21 @@ const PageItem = ({ page }: Props) => {
                         <DocumentTextIcon className="h-4 w-4" />
                     )}
                     <p className="truncate text-sm">
-                        {page.title === "" ? "Untitled" : page.title}
+                        {page.title === '' ? 'Untitled' : page.title}
                     </p>
                 </div>
 
                 <span className="flex-1" />
 
                 <IconButton
-                    icon={
-                        <TrashIcon className="h-4 w-4 invisible group-hover:visible" />
-                    }
+                    icon={<TrashIcon className="h-4 w-4 invisible group-hover:visible" />}
                     onClick={(e) => {
                         e.stopPropagation()
                         handleDelete()
                     }}
                 />
                 <IconButton
-                    icon={
-                        <PlusIcon className="h-4 w-4 invisible group-hover:visible" />
-                    }
+                    icon={<PlusIcon className="h-4 w-4 invisible group-hover:visible" />}
                     onClick={(e) => {
                         e.stopPropagation()
                         handleAdd()

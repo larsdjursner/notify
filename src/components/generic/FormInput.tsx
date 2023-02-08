@@ -1,6 +1,6 @@
-import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline"
-import React, { useEffect, useRef, useState } from "react"
-import { Link } from "react-router-dom"
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline'
+import React, { useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 interface Props {
     value: string
@@ -44,7 +44,7 @@ export default function FormInput({
                     required={required}
                     value={value}
                     placeholder={placeholder}
-                    type={showPassword || !password ? "text" : "password"}
+                    type={showPassword || !password ? 'text' : 'password'}
                     onChange={(e) => handleChange(e.target.value)}
                 />
                 {password && (

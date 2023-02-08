@@ -1,5 +1,5 @@
-import { Bars4Icon, PlusIcon } from "@heroicons/react/24/outline"
-import { NodeViewContent, NodeViewWrapper } from "@tiptap/react"
+import { Bars4Icon, PlusIcon } from '@heroicons/react/24/outline'
+import { NodeViewContent, NodeViewWrapper } from '@tiptap/react'
 
 export const Component = () => {
     return (

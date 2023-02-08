@@ -1,12 +1,12 @@
-import { ReactNodeViewRenderer } from "@tiptap/react"
-import { mergeAttributes, Node } from "@tiptap/core"
-import SubpageWrapper from "./SubpageWrapper"
+import { ReactNodeViewRenderer } from '@tiptap/react'
+import { mergeAttributes, Node } from '@tiptap/core'
+import SubpageWrapper from './SubpageWrapper'
 
 export interface SubPageOptions {
     HTMLAttributes: Record<string, any>
 }
 
-declare module "@tiptap/core" {
+declare module '@tiptap/core' {
     interface Commands<ReturnType> {
         /**
          * @description Add a reference to another page.
@@ -18,18 +18,18 @@ declare module "@tiptap/core" {
 }
 
 export const Subpage = Node.create<SubPageOptions>({
-    name: "Subpage",
-    group: "block",
+    name: 'Subpage',
+    group: 'block',
     atom: true,
     draggable: true,
 
     addAttributes() {
         return {
             user_id: {
-                default: "",
+                default: '',
             },
             parent_id: {
-                default: "",
+                default: '',
             },
         }
     },
@@ -37,22 +37,19 @@ export const Subpage = Node.create<SubPageOptions>({
     parseHTML() {
         return [
             {
-                tag: "div.SubPage",
+                tag: 'div.SubPage',
             },
         ]
     },
 
     renderHTML({ HTMLAttributes }: any) {
-        return [
-            "div",
-            mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
-        ]
+        return ['div', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)]
     },
 
     addOptions() {
         return {
             HTMLAttributes: {
-                class: "SubPage",
+                class: 'SubPage',
             },
         }
     },

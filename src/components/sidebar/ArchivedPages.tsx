@@ -1,15 +1,15 @@
-import { useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
-import useFetchArchivedPages from "../../hooks/useFetchArchivedPages"
-import { Page } from "../../supabase"
-import ArchivedPageItem from "./ArchivedPageItem"
+import { useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import useFetchArchivedPages from '../../hooks/useFetchArchivedPages'
+import { Page } from '../../supabase'
+import ArchivedPageItem from './ArchivedPageItem'
 
 interface Props {
     onClose: () => void
 }
 
 const ArchivedPages = ({ onClose }: Props) => {
-    const [query, setQuery] = useState("")
+    const [query, setQuery] = useState('')
     const { isLoading, isError, data, error } = useFetchArchivedPages(query)
 
     if (isError) return <span>{error.message}</span>

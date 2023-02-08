@@ -1,9 +1,10 @@
-import { TrashIcon } from "@heroicons/react/24/outline"
-import { useNavigate, useParams } from "react-router-dom"
-import { useDeletePage } from "../../hooks/useDeletePage"
-import usePage from "../../hooks/usePage"
-import { Page } from "../../supabase"
-import EditDate from "./EditDate"
+import { TrashIcon } from '@heroicons/react/24/outline'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useDeletePage } from '../../hooks/useDeletePage'
+import usePage from '../../hooks/usePage'
+import { Page } from '../../supabase'
+import useToastStore from '../toast/ToastStore'
+import EditDate from './EditDate'
 
 export const Navbar = () => {
     const { id } = useParams()
@@ -13,6 +14,10 @@ export const Navbar = () => {
 
     if (isError) return <p>{error.message}</p>
 
+    const handleSuccess = (page: Page) => {
+        navigate('/page/new')
+    }
+
     return (
         <div className="w-full h-12 bg-white pt-2 px-2 border-b border-slate-200 shadow-lg">
             <div className="flex justify-between items-center px-10 py-1">
@@ -20,12 +25,12 @@ export const Navbar = () => {
                     <p>...loading</p>
                 ) : (
                     <>
-                        <p>{data?.title === "" ? "Untitled" : data.title}</p>
+                        <p>{data?.title === '' ? 'Untitled' : data.title}</p>
                         <div className="flex gap-4">
                             <EditDate page={data} />
                             <DeleteButton
                                 page={data}
-                                onSuccess={() => navigate("/page/new")}
+                                onSuccess={handleSuccess}
                             />
                         </div>
                     </>
@@ -35,13 +40,7 @@ export const Navbar = () => {
     )
 }
 
-const DeleteButton = ({
-    page,
-    onSuccess,
-}: {
-    page: Page
-    onSuccess: () => void
-}) => {
+const DeleteButton = ({ page, onSuccess }: { page: Page; onSuccess: (page: Page) => void }) => {
     const deleteMutation = useDeletePage({
         id: page.id,
         parent_id: page.parent_id,
@@ -50,8 +49,8 @@ const DeleteButton = ({
 
     const handleDelete = async () => {
         try {
-            await deleteMutation.mutateAsync()
-            onSuccess()
+            const page = await deleteMutation.mutateAsync()
+            onSuccess(page)
         } catch (error) {
             console.error(error)
         }

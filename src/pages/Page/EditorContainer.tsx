@@ -1,9 +1,10 @@
-import { format, parseISO } from "date-fns"
-import Editor from "../../components/editor/Editor"
-import { useUpdateContent } from "../../hooks/useUpdateContent"
-import { useUpdatetitle } from "../../hooks/useUpdateTitle"
-import { Json } from "../../schema"
-import { Page } from "../../supabase"
+import { format, parseISO } from 'date-fns'
+import { useEffect, useState } from 'react'
+import Editor from '../../components/editor/Editor'
+import { useUpdateContent } from '../../hooks/useUpdateContent'
+import { useUpdatetitle } from '../../hooks/useUpdateTitle'
+import { Json } from '../../schema'
+import { debounce, Page } from '../../supabase'
 
 interface Props {
     page: Page
@@ -11,9 +12,9 @@ interface Props {
 
 const EditorContainer = ({ page }: Props) => {
     const updateContent = useUpdateContent(page.id)
-    const handleContentChange = (content: Json) => {
+    const handleContentChange = debounce((content: Json) => {
         updateContent.mutate(content)
-    }
+    })
 
     const updateTitle = useUpdatetitle(page.id, page.parent_id)
     const handleTitleChange = (title: string) => {
@@ -34,14 +35,14 @@ const EditorContainer = ({ page }: Props) => {
 
             <p className="text-slate-300 text-sm mx-2">{`Created ${format(
                 parseISO(page.created_at),
-                "Do MMMM, yyyy"
+                'Do MMMM, yyyy',
             )}`}</p>
             {/* by ${user?.email}`} */}
 
             <Editor
                 editable={!page.archived}
                 content={page.content}
-                onUpdate={(content) => handleContentChange(content)}
+                onUpdate={handleContentChange}
             />
         </div>
     )

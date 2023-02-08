@@ -1,81 +1,78 @@
-export type Json =
-  | string
-  | number
-  | boolean
-  | null
-  | { [key: string]: Json }
-  | Json[]
+export type Json = string | number | boolean | null | { [key: string]: Json } | Json[]
 
 export interface Database {
-  public: {
-    Tables: {
-      pages: {
-        Row: {
-          archived: boolean
-          content: Json | null
-          created_at: string
-          id: string
-          parent_id: string | null
-          title: string
-          updated_at: string
-          user_id: string
+    public: {
+        Tables: {
+            pages: {
+                Row: {
+                    archived: boolean
+                    content: Json | null
+                    created_at: string
+                    id: string
+                    parent_id: string | null
+                    title: string
+                    updated_at: string
+                    user_id: string
+                }
+                Insert: {
+                    archived?: boolean
+                    content?: Json | null
+                    created_at?: string
+                    id?: string
+                    parent_id?: string | null
+                    title?: string
+                    updated_at?: string
+                    user_id: string
+                }
+                Update: {
+                    archived?: boolean
+                    content?: Json | null
+                    created_at?: string
+                    id?: string
+                    parent_id?: string | null
+                    title?: string
+                    updated_at?: string
+                    user_id?: string
+                }
+            }
+            profiles: {
+                Row: {
+                    avatar_url: string | null
+                    full_name: string | null
+                    id: string
+                    updated_at: string | null
+                    username: string | null
+                    website: string | null
+                }
+                Insert: {
+                    avatar_url?: string | null
+                    full_name?: string | null
+                    id: string
+                    updated_at?: string | null
+                    username?: string | null
+                    website?: string | null
+                }
+                Update: {
+                    avatar_url?: string | null
+                    full_name?: string | null
+                    id?: string
+                    updated_at?: string | null
+                    username?: string | null
+                    website?: string | null
+                }
+            }
         }
-        Insert: {
-          archived?: boolean
-          content?: Json | null
-          created_at?: string
-          id?: string
-          parent_id?: string | null
-          title?: string
-          updated_at?: string
-          user_id: string
+        Views: {
+            [_ in never]: never
         }
-        Update: {
-          archived?: boolean
-          content?: Json | null
-          created_at?: string
-          id?: string
-          parent_id?: string | null
-          title?: string
-          updated_at?: string
-          user_id?: string
+        Functions: {
+            [_ in never]: never
         }
-      }
-      profiles: {
-        Row: {
-          avatar_url: string | null
-          full_name: string | null
-          id: string
-          updated_at: string | null
-          username: string | null
-          website: string | null
+        Enums: {
+            [_ in never]: never
         }
-        Insert: {
-          avatar_url?: string | null
-          full_name?: string | null
-          id: string
-          updated_at?: string | null
-          username?: string | null
-          website?: string | null
+        CompositeTypes: {
+            [_ in never]: never
         }
-        Update: {
-          avatar_url?: string | null
-          full_name?: string | null
-          id?: string
-          updated_at?: string | null
-          username?: string | null
-          website?: string | null
-        }
-      }
     }
-    Views: {
-      [_ in never]: never
-    }
-    Functions: {
-      [_ in never]: never
-    }
-    Enums: {
-      [_ in never]: never
-    }
-  }
 }

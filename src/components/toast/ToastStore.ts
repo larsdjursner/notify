@@ -1,4 +1,4 @@
-import create from "zustand"
+import create from 'zustand'
 
 export interface DeleteToast {
     id: string
@@ -16,8 +16,7 @@ type State = {
 
 const useToastStore = create<State>((set) => ({
     toastList: [],
-    addToast: (toast) =>
-        set((state) => ({ toastList: [...state.toastList, toast] })),
+    addToast: (toast) => set((state) => ({ toastList: [...state.toastList, toast] })),
     removeToast: (id) => {
         set((state) => ({
             toastList: state.toastList.filter((toast) => toast.id !== id),
@@ -28,12 +27,12 @@ const useToastStore = create<State>((set) => ({
 
 export default useToastStore
 
-export const addDeleteToast = (
-    id: string,
-    undo: () => void,
+export const addDeleteToast = ({
+    id,
+    undo,
     delay = 5000,
-    text = "Moved to trash"
-) => {
+    text = 'Moved to trash',
+}: DeleteToast) => {
     const toast: DeleteToast = {
         id,
         delay,
