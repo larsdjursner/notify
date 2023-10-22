@@ -1,14 +1,13 @@
-import { useState } from 'react'
 import Toast, { Position } from '../toast/ToastList'
 import { Navbar } from '../navigation/Navbar'
 import { Sidebar } from '../sidebar/Sidebar'
-import useToastStore from '../toast/ToastStore'
+import React from 'react'
 
-interface Props {
-    children: JSX.Element | JSX.Element[] | string
+type BaseLayoutProps = {
+    children: React.ReactNode
 }
 
-const BaseLayout = ({ children }: Props) => {
+const BaseLayout: React.FC<BaseLayoutProps> = ({ children }) => {
     return (
         <>
             <Sidebar />

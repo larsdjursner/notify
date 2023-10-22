@@ -1,64 +1,45 @@
+import { useParams } from 'react-router-dom'
+import usePage from '../../hooks/api/use-page.query'
+import dayjs from 'dayjs'
 import { TrashIcon } from '@heroicons/react/24/outline'
-import { useNavigate, useParams } from 'react-router-dom'
-import { useDeletePage } from '../../hooks/api/useDeletePage'
-import usePage from '../../hooks/api/usePage'
-import { Page } from '../../supabase'
-import useToastStore from '../toast/ToastStore'
-import EditDate from './EditDate'
+import { useMemo } from 'react'
 
 export const Navbar = () => {
-    const { id } = useParams()
-    const navigate = useNavigate()
+    const { id } = useParams() as { id: string }
 
-    const { data, error, isError, isLoading } = usePage(id)
+    const { data: page, isLoading } = usePage(id)
 
-    if (isError) return <p>{error.message}</p>
+    const title = (() => {
+        if (isLoading) {
+            return ''
+        }
 
-    const handleSuccess = (page: Page) => {
-        navigate('/page/new')
-    }
+        if (page?.title === '') {
+            return 'Untitled'
+        }
+
+        return page?.title
+    })()
+
+    const date = useMemo(() => {
+        if (!page) {
+            return ''
+        }
+
+        return dayjs(page.updated_at).fromNow()
+    }, [page?.updated_at])
+
+    const handleDelete = () => {}
 
     return (
-        <div className="w-full h-12 bg-white pt-2 px-2 border-b border-slate-200 shadow-lg">
-            <div className="flex justify-between items-center px-10 py-1">
-                {isLoading ? (
-                    <p>...loading</p>
-                ) : (
-                    <>
-                        <p>{data?.title === '' ? 'Untitled' : data.title}</p>
-                        <div className="flex gap-4">
-                            <EditDate page={data} />
-                            <DeleteButton
-                                page={data}
-                                onSuccess={handleSuccess}
-                            />
-                        </div>
-                    </>
-                )}
+        <div className="w-full h-14 bg-white flex items-center justify-between px-10">
+            <p className="">{title}</p>
+            <div className="flex gap-4">
+                <p className="">{date}</p>
+                <button onClick={handleDelete}>
+                    <TrashIcon className="h-4 w-4" />
+                </button>
             </div>
         </div>
-    )
-}
-
-const DeleteButton = ({ page, onSuccess }: { page: Page; onSuccess: (page: Page) => void }) => {
-    const deleteMutation = useDeletePage({
-        id: page.id,
-        parent_id: page.parent_id,
-        softDelete: !page.archived,
-    })
-
-    const handleDelete = async () => {
-        try {
-            const page = await deleteMutation.mutateAsync()
-            onSuccess(page)
-        } catch (error) {
-            console.error(error)
-        }
-    }
-
-    return (
-        <button onClick={handleDelete}>
-            <TrashIcon className="h-4 w-4" />
-        </button>
     )
 }

@@ -1,24 +1,24 @@
 import Placeholder from '@tiptap/extension-placeholder'
-import { useEditor, EditorContent, Content } from '@tiptap/react'
+import { useEditor, EditorContent, type Content } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { CommandMenuExtension } from './extensions/CommandMenu/CommandMenuExtension'
 import { CommandMenu } from './extensions/CommandMenu/CommandMenu'
 import suggestion from './extensions/CommandMenu/suggestion'
-import { Json } from '../../types/schema'
-import { useEffect } from 'react'
+import { type Json } from '../../types/schema'
+import React, { useEffect } from 'react'
 import Link from '@tiptap/extension-link'
 import { Subpage } from './extensions/Subpage/Subpage'
 import TaskList from '@tiptap/extension-task-list'
 import TaskItem from '@tiptap/extension-task-item'
 import { Document } from '@tiptap/extension-document'
 
-interface Props {
+type EditorProps = {
     editable: boolean
     content: Json | undefined
     onUpdate: (content: Json) => void
 }
 
-const Editor = ({ editable, content, onUpdate }: Props) => {
+const Editor: React.FC<EditorProps> = ({ editable, content, onUpdate }) => {
     const editor = useEditor({
         extensions: [
             // CustomParagraph,

@@ -1,7 +1,7 @@
 import { ArrowUturnLeftIcon, TrashIcon } from '@heroicons/react/24/outline'
 import { useNavigate } from 'react-router-dom'
 import { useDeletePage } from '../../hooks/api/useDeletePage'
-import usePage from '../../hooks/api/usePage'
+import usePage from '../../hooks/api/use-page.query'
 import { useRestorePage } from '../../hooks/api/useRestorePage'
 import { Page } from '../../supabase'
 

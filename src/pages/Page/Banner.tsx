@@ -1,9 +1,9 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDeletePage } from '../../hooks/api/useDeletePage'
 import { useRestorePage } from '../../hooks/api/useRestorePage'
-import { Page } from '../../supabase'
+import { type Page } from '../../supabase'
 
-interface Props {
+type Props = {
     page: Page
 }
 const Banner = ({ page }: Props) => {

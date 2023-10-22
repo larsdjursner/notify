@@ -11,12 +11,18 @@ export const Sidebar = () => {
     const [shown, setShown] = useState(true)
     const navigate = useNavigate()
 
-    const mutation = useAddPage()
+    const createPage = useAddPage()
     const handleAdd = async () => {
         try {
-            const page = await mutation?.mutateAsync()
-            if (!page) return
-            navigate(`/page/${page.id}`)
+            const page = await createPage?.mutateAsync()
+
+            if (!page) {
+                return
+            }
+
+            const { id } = page
+
+            navigate(`/page/${id}`)
         } catch (error) {
             console.error(error)
         }
@@ -50,7 +56,9 @@ export const Sidebar = () => {
                 <ChevronDoubleRightIcon
                     className={`h-6 w-6 absolute bottom-5 -right-10 cursor-pointer hover:scale-110 z-50
                         ${shown ? 'rotate-180' : 'rotate-0'} transition-all duration-100 delay-100`}
-                    onClick={() => setShown((prev) => !prev)}
+                    onClick={() => {
+                        setShown((prev) => !prev)
+                    }}
                 />
             </div>
         </>

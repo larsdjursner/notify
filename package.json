@@ -29,7 +29,7 @@
         "@tiptap/suggestion": "^2.0.0-beta.209",
         "@types/node": "^18.11.18",
         "date-fns": "^2.29.3",
-        "datejs": "^1.0.0-rc3",
+        "dayjs": "^1.11.10",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "react-router-dom": "^6.6.2",
