@@ -1,6 +1,6 @@
-import { QueryKey, useMutation, useQueryClient } from '@tanstack/react-query'
-import { useAuthStore } from '../stores/authStore'
-import { Page, supabase } from '../supabase'
+import { type QueryKey, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useAuthStore } from '../../stores/authStore'
+import { type Page, supabase } from '../../supabase'
 
 export const addPage = async (user_id: string, parent_id: null | string = null) => {
     const { data, error } = await supabase
@@ -9,7 +9,7 @@ export const addPage = async (user_id: string, parent_id: null | string = null) 
         .select()
         .single()
 
-    if (error) {
+    if (error != null) {
         throw new Error(error.message)
     }
 
@@ -27,8 +27,8 @@ export function useAddPage(parent_id: null | string = null) {
     const queryClient = useQueryClient()
 
     return useMutation<Page, Error>({
-        mutationFn: () => {
-            return addPage(userid, parent_id)
+        mutationFn: async () => {
+            return await addPage(userid, parent_id)
         },
         onSuccess: () => {
             const key: QueryKey = parent_id ? [`pages-${parent_id}`] : ['pages']

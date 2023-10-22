@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { Json } from '../schema'
-import { supabase } from '../supabase'
+import { type Json } from '../../types/schema'
+import { supabase } from '../../supabase'
 
 async function updateContent(id: string, content: Json) {
     const { data, error } = await supabase
@@ -10,7 +10,7 @@ async function updateContent(id: string, content: Json) {
         .select()
         .single()
 
-    if (error) {
+    if (error != null) {
         throw new Error(error.message)
     }
 
@@ -25,7 +25,7 @@ export function useUpdateContent(id: string) {
     const queryClient = useQueryClient()
 
     return useMutation({
-        mutationFn: (content: Json) => updateContent(id, content),
+        mutationFn: async (content: Json) => await updateContent(id, content),
         onSuccess: (newPage) => {
             queryClient.setQueryData(['pages', id], newPage)
         },

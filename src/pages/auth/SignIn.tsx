@@ -5,7 +5,7 @@ import Throbber from '../../components/generic/Throbber'
 import { useAuthStore } from '../../stores/authStore'
 import { supabase } from '../../supabase'
 
-interface State {
+type State = {
     email: string
     password: string
     cPassword: string
@@ -48,7 +48,9 @@ export default function SignIn() {
                     value={email}
                     required
                     text={'Email'}
-                    handleChange={(s) => setEmail(s)}
+                    handleChange={(s) => {
+                        setEmail(s)
+                    }}
                 />
 
                 <FormInput
@@ -56,13 +58,14 @@ export default function SignIn() {
                     required
                     password
                     text={'Password'}
-                    handleChange={(s) => setPassword(s)}
+                    handleChange={(s) => {
+                        setPassword(s)
+                    }}
                 />
 
                 <button
                     className="grid grid-cols-3 w-full mx-0 shadow-lg py-4 rounded-md"
-                    onClick={handleSubmit}
-                >
+                    onClick={handleSubmit}>
                     <span />
                     <p>Sign in</p>
                     {submitting && <Throbber />}
@@ -70,8 +73,7 @@ export default function SignIn() {
 
                 <Link
                     to={'/signup'}
-                    className="hover:underline text-blue-500 hover:text-blue-400 self-center"
-                >
+                    className="hover:underline text-blue-500 hover:text-blue-400 self-center">
                     Don't have an account? Sign up instead
                 </Link>
             </div>

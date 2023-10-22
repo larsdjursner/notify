@@ -1,8 +1,8 @@
-import { User } from '@supabase/supabase-js'
-import create from 'zustand'
+import { type User } from '@supabase/supabase-js'
+import { create } from 'zustand'
 import { supabase } from '../supabase'
 
-interface AuthState {
+type AuthState = {
     isAuth: boolean
     user: User | null
     getAuth: () => boolean
@@ -20,7 +20,7 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
         set(() => ({ isAuth: true, user }))
     },
     logout: () => {
-        supabase.auth.signOut()
+        void supabase.auth.signOut()
         set(() => ({ isAuth: false }))
 
         // destroy store

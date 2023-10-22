@@ -1,5 +1,5 @@
 import { SuggestionKeyDownProps, SuggestionProps } from '@tiptap/suggestion'
-import { addPage } from '../../../../hooks/useAddPage'
+import { addPage } from '../../../../hooks/api/useAddPage'
 import { useAuthStore } from '../../../../stores/authStore'
 import { usePagesStore } from '../../../../stores/pagesStore'
 

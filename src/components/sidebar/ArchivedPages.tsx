@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import useFetchArchivedPages from '../../hooks/useFetchArchivedPages'
+import useFetchArchivedPages from '../../hooks/api/useFetchArchivedPages'
 import { Page } from '../../supabase'
 import ArchivedPageItem from './ArchivedPageItem'
 

@@ -3,7 +3,7 @@ import { Editor } from '@tiptap/core'
 import { SuggestionProps } from '@tiptap/suggestion'
 import create from 'zustand'
 import { Item } from './suggestion'
-import { useAddPage } from '../../../../hooks/useAddPage'
+import { useAddPage } from '../../../../hooks/api/useAddPage'
 
 interface Position {
     left: number | undefined

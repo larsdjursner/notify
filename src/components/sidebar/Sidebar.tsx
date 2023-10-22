@@ -3,7 +3,7 @@ import { ChevronDoubleRightIcon, PlusIcon } from '@heroicons/react/24/outline'
 import TrashFlyout from './TrashFlyout'
 import TooltipButton from '../generic/TooltipButton'
 import Pages from './Pages'
-import { useAddPage } from '../../hooks/useAddPage'
+import { useAddPage } from '../../hooks/api/useAddPage'
 import { useNavigate } from 'react-router-dom'
 import ProfileFlyout from './ProfileFlyout'
 
@@ -36,8 +36,7 @@ export const Sidebar = () => {
                             button={
                                 <button
                                     onClick={handleAdd}
-                                    className="w-full h-8 flex justify-start items-center hover:bg-slate-200 rounded-sm px-4"
-                                >
+                                    className="w-full h-8 flex justify-start items-center hover:bg-slate-200 rounded-sm px-4">
                                     <PlusIcon className="h-4 w-4 mr-4" />
                                     <p>Add page</p>
                                 </button>

@@ -2,7 +2,7 @@ import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline'
 import React, { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 
-interface Props {
+type Props = {
     value: string
     text: string
     handleChange: (s: string) => void
@@ -45,13 +45,16 @@ export default function FormInput({
                     value={value}
                     placeholder={placeholder}
                     type={showPassword || !password ? 'text' : 'password'}
-                    onChange={(e) => handleChange(e.target.value)}
+                    onChange={(e) => {
+                        handleChange(e.target.value)
+                    }}
                 />
                 {password && (
                     <button
                         className="absolute bottom-4 right-4"
-                        onClick={() => setShowPassword(!showPassword)}
-                    >
+                        onClick={() => {
+                            setShowPassword(!showPassword)
+                        }}>
                         {showPassword ? (
                             <EyeSlashIcon className="h-4 w-4" />
                         ) : (

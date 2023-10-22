@@ -1,11 +1,11 @@
-import create from 'zustand'
-import { addDeleteToast } from '../components/toast/ToastStore'
-import { Page } from '../supabase'
+import { create } from 'zustand'
+// import { addDeleteToast } from '../components/toast/ToastStore'
+import { type Page } from '../supabase'
 
-interface State {
+type State = {
     currentPage: Page | null
 }
-interface Actions {
+type Actions = {
     setCurrentPage: (currentPage: Page) => void
     resetCurrentPage: () => void
     getCurrentPage: () => Page | null

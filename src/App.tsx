@@ -1,24 +1,40 @@
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import {
-    BrowserRouter as Router,
-    Route,
-    Routes,
     Navigate,
     Outlet,
     useNavigate,
     useLocation,
+    createBrowserRouter,
+    type RouteObject,
+    RouterProvider,
 } from 'react-router-dom'
-import BaseLayout from './components/layout/BaseLayout'
 import SignIn from './pages/auth/SignIn'
 import SignUp from './pages/auth/SignUp'
 import Landing from './pages/Landing'
 import { Page } from './pages/Page/Page'
 import { useAuthStore } from './stores/authStore'
 import { supabase } from './supabase'
-
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import NewPage from './pages/NewPage'
+import ErrorPage from './pages/ErrorPage'
 
-const ProtectedRoute = ({ redirectPath = '/' }: { redirectPath?: string }) => {
+const App: React.FC = () => {
+    const queryClient = new QueryClient()
+    const router = createBrowserRouter(routes, {})
+
+    return (
+        <QueryClientProvider client={queryClient}>
+            <RouterProvider router={router} />
+        </QueryClientProvider>
+    )
+}
+
+export default App
+
+type GuardedRouteProps = {
+    redirectPath?: string
+}
+const GuardedRoute: React.FC<GuardedRouteProps> = ({ redirectPath = '/' }) => {
     const { getAuth } = useAuthStore()
 
     if (!getAuth()) {
@@ -33,76 +49,61 @@ const ProtectedRoute = ({ redirectPath = '/' }: { redirectPath?: string }) => {
     return <Outlet />
 }
 
-const NewPage = () => {
-    return <div>new page!</div>
-}
-
-const RouterWrapper = ({ children }: { children: JSX.Element | JSX.Element[] }) => {
-    const { setAuth } = useAuthStore()
+const RouterWrapper: React.FC = () => {
     const navigate = useNavigate()
+    const { setAuth } = useAuthStore()
     const { pathname } = useLocation()
+
     const regularRoutes = ['/', '/signup', '/signin']
 
     useEffect(() => {
-        supabase.auth.getSession().then(({ data: { session } }) => {
-            if (session?.user) {
-                setAuth(session.user)
-                navigate(regularRoutes.includes(pathname) ? '/page/new' : pathname)
+        void supabase.auth.getSession().then(({ data: { session } }) => {
+            if (session?.user == null) {
+                return
             }
+
+            setAuth(session.user)
+            navigate(regularRoutes.includes(pathname) ? '/page/new' : pathname)
         })
     }, [])
 
-    return <div className="h-screen w-screen flex max-h-screen max-w-screen">{children}</div>
+    return <div className="h-screen w-screen flex max-h-screen max-w-screen">{<Outlet />}</div>
 }
 
-function App() {
-    const queryClient = new QueryClient()
-
-    return (
-        <QueryClientProvider client={queryClient}>
-            <Router>
-                <RouterWrapper>
-                    <Routes>
-                        <Route
-                            path="/"
-                            element={<Landing />}
-                        />
-                        <Route
-                            path="/signup"
-                            element={<SignUp />}
-                        />
-                        <Route
-                            path="/signin"
-                            element={<SignIn />}
-                        />
-                        <Route element={<ProtectedRoute />}>
-                            <Route
-                                path="/page/:id"
-                                element={
-                                    <BaseLayout>
-                                        <Page />
-                                    </BaseLayout>
-                                }
-                            />
-                            <Route
-                                path="/page/new"
-                                element={
-                                    <BaseLayout>
-                                        <NewPage />
-                                    </BaseLayout>
-                                }
-                            />
-                        </Route>
-
-                        <Route
-                            path="/*"
-                            element={<div>error page not found</div>}
-                        />
-                    </Routes>
-                </RouterWrapper>
-            </Router>
-        </QueryClientProvider>
-    )
-}
-
-export default App
+const routes: RouteObject[] = [
+    {
+        path: '/',
+        Component: RouterWrapper,
+        children: [
+            {
+                path: '',
+                Component: Landing,
+            },
+            {
+                path: 'signup',
+                Component: SignUp,
+            },
+            {
+                path: 'signin',
+                Component: SignIn,
+            },
+            {
+                Component: GuardedRoute,
+                children: [
+                    {
+                        path: 'page/:id',
+                        Component: Page,
+                    },
+                    {
+                        path: 'page/new',
+                        Component: NewPage,
+                    },
+                ],
+            },
+            {
+                path: '*',
+                Component: ErrorPage,
+            },
+        ],
+    },
+]

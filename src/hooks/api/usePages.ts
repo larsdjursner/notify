@@ -1,12 +1,12 @@
-import { QueryKey, useQuery } from '@tanstack/react-query'
-import { Page, supabase } from '../supabase'
+import { type QueryKey, useQuery } from '@tanstack/react-query'
+import { type Page, supabase } from '../../supabase'
 
 const fetchPages = async (parent_id: string | null = null) => {
     const { data, error } = parent_id
         ? await supabase.from('pages').select('*').eq('archived', false).eq('parent_id', parent_id)
         : await supabase.from('pages').select('*').eq('archived', false).is('parent_id', null)
 
-    if (error) {
+    if (error != null) {
         throw new Error(error.message)
     }
 
@@ -21,6 +21,6 @@ export default function usePages(parent_id: string | null = null) {
     const key: QueryKey = parent_id ? [`pages-${parent_id}`] : ['pages']
     return useQuery<Page[], Error>({
         queryKey: key,
-        queryFn: () => fetchPages(parent_id),
+        queryFn: async () => await fetchPages(parent_id),
     })
 }

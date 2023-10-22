@@ -1,8 +1,8 @@
 import { ArrowUturnLeftIcon, TrashIcon } from '@heroicons/react/24/outline'
 import { useNavigate } from 'react-router-dom'
-import { useDeletePage } from '../../hooks/useDeletePage'
-import usePage from '../../hooks/usePage'
-import { useRestorePage } from '../../hooks/useRestorePage'
+import { useDeletePage } from '../../hooks/api/useDeletePage'
+import usePage from '../../hooks/api/usePage'
+import { useRestorePage } from '../../hooks/api/useRestorePage'
 import { Page } from '../../supabase'
 
 interface Props {
@@ -50,12 +50,10 @@ const ArchivedPageItem = ({ page, onClick }: Props) => {
     return (
         <button
             key={page.id}
-            className="flex items-center gap-4 hover:bg-slate-200 py-1 px-2"
-        >
+            className="flex items-center gap-4 hover:bg-slate-200 py-1 px-2">
             <p
                 className="truncate flex-1 text-start"
-                onClick={handleNavigate}
-            >
+                onClick={handleNavigate}>
                 {name}
             </p>
             <ArrowUturnLeftIcon

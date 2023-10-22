@@ -7,8 +7,8 @@ import {
 } from '@heroicons/react/24/outline'
 import { useState } from 'react'
 import { UNSAFE_NavigationContext, useNavigate, useParams } from 'react-router-dom'
-import { useAddPage } from '../../hooks/useAddPage'
-import { useDeletePage } from '../../hooks/useDeletePage'
+import { useAddPage } from '../../hooks/api/useAddPage'
+import { useDeletePage } from '../../hooks/api/useDeletePage'
 import { Page } from '../../supabase'
 import IconButton from '../navigation/IconButton'
 import Subpages from './Subpages'
@@ -56,8 +56,7 @@ const PageItem = ({ page }: Props) => {
                 onClick={() => navigate(`/page/${page.id}`)}
                 className={`w-full py-2 flex justify-start gap-2 items-center pl-2 pr-4 group hover:bg-slate-50 
                 ${isCurrent || open ? 'bg-slate-50' : 'bg-white'}
-                `}
-            >
+                `}>
                 <IconButton
                     icon={
                         <ChevronRightIcon

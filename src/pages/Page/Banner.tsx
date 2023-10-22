@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom'
-import { useDeletePage } from '../../hooks/useDeletePage'
-import { useRestorePage } from '../../hooks/useRestorePage'
+import { useDeletePage } from '../../hooks/api/useDeletePage'
+import { useRestorePage } from '../../hooks/api/useRestorePage'
 import { Page } from '../../supabase'
 
 interface Props {
@@ -37,14 +37,12 @@ const Banner = ({ page }: Props) => {
             <p className="">This page is archived. To edit, restore the page.</p>
             <button
                 className="rounded-lg border-2 border-white py-1 px-2 hover:bg-white hover:text-black"
-                onClick={handleRestore}
-            >
+                onClick={handleRestore}>
                 Restore
             </button>
             <button
                 className="rounded-lg border-2 border-white py-1 px-2 hover:bg-white hover:text-black"
-                onClick={handleDeletePermanently}
-            >
+                onClick={handleDeletePermanently}>
                 Delete permanently
             </button>
         </div>
