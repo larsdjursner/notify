@@ -1,4 +1,5 @@
 export const pageKeys = {
     all: ['pages'] as const,
-    details: (id: string) => ['pages', id] as const,
+    list: () => [...pageKeys.all, 'list'] as const,
+    details: (id: string) => [pageKeys.all, id] as const,
 }
