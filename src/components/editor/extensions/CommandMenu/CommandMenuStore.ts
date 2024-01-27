@@ -1,7 +1,7 @@
 import { Range } from '@tiptap/react'
 import { Editor } from '@tiptap/core'
 import { SuggestionProps } from '@tiptap/suggestion'
-import create from 'zustand'
+import { create } from 'zustand'
 import { Item } from './suggestion'
 import { useAddPage } from '../../../../hooks/api/useAddPage'
 

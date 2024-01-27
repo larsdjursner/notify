@@ -2,6 +2,10 @@ import { type QueryKey, useMutation, useQueryClient } from '@tanstack/react-quer
 import { useAuthStore } from '../../stores/authStore'
 import { type Page, supabase } from '../../supabase'
 
+export type UseAddPageParams = {
+    parent_id?: null | string
+}
+
 export const addPage = async (user_id: string, parent_id: null | string = null) => {
     const { data, error } = await supabase
         .from('pages')

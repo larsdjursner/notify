@@ -1,7 +1,7 @@
-import usePages from '../../hooks/api/usePages'
+import usePages from '../../hooks/api/use-pages.query'
 import PageItem from './PageItem'
 
-interface Props {}
+type Props = {}
 
 const Pages = (props: Props) => {
     const { isLoading, isError, data, error } = usePages()

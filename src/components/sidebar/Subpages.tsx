@@ -1,4 +1,4 @@
-import usePages from '../../hooks/api/usePages'
+import usePages from '../../hooks/api/use-pages.query'
 import PageItem from './PageItem'
 
 interface Props {

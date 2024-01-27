@@ -20,7 +20,17 @@ const TrashFlyout = () => {
                     tooltip={'View recently deleted document pages'}
                 />
             }
-            content={open ? <ArchivedPages onClose={() => setOpen(false)} /> : <></>}
+            content={
+                open ? (
+                    <ArchivedPages
+                        onClose={() => {
+                            setOpen(false)
+                        }}
+                    />
+                ) : (
+                    <></>
+                )
+            }
             direction={Direction.StickToX}
             open={open}
             setOpen={setOpen}

@@ -4,13 +4,14 @@ import StarterKit from '@tiptap/starter-kit'
 import { CommandMenuExtension } from './extensions/CommandMenu/CommandMenuExtension'
 import { CommandMenu } from './extensions/CommandMenu/CommandMenu'
 import suggestion from './extensions/CommandMenu/suggestion'
-import { type Json } from '../../types/schema'
+import { type Json } from '../../types/database.types'
 import React, { useEffect } from 'react'
 import Link from '@tiptap/extension-link'
 import { Subpage } from './extensions/Subpage/Subpage'
 import TaskList from '@tiptap/extension-task-list'
 import TaskItem from '@tiptap/extension-task-item'
 import { Document } from '@tiptap/extension-document'
+import { Heading } from '@tiptap/extension-heading'
 
 type EditorProps = {
     editable: boolean
@@ -30,10 +31,7 @@ const Editor: React.FC<EditorProps> = ({ editable, content, onUpdate }) => {
             //         class: "w-full cursor-pointer bg-red-200",
             //     },
             // }),
-            StarterKit.configure({ document: false }),
-            Document.extend({
-                content: 'heading block*',
-            }),
+            StarterKit.configure({}),
             TaskList,
             TaskItem.configure({
                 nested: true,
@@ -44,7 +42,7 @@ const Editor: React.FC<EditorProps> = ({ editable, content, onUpdate }) => {
             Placeholder.configure({
                 placeholder: ({ node }) => {
                     if (node.type.name === 'heading') {
-                        return "What's the title?"
+                        return 'Untitled'
                     }
 
                     if (node.type.name === 'paragraph') {
@@ -53,7 +51,7 @@ const Editor: React.FC<EditorProps> = ({ editable, content, onUpdate }) => {
 
                     return ''
                 },
-                showOnlyCurrent: true,
+                showOnlyCurrent: false,
             }),
         ],
         content: content as Content,
@@ -67,6 +65,7 @@ const Editor: React.FC<EditorProps> = ({ editable, content, onUpdate }) => {
         },
         onUpdate: ({ editor, transaction }) => {
             if (!transaction.docChanged) return
+
             onUpdate(editor.getJSON())
         },
         onDestroy: () => {

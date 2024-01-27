@@ -1,4 +1,4 @@
-import { SuggestionKeyDownProps, SuggestionProps } from '@tiptap/suggestion'
+import { type SuggestionKeyDownProps, type SuggestionProps } from '@tiptap/suggestion'
 import { addPage } from '../../../../hooks/api/useAddPage'
 import { useAuthStore } from '../../../../stores/authStore'
 import { usePagesStore } from '../../../../stores/pagesStore'
@@ -15,7 +15,7 @@ const {
     setSelected,
 } = useCommandStore.getState()
 
-export interface Item {
+export type Item = {
     title: string
     subtitle: string | undefined | null
     command: (props: SuggestionProps) => void

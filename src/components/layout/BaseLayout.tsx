@@ -15,7 +15,7 @@ const BaseLayout: React.FC<BaseLayoutProps> = ({ children }) => {
                 <Navbar />
                 {children}
             </div>
-            <Toast position={Position.Bottom} />
+            {/* <Toast position={Position.Bottom} /> */}
         </>
     )
 }

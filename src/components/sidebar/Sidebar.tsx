@@ -1,44 +1,45 @@
 import { useState } from 'react'
-import { ChevronDoubleRightIcon, PlusIcon } from '@heroicons/react/24/outline'
+import { ArrowRightIcon } from '@heroicons/react/24/outline'
 import TrashFlyout from './TrashFlyout'
 import TooltipButton from '../generic/TooltipButton'
 import Pages from './Pages'
 import { useAddPage } from '../../hooks/api/useAddPage'
 import { useNavigate } from 'react-router-dom'
 import ProfileFlyout from './ProfileFlyout'
+import classNames from 'classnames'
 
 export const Sidebar = () => {
-    const [shown, setShown] = useState(true)
+    const [open, setOpen] = useState(true)
     const navigate = useNavigate()
 
-    const createPage = useAddPage()
-    const handleAdd = async () => {
-        try {
-            const page = await createPage?.mutateAsync()
+    // const createPage = useAddPage()
+    // const handleAdd = async () => {
+    //     try {
+    //         const page = await createPage?.mutateAsync()
 
-            if (!page) {
-                return
-            }
+    //         if (!page) {
+    //             return
+    //         }
 
-            const { id } = page
+    //         const { id } = page
 
-            navigate(`/page/${id}`)
-        } catch (error) {
-            console.error(error)
-        }
-    }
+    //         navigate(`/page/${id}`)
+    //     } catch (error) {
+    //         console.error(error)
+    //     }
+    // }
 
     return (
         <>
             <div className="flex relative">
-                {shown && (
+                {open && (
                     <div className="w-60 h-full bg-white border-r px-2 py-2 flex flex-col">
                         <ProfileFlyout />
                         <Pages />
 
                         <span className="border-t rounded-full my-2" />
 
-                        <TooltipButton
+                        {/* <TooltipButton
                             button={
                                 <button
                                     onClick={handleAdd}
@@ -50,14 +51,17 @@ export const Sidebar = () => {
                             tooltip={'Add a new untitled document page'}
                         />
 
-                        <TrashFlyout />
+                        <TrashFlyout /> */}
                     </div>
                 )}
-                <ChevronDoubleRightIcon
-                    className={`h-6 w-6 absolute bottom-5 -right-10 cursor-pointer hover:scale-110 z-50
-                        ${shown ? 'rotate-180' : 'rotate-0'} transition-all duration-100 delay-100`}
+                <ArrowRightIcon
+                    className={classNames(
+                        'h-6 w-6 absolute inset-y-1/2 -right-8 cursor-pointer z-50 text-gray-400',
+                        'hover:scale-110 transition-all duration-200 hover:text-gray-600',
+                        open ? 'rotate-180' : 'rotate-0',
+                    )}
                     onClick={() => {
-                        setShown((prev) => !prev)
+                        setOpen((prev) => !prev)
                     }}
                 />
             </div>

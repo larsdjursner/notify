@@ -6,7 +6,7 @@ import {
     TrashIcon,
 } from '@heroicons/react/24/outline'
 import { useState } from 'react'
-import { UNSAFE_NavigationContext, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useAddPage } from '../../hooks/api/useAddPage'
 import { useDeletePage } from '../../hooks/api/useDeletePage'
 import { Page } from '../../supabase'
