@@ -1,29 +1,33 @@
-import usePages from '../../hooks/api/use-pages.query'
-import PageItem from './PageItem'
+import usePage from '../../hooks/api/use-page.query'
+import PageListItem from './PageListItem'
 
-interface Props {
-    parent_id: string
+type SubpagesProps = {
+    pageId: string
 }
 
-const Subpages = ({ parent_id }: Props) => {
-    const { isLoading, data, error, isError } = usePages(parent_id)
+const Subpages = ({ pageId }: SubpagesProps) => {
+    const { isLoading, data: page, isError } = usePage(pageId)
 
-    if (isError) return <span>{error.message}</span>
+    const isEmpty = (page?.subpages ?? []).length === 0
+
+    if (isError) {
+        return <span>Error fetching subpages</span>
+    }
+    if (isLoading) {
+        return <span className="w-full text-sm text-slate-500">Loading...</span>
+    }
+    if (isEmpty) {
+        return <span className="w-full text-sm text-slate-500">There are no pages inside</span>
+    }
 
     return (
         <div className="pl-4 border-l border-slate-600">
-            {isLoading ? (
-                <span className="w-full text-sm text-slate-500">Loading...</span>
-            ) : data.length > 0 ? (
-                data.map((child) => (
-                    <PageItem
-                        page={child}
-                        key={child.id}
-                    />
-                ))
-            ) : (
-                <span className="w-full text-sm text-slate-500">There are no pages inside</span>
-            )}
+            {page?.subpages.map((subpage) => (
+                <PageListItem
+                    page={subpage}
+                    key={subpage.id}
+                />
+            ))}
         </div>
     )
 }

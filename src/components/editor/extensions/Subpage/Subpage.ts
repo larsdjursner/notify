@@ -1,13 +1,13 @@
+import { Node, mergeAttributes } from '@tiptap/core'
 import { ReactNodeViewRenderer } from '@tiptap/react'
-import { mergeAttributes, Node } from '@tiptap/core'
 import SubpageWrapper from './SubpageWrapper'
 
-export interface SubPageOptions {
+export type SubPageOptions = {
     HTMLAttributes: Record<string, any>
 }
 
 declare module '@tiptap/core' {
-    interface Commands<ReturnType> {
+    type Commands<ReturnType> = {
         /**
          * @description Add a reference to another page.
          */

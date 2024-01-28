@@ -5,7 +5,7 @@ import Throbber from '../../components/generic/Throbber'
 import { useAuthStore } from '../../stores/authStore'
 import { supabase } from '../../supabase'
 
-interface State {
+type State = {
     email: string
     password: string
     cPassword: string
@@ -42,7 +42,7 @@ export default function SignUp() {
 
                 auth.setAuth(user)
                 setSubmitting(false)
-                navigate('/page/new')
+                navigate('/app/new')
             })
     }
 
@@ -56,7 +56,9 @@ export default function SignUp() {
                     value={email}
                     required
                     text={'Email'}
-                    handleChange={(s) => setEmail(s)}
+                    handleChange={(s) => {
+                        setEmail(s)
+                    }}
                 />
 
                 <FormInput
@@ -64,7 +66,9 @@ export default function SignUp() {
                     required
                     password
                     text={'Password'}
-                    handleChange={(s) => setPassword(s)}
+                    handleChange={(s) => {
+                        setPassword(s)
+                    }}
                 />
 
                 <FormInput
@@ -72,13 +76,14 @@ export default function SignUp() {
                     required
                     password
                     text={'Repeat password'}
-                    handleChange={(s) => setRepeatPassword(s)}
+                    handleChange={(s) => {
+                        setRepeatPassword(s)
+                    }}
                 />
 
                 <button
                     className="grid grid-cols-3 w-full mx-0 shadow-lg py-4 rounded-md"
-                    onClick={handleSubmit}
-                >
+                    onClick={handleSubmit}>
                     <span />
                     <p>Sign up</p>
                     {submitting && <Throbber />}
@@ -86,8 +91,7 @@ export default function SignUp() {
 
                 <Link
                     to={'/signin'}
-                    className="hover:underline text-blue-500 hover:text-blue-400 self-center"
-                >
+                    className="hover:underline text-blue-500 hover:text-blue-400 self-center">
                     Already have an account? Sign in instead
                 </Link>
             </div>

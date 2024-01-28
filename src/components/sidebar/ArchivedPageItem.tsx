@@ -1,11 +1,11 @@
 import { ArrowUturnLeftIcon, TrashIcon } from '@heroicons/react/24/outline'
 import { useNavigate } from 'react-router-dom'
-import { useDeletePage } from '../../hooks/api/useDeletePage'
 import usePage from '../../hooks/api/use-page.query'
+import { useDeletePage } from '../../hooks/api/useDeletePage'
 import { useRestorePage } from '../../hooks/api/useRestorePage'
-import { Page } from '../../supabase'
+import { type Page } from '../../supabase'
 
-interface Props {
+type Props = {
     page: Page
     onClick: () => void
 }
@@ -24,7 +24,7 @@ const ArchivedPageItem = ({ page, onClick }: Props) => {
         try {
             await deleteMutation.mutateAsync()
             onClick()
-            navigate('/page/new')
+            navigate('/app/new')
         } catch (error) {
             console.error(error)
         }
@@ -34,7 +34,7 @@ const ArchivedPageItem = ({ page, onClick }: Props) => {
         try {
             await restoreMutation.mutateAsync()
             onClick()
-            navigate(`/page/${page.id}`)
+            navigate(`/app/page/${page.id}`)
         } catch (error) {
             console.error(error)
         }
@@ -42,7 +42,7 @@ const ArchivedPageItem = ({ page, onClick }: Props) => {
 
     const handleNavigate = () => {
         onClick()
-        navigate(`/page/${page.id}`)
+        navigate(`/app/page/${page.id}`)
     }
 
     const name = page.title === '' ? 'Untitled' : page.title

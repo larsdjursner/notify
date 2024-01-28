@@ -5,5 +5,8 @@
     "singleQuote": true,
     "trailingComma": "all",
     "jsxBracketSameLine": true,
-    "singleAttributePerLine": true
+    "singleAttributePerLine": true,
+    "importOrder": ["^@hooks/(.*)$", "^@types/(.*)$", "^@pages/(.*)$", "^@components/(.*)$", "^[./]"],
+    "importOrderSeparation": false,
+    "importOrderSortSpecifiers": true
 }

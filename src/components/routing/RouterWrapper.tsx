@@ -1,3 +1,4 @@
+import { DESTRUCTION } from 'dns'
 import React, { useEffect } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useAuthStore } from '../../stores/authStore'
@@ -17,7 +18,9 @@ const RouterWrapper: React.FC = () => {
             }
 
             setAuth(session.user)
-            navigate(REGULAR_ROUTES.includes(pathname) ? '/page/new' : pathname)
+
+            const destination = REGULAR_ROUTES.includes(pathname) ? 'app/new' : pathname
+            navigate(destination)
         })
     }, [])
 

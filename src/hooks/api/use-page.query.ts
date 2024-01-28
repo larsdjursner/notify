@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { supabase } from '../../supabase'
+import { type PageWithSubpages, supabase } from '../../supabase'
 import { pageKeys } from './page-keys'
 
 export type UsePageParams = {
@@ -7,7 +7,14 @@ export type UsePageParams = {
 }
 
 const getPage = async ({ id }: UsePageParams) => {
-    const { data, error } = await supabase.from('pages').select().eq('id', id).single()
+    const { data, error } = await supabase
+        .from('pages')
+        .select(
+            `*,
+            subpages:pages( id, title, parent_id)`,
+        )
+        .eq('id', id)
+        .returns<PageWithSubpages>()
 
     if (error != null) {
         throw new Error(error.message)
@@ -16,6 +23,7 @@ const getPage = async ({ id }: UsePageParams) => {
     if (!data) {
         throw new Error('No page found')
     }
+    console.log(data)
 
     return data
 }

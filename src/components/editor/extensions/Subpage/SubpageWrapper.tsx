@@ -2,10 +2,11 @@ import { DocumentIcon } from '@heroicons/react/24/outline'
 import { NodeViewWrapper } from '@tiptap/react'
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useAddPage } from '../../../../hooks/api/useAddPage'
+import { useAddPage } from '../../../../hooks/api/use-create-page.mutation'
 import { usePagesStore } from '../../../../stores/pagesStore'
 import { type Page } from '../../../../supabase'
 import { Subpage } from './Subpage'
+
 const SubpageWrapper = () => {
     const { id } = useParams()
     const pagesStore = usePagesStore()
@@ -17,7 +18,7 @@ const SubpageWrapper = () => {
 
         return (
             <div className="bg-slate-50h-full w-full">
-                <p>cheese</p>
+                {/* <p>cheese</p> */}
                 {/* {mutation?.isLoading ? (
                     <p>...loading</p>
                 ) : (

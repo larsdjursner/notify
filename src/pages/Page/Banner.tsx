@@ -18,7 +18,7 @@ const Banner = ({ page }: Props) => {
     const handleDeletePermanently = async () => {
         try {
             await deleteMutation.mutateAsync()
-            navigate('/page/new')
+            navigate('/app/new')
         } catch (error) {
             console.error(error)
         }

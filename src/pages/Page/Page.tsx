@@ -1,11 +1,11 @@
-import { useParams } from 'react-router-dom'
-import usePage from '../../hooks/api/use-page.query'
 import React from 'react'
-import BaseLayout from '../../components/layout/BaseLayout'
+import { useParams } from 'react-router-dom'
 import Editor from '../../components/editor/Editor'
-import { useUpdateContent } from '../../hooks/api/use-update-page-content.mutation'
+import BaseLayout from '../../components/layout/BaseLayout'
+import usePage from '../../hooks/api/use-page.query'
+import { useUpdatePageContent } from '../../hooks/api/use-update-page-content.mutation'
+import { useUpdatePageTitle } from '../../hooks/api/use-update-page-title.mutation'
 import { type Json } from '../../types/database.types'
-import { useUpdatetitle } from '../../hooks/api/use-update-page-title.mutation'
 
 const Page: React.FC = () => {
     const { id } = useParams()
@@ -16,12 +16,12 @@ const Page: React.FC = () => {
 
     const { data: page, isLoading } = usePage(id)
 
-    const updateContent = useUpdateContent(id)
+    const updateContent = useUpdatePageContent(id)
     const handleContentChange = debounce((content: Json) => {
         updateContent.mutate(content)
     })
 
-    const updateTitle = useUpdatetitle(id)
+    const updateTitle = useUpdatePageTitle(id)
     const handleTitleChange = (title: string) => {
         updateTitle.mutate(title)
     }

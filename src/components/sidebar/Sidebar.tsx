@@ -1,33 +1,35 @@
+import { ArrowRightIcon, PlusIcon } from '@heroicons/react/24/outline'
+import classNames from 'classnames'
 import { useState } from 'react'
-import { ArrowRightIcon } from '@heroicons/react/24/outline'
-import TrashFlyout from './TrashFlyout'
+import { useNavigate } from 'react-router-dom'
+import { useCreatePage } from '../../hooks/api/use-create-page.mutation'
 import TooltipButton from '../generic/TooltipButton'
 import Pages from './Pages'
-import { useAddPage } from '../../hooks/api/useAddPage'
-import { useNavigate } from 'react-router-dom'
 import ProfileFlyout from './ProfileFlyout'
-import classNames from 'classnames'
+import TrashFlyout from './TrashFlyout'
 
 export const Sidebar = () => {
     const [open, setOpen] = useState(true)
     const navigate = useNavigate()
 
-    // const createPage = useAddPage()
-    // const handleAdd = async () => {
-    //     try {
-    //         const page = await createPage?.mutateAsync()
+    const createPage = useCreatePage()
+    const handleCreatePage = async () => {
+        try {
+            const page = await createPage?.mutateAsync()
 
-    //         if (!page) {
-    //             return
-    //         }
+            if (!page) {
+                return
+            }
 
-    //         const { id } = page
+            const { id } = page
 
-    //         navigate(`/page/${id}`)
-    //     } catch (error) {
-    //         console.error(error)
-    //     }
-    // }
+            navigate(`/app/page/${id}`)
+        } catch (error) {
+            navigate(`/`)
+
+            console.error(error)
+        }
+    }
 
     return (
         <>
@@ -39,10 +41,11 @@ export const Sidebar = () => {
 
                         <span className="border-t rounded-full my-2" />
 
-                        {/* <TooltipButton
+                        <TooltipButton
                             button={
                                 <button
-                                    onClick={handleAdd}
+                                    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+                                    onClick={handleCreatePage}
                                     className="w-full h-8 flex justify-start items-center hover:bg-slate-200 rounded-sm px-4">
                                     <PlusIcon className="h-4 w-4 mr-4" />
                                     <p>Add page</p>
@@ -51,7 +54,7 @@ export const Sidebar = () => {
                             tooltip={'Add a new untitled document page'}
                         />
 
-                        <TrashFlyout /> */}
+                        {/* <TrashFlyout /> */}
                     </div>
                 )}
                 <ArrowRightIcon

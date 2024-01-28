@@ -1,17 +1,17 @@
-import { Range } from '@tiptap/react'
-import { Editor } from '@tiptap/core'
-import { SuggestionProps } from '@tiptap/suggestion'
+import { type Range } from '@tiptap/react'
+import { type Editor } from '@tiptap/core'
+import { type SuggestionProps } from '@tiptap/suggestion'
 import { create } from 'zustand'
-import { Item } from './suggestion'
-import { useAddPage } from '../../../../hooks/api/useAddPage'
+import { type Item } from './suggestion'
+// import { useAddPage } from '../../../../hooks/api/use-create-page.mutation'
 
-interface Position {
+type Position = {
     left: number | undefined
     top: number | undefined
     height: number | undefined
 }
 
-interface CommandMenuState {
+type CommandMenuState = {
     elements: Item[]
     editor: Editor | null
     range: Range | null
@@ -22,7 +22,7 @@ interface CommandMenuState {
     down: () => void
     setPosition: (position: Position) => void
     setOverlayActive: (bool: boolean) => void
-    setElements: (elements: Array<any>) => void
+    setElements: (elements: any[]) => void
     setProps: (props: Pick<SuggestionProps, 'editor' | 'range'>) => void
     setSelected: (selected: number) => void
     setSelectedByTitle: (title: string) => void
@@ -39,32 +39,44 @@ export const useCommandStore = create<CommandMenuState>()((set, get) => ({
     position: undefined,
     editor: null,
     range: null,
-    setPosition: (position) => set({ position }),
-    setOverlayActive: (bool) => set({ overlayActive: bool }),
-    setElements: (elements) => set({ elements }),
-    setProps: ({ editor, range }) => set({ editor, range }),
+    setPosition: (position) => {
+        set({ position })
+    },
+    setOverlayActive: (bool) => {
+        set({ overlayActive: bool })
+    },
+    setElements: (elements) => {
+        set({ elements })
+    },
+    setProps: ({ editor, range }) => {
+        set({ editor, range })
+    },
     getElements: () => {
         return get().elements
     },
-    up: () =>
+    up: () => {
         set((state) => {
             return {
                 selected: (state.selected + state.elements.length - 1) % state.elements.length,
             }
-        }),
-    down: () =>
+        })
+    },
+    down: () => {
         set((state) => {
             return {
                 selected: (state.selected + 1) % state.elements.length,
             }
-        }),
-    setSelected: (selected) => set({ selected }),
+        })
+    },
+    setSelected: (selected) => {
+        set({ selected })
+    },
     executeCommandByIndex: (index) => {
         const { elements, editor, range } = get()
         if (!(index < elements.length) || !editor || !range) return
 
         const item = get().elements[index]
-        item.command({ editor, range })
+        // item.command({ editor, range })
     },
     executeCommandBySelected: () => {
         const element = get().getElements().at(get().selected)
@@ -75,14 +87,15 @@ export const useCommandStore = create<CommandMenuState>()((set, get) => ({
         }
         get().executeCommandByIndex(get().selected)
     },
-    setSelectedByTitle: (title) =>
+    setSelectedByTitle: (title) => {
         set((state) => {
             const idx = state.elements.findIndex((el) => el.title === title)
-            if (idx == -1) return state
+            if (idx === -1) return state
             return {
                 selected: idx,
             }
-        }),
+        })
+    },
     executeCommandByTitle: (title) => {
         if (get().elements[get().selected].title === title) get().executeCommandBySelected()
     },

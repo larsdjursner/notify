@@ -22,7 +22,7 @@ async function updateContent(id: string, content: Json) {
     return data
 }
 
-export function useUpdateContent(id: string) {
+export function useUpdatePageContent(id: string) {
     const queryClient = useQueryClient()
     const queryKey = pageKeys.details(id)
 

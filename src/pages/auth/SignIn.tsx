@@ -34,7 +34,7 @@ export default function SignIn() {
             }
             auth.setAuth(user)
             setSubmitting(false)
-            navigate('/page/new')
+            navigate('/app/new')
         })
     }
 
