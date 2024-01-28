@@ -9,4 +9,5 @@ export const supabase = createClient<Database>(
 export type Page = Tables<'pages'>
 export type PageItem = Pick<Page, 'id' | 'title' | 'parent_id'>
 export type PageWithSubpages = Page & { subpages: PageItem[] }
+
 export type Profile = Tables<'profiles'>

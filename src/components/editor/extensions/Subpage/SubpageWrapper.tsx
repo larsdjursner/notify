@@ -38,7 +38,7 @@ const SubpageReference = ({ page }: { page: Page | undefined }) => {
     return (
         <button
             onClick={() => {
-                navigate(`/page/${page?.id}`)
+                navigate(`app/page/${page?.id}`)
             }}
             className="bg-slate-50 flex w-40 items-center">
             <DocumentIcon className="h-4 w-4" />

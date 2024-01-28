@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { type Json } from '../../types/database.types'
 import { supabase } from '../../supabase'
+import { type Json } from '../../types/database.types'
 import { pageKeys } from './page-keys'
 
 async function updateContent(id: string, content: Json) {
@@ -28,8 +28,8 @@ export function useUpdatePageContent(id: string) {
 
     return useMutation({
         mutationFn: async (content: Json) => await updateContent(id, content),
-        onSuccess: (newPage) => {
-            queryClient.setQueryData(queryKey, newPage)
+        onSettled: () => {
+            void queryClient.invalidateQueries({ queryKey })
         },
     })
 }

@@ -14,7 +14,7 @@ const getPage = async ({ id }: UsePageParams) => {
             subpages:pages( id, title, parent_id)`,
         )
         .eq('id', id)
-        .returns<PageWithSubpages>()
+        .single<PageWithSubpages>()
 
     if (error != null) {
         throw new Error(error.message)
@@ -23,7 +23,6 @@ const getPage = async ({ id }: UsePageParams) => {
     if (!data) {
         throw new Error('No page found')
     }
-    console.log(data)
 
     return data
 }

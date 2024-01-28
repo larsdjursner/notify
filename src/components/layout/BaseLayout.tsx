@@ -1,7 +1,8 @@
-import Toast, { Position } from '../toast/ToastList'
+import React from 'react'
 import { Navbar } from '../navigation/Navbar'
 import { Sidebar } from '../sidebar/Sidebar'
-import React from 'react'
+
+// import Toast, { Position } from '../toast/ToastList'
 
 type BaseLayoutProps = {
     children: React.ReactNode

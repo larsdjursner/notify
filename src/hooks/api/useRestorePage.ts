@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { Json } from '../../types/database.types'
 import { supabase } from '../../supabase'
+import { Json } from '../../types/database.types'
 
 async function restorePage(id: string) {
     const { data, error } = await supabase

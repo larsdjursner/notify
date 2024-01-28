@@ -44,7 +44,6 @@ export const Sidebar = () => {
                         <TooltipButton
                             button={
                                 <button
-                                    // eslint-disable-next-line @typescript-eslint/no-misused-promises
                                     onClick={handleCreatePage}
                                     className="w-full h-8 flex justify-start items-center hover:bg-slate-200 rounded-sm px-4">
                                     <PlusIcon className="h-4 w-4 mr-4" />

@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import Editor from '../../components/editor/Editor'
 import BaseLayout from '../../components/layout/BaseLayout'
+import TitleInput from '../../components/page/TitleInput'
 import usePage from '../../hooks/api/use-page.query'
 import { useUpdatePageContent } from '../../hooks/api/use-update-page-content.mutation'
 import { useUpdatePageTitle } from '../../hooks/api/use-update-page-title.mutation'
+import { debounce } from '../../lib/debounce'
 import { type Json } from '../../types/database.types'
 
 const Page: React.FC = () => {
@@ -21,44 +23,44 @@ const Page: React.FC = () => {
         updateContent.mutate(content)
     })
 
+    // TODO FIX order of updates
     const updateTitle = useUpdatePageTitle(id)
     const handleTitleChange = (title: string) => {
         updateTitle.mutate(title)
     }
 
-    const isLoadingPage = isLoading || !page
+    const inner = () => {
+        if (isLoading) {
+            return <Skeleton />
+        }
+
+        if (!page) {
+            return 'Error loading page'
+        }
+
+        return (
+            <>
+                <TitleInput
+                    value={page.title}
+                    onChange={handleTitleChange}
+                    disabled={page.archived}
+                />
+                <Editor
+                    content={page.content}
+                    onUpdate={handleContentChange}
+                    editable={!page.archived}
+                />
+            </>
+        )
+    }
 
     return (
         <BaseLayout>
-            <div className="w-full h-full max-h-full overflow-y-scroll p-10 flex justify-center relative ">
+            <div className="w-full h-full max-h-full overflow-y-scroll p-10 flex justify-center relative">
                 {/* {!isLoading && page?.archived && <Banner page={page} />} */}
 
                 <div className="md:w-[50rem] w-full">
-                    <div className="min-h-full w-full flex flex-col p-2 bg-white">
-                        {isLoadingPage && <Skeleton />}
-
-                        {!isLoadingPage && (
-                            <>
-                                <input
-                                    id="pageInput"
-                                    placeholder="Untitled"
-                                    className="h-16 w-full text-5xl mx-2 focus:outline-none"
-                                    maxLength={32}
-                                    value={page.title}
-                                    autoComplete="off"
-                                    onChange={(e) => {
-                                        handleTitleChange(e.target.value)
-                                    }}
-                                    disabled={page.archived}
-                                />
-                                <Editor
-                                    editable={!page.archived}
-                                    content={page.content}
-                                    onUpdate={handleContentChange}
-                                />
-                            </>
-                        )}
-                    </div>
+                    <div className="min-h-full w-full flex flex-col p-2 bg-white">{inner()}</div>
                 </div>
             </div>
         </BaseLayout>
@@ -66,15 +68,6 @@ const Page: React.FC = () => {
 }
 
 export default Page
-
-// convert to hook
-export const debounce = (fn: Function, ms = 300) => {
-    let timeoutId: ReturnType<typeof setTimeout>
-    return function (this: any, ...args: any[]) {
-        clearTimeout(timeoutId)
-        timeoutId = setTimeout(() => fn.apply(this, args), ms)
-    }
-}
 
 const Skeleton = () => {
     return (

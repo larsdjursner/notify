@@ -1,6 +1,7 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useAuthStore } from '../../stores/authStore'
-import { type Page, supabase } from '../../supabase'
+import { supabase } from '../../supabase'
+import { pageKeys } from './page-keys'
 
 export type UseCreatePageParams = {
     parent_id?: string | null
@@ -18,7 +19,7 @@ export const createPage = async (user_id: string, parent_id: string | null) => {
     }
 
     if (!data) {
-        throw new Error('Page could not be Created')
+        throw new Error('Page could not be created')
     }
 
     return data
@@ -26,12 +27,15 @@ export const createPage = async (user_id: string, parent_id: string | null) => {
 
 export function useCreatePage({ parent_id }: UseCreatePageParams = {}) {
     const user_id = useAuthStore.getState().user?.id
-
+    const queryClient = useQueryClient()
     if (!user_id) return
 
-    return useMutation<Page, Error>({
+    return useMutation({
         mutationFn: async () => {
             return await createPage(user_id, parent_id ?? null)
+        },
+        onSuccess: async (_newPage) => {
+            await queryClient.refetchQueries({ queryKey: pageKeys.all })
         },
     })
 }

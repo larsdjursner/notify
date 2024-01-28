@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { produce } from 'immer'
-import { pageKeys } from './page-keys'
 import { type Page, supabase } from '../../supabase'
+import { pageKeys } from './page-keys'
 
 async function updateTitle(id: string, title: string) {
     const { data, error } = await supabase
@@ -59,7 +59,7 @@ export function useUpdatePageTitle(id: string) {
             }
         },
 
-        onSuccess: async (data, _variables, _context) => {
+        onSettled: async (data, _variables, _context) => {
             if (!data) {
                 return
             }

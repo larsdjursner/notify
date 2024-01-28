@@ -6,7 +6,6 @@
     "scripts": {
         "dev": "vite",
         "build": "tsc && vite build",
-        "update-types": "npx supabase gen types typescript --project-id lcctmroiacrpymmfodej > ./src/types/database.types.ts",
         "preview": "vite preview",
         "lint": "eslint .",
         "lint:fix": "eslint --fix",
